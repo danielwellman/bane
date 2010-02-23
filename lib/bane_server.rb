@@ -85,10 +85,14 @@ end
 
 class BaneServer
 
-  def initialize(port)
+  def initialize(port, *server_classes)
     raise "Port is required" unless port
     @port = port.to_i
-    @servers = BasicServer.all_servers
+    if server_classes.empty?
+      @servers = BasicServer.all_servers
+    else
+      @servers = server_classes.map { |name| Kernel.const_get(name) }
+    end
   end
 
   def start
@@ -105,5 +109,5 @@ class BaneServer
 end
 
 if __FILE__ == $PROGRAM_NAME
-  BaneServer.new(ARGV[0]).start
+  BaneServer.new(*ARGV).start
 end
