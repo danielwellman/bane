@@ -6,20 +6,23 @@ module Bane
       raise "Port is required" unless port
       @port = port.to_i
       if server_classes.empty?
-        @servers = ServiceRegistry.all_servers
+        @server_classes = ServiceRegistry.all_servers
       else
-        @servers = server_classes.map { |name| Bane.const_get(name) }
+        @server_classes = server_classes.map { |name| Bane.const_get(name) }
       end
+      @running_servers = []
     end
 
     def start
-      threads = []
-
-      @servers.each_with_index do |server, index|
-        threads << start_server(server, @port + index)
+      @server_classes.each_with_index do |server, index|
+        @running_servers << start_server(server, @port + index)
       end
 
-      threads.each { |thr| thr.join }
+      @running_servers.each { |thr| thr.join }
+    end
+
+    def stop
+      @running_servers.each { |thr| thr.stop }
     end
 
     private
