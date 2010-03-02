@@ -1,24 +1,6 @@
-require 'socket'
+require 'gserver'
 
-  class BasicServer
-    def initialize(port)
-      @port = port
-    end
-  
-    def start
-      server = TCPServer.new('localhost', @port)
-      log "Listening on port #{@port}"
-      while (session = server.accept)
-        log "Accept #{session}"
-        handle_session(session)
-        session.close
-        log "Closed #{session}"
-      end
-    end
-
-    def log(message)
-      puts "#{Time.now.strftime('%H:%M')} - #{self.class} #{message}"
-    end
+  class BasicServer < GServer
 
     def self.inherited(clazz)
       all_servers << clazz
@@ -30,23 +12,23 @@ require 'socket'
   end
 
   class CloseImmediately < BasicServer
-    def handle_session(session)
+    def serve(io)
       # do nothing
     end
   end
 
   class RespondRandomlyThenClose < BasicServer
-    def handle_session(session)
+    def serve(io)
       random_string = (1..rand(26)).map{|i| ('a'..'z').to_a[rand(26)]}.join
-      session.write random_string
+      io.write random_string
     end
   end
 
   class RespondRandomly < BasicServer
-    def handle_session(session)
-      while (session.gets)
+    def serve(io)
+      while (io.gets)
         random_string = (1..rand(26)).map{|i| ('a'..'z').to_a[rand(26)]}.join
-        session.write random_string
+        io.write random_string
       end
     end
   end
@@ -58,10 +40,10 @@ require 'socket'
   class RespondSlowly < BasicServer
     MESSAGE = "Now is the time for all good foxes to go seeking other foxes and do good stuff for their government."
 
-    def handle_session(session)
-      while (session.gets)
+    def serve(io)
+      while (io.gets)
         MESSAGE.each_char do |char|
-          session.write char
+          io.write char
           sleep 10
         end
       end
@@ -70,14 +52,14 @@ require 'socket'
 
 
   class NeverRespond < BasicServer
-    def handle_session(session)
+    def serve(io)
       loop {}
     end
   end
 
   class DelugeResponder < BasicServer
-    def handle_session(session)
-      100_000.times { |counter| session.write(counter) }
+    def serve(io)
+      100_000.times { |counter| io.write(counter) }
     end
   end
 
@@ -99,11 +81,21 @@ require 'socket'
       threads = []
 
       @servers.each_with_index do |server, index|
-        threads << Thread.new(server, @port + index) do |server_class, port|
-          server_class.new(port).start
-        end
+        target_port = @port + index
+        new_server = start_server(server, target_port)
+        threads << new_server
       end
 
       threads.each { |thr| thr.join }
     end
+
+    private
+
+    def start_server(server, target_port)
+      new_server = server.new(target_port)
+      new_server.audit = true
+      new_server.start
+      new_server
+    end
+
   end
