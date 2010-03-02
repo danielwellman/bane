@@ -8,6 +8,8 @@ module Bane
     end
   end
 
+  
+
   class CloseImmediately < BasicServer
     def serve(io)
       # do nothing
@@ -28,10 +30,6 @@ module Bane
     end
   end
 
-  # Desired configuration parameters:
-  #
-  # * Message to respond with, or a response algorithm
-  # * Time to sleep between each character
   class RespondSlowly < BasicServer
     MESSAGE = "Now is the time for all good foxes to go seeking other foxes and do good stuff for their government."
 
