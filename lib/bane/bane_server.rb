@@ -6,6 +6,7 @@ module BaneUtils
   end
 end
 
+# TODO All this really does is guarantee every service responds like a GServer and keeps track of all known services
 class BasicServer < GServer
 
   def self.inherited(clazz)
@@ -85,9 +86,7 @@ class BaneServer
     threads = []
 
     @servers.each_with_index do |server, index|
-      target_port = @port + index
-      new_server = start_server(server, target_port)
-      threads << new_server
+      threads << start_server(server, @port + index)
     end
 
     threads.each { |thr| thr.join }
