@@ -4,7 +4,7 @@ module Bane
 
   class BasicServer < GServer
     def self.inherited(clazz)
-      ServiceRegistry.all_servers << clazz
+      ServiceRegistry.register(clazz)
     end
   end
 
