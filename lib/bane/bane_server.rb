@@ -72,7 +72,7 @@ module Bane
 
 
 
-  class BaneServer
+  class Launcher
 
     def initialize(port, *server_classes)
       raise "Port is required" unless port

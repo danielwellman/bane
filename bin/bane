@@ -6,6 +6,6 @@ require 'bane'
 if ARGV.empty?
   puts "Usage: bane port_number <servers>"
 else
-  Bane::BaneServer.new(*ARGV).start
+  Bane::Launcher.new(*ARGV).start
 end
 
