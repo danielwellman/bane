@@ -1,5 +1,11 @@
 require 'gserver'
 
+  module BaneUtils
+    def self.random_string
+      (1..rand(26)).map{|i| ('a'..'z').to_a[rand(26)]}.join
+    end
+  end
+
   class BasicServer < GServer
 
     def self.inherited(clazz)
@@ -19,16 +25,14 @@ require 'gserver'
 
   class RespondRandomlyThenClose < BasicServer
     def serve(io)
-      random_string = (1..rand(26)).map{|i| ('a'..'z').to_a[rand(26)]}.join
-      io.write random_string
+      io.write BaneUtils.random_string()
     end
   end
 
   class RespondRandomly < BasicServer
     def serve(io)
       while (io.gets)
-        random_string = (1..rand(26)).map{|i| ('a'..'z').to_a[rand(26)]}.join
-        io.write random_string
+        io.write BaneUtils.random_string()
       end
     end
   end
