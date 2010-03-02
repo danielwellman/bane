@@ -6,10 +6,6 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
-  <component name="EclipseCompilerSettings">
-    <option name="GENERATE_NO_WARNINGS" value="true" />
-    <option name="DEPRECATION" value="false" />
-  </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
     <option name="OPTION_SCOPE" value="protected" />
