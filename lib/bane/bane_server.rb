@@ -1,22 +1,10 @@
 require 'gserver'
 
 module Bane
-
-  module Utils
-    def self.random_string
-      (1..rand(26)).map{|i| ('a'..'z').to_a[rand(26)]}.join
-    end
-  end
-
-  # TODO All this really does is guarantee every service responds like a GServer and keeps track of all known services
+  
   class BasicServer < GServer
-
     def self.inherited(clazz)
-      all_servers << clazz
-    end
-
-    def self.all_servers
-      @servers ||= []
+      ServiceRegistry.all_servers << clazz
     end
   end
 
@@ -78,7 +66,7 @@ module Bane
       raise "Port is required" unless port
       @port = port.to_i
       if server_classes.empty?
-        @servers = BasicServer.all_servers
+        @servers = ServiceRegistry.all_servers
       else
         @servers = server_classes.map { |name| Bane.const_get(name) }
       end
