@@ -3,5 +3,9 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
-BaneServer.new(*ARGV).start
+if ARGV.empty?
+  puts "Usage: bane port_number <servers>"
+else
+  BaneServer.new(*ARGV).start
+end
 
