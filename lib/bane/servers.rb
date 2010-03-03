@@ -16,6 +16,12 @@ module Bane
     end
   end
 
+  class CloseAfterPause < BasicServer
+    def serve(io)
+      Thread.sleep(30)
+    end
+  end
+
   class RespondRandomlyThenClose < BasicServer
     def serve(io)
       io.write Utils.random_string()
