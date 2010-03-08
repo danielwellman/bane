@@ -1,27 +1,33 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 require 'net/telnet'
 
 class BaneIntegrationTest < Test::Unit::TestCase
 
-  def test_uses_specified_port_and_server
-    launcher = Bane::Launcher.new(4000, "CloseImmediately")
-    thread = Thread.new(launcher) do |launcher_thread|
+  TEST_PORT = 4000
+
+  def setup()
+    @launcher = Bane::Launcher.new( TEST_PORT, "NeverRespond")
+    thread = Thread.new(@launcher) do |launcher_thread|
       launcher_thread.start
     end
+  end
 
+  def teardown()
+    @launcher.stop
+  end
+
+  def test_uses_specified_port_and_server
     localhost = Net::Telnet::new("Host" => "localhost",
-                                 "Port" => 4000,
-                                 "Timeout" => 10,
-                                 "Prompt" => /[$%#>] \z/n)
+                                 "Port" => TEST_PORT,
+                                 "Timeout" => 5)
+
     begin
-      localhost.cmd("ignored") { |c| print c }
+      localhost.cmd("irrelevant command")
       fail "Should have closed immediately without accepting command"
-    rescue Errno::ECONNRESET
-      # expected
+    rescue Timeout::Error
+      # expected exception
     ensure
       localhost.close
     end
-
-    launcher.stop
   end
 end
