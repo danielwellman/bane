@@ -1,3 +1,5 @@
+# This is not a working sample, but rather a scratch pad for ideas...
+
 require 'rubygems'
 require 'bane'
 
