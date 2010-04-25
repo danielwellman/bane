@@ -8,6 +8,7 @@ module Bane
     end
   end
 
+
   class CloseImmediately < BasicServer
     def serve(io)
       # do nothing
@@ -20,13 +21,13 @@ module Bane
     end
   end
 
-  class RespondRandomlyThenClose < BasicServer
+  class RandomResponseThenClose < BasicServer
     def serve(io)
       io.write Utils.random_string()
     end
   end
 
-  class RespondRandomly < BasicServer
+  class RandomResponse < BasicServer
     def serve(io)
       while (io.gets)
         io.write Utils.random_string()
@@ -34,7 +35,7 @@ module Bane
     end
   end
 
-  class RespondSlowly < BasicServer
+  class SlowResponse < BasicServer
     MESSAGE = "Now is the time for all good foxes to go seeking other foxes and do good stuff for their government."
 
     def serve(io)
@@ -53,9 +54,9 @@ module Bane
     end
   end
 
-  class DelugeResponder < BasicServer
+  class DelugeResponse < BasicServer
     def serve(io)
-      100_000.times { |counter| io.write(counter) }
+      1_000_000.times { io.write('x') }
     end
   end
 
