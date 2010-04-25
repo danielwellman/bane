@@ -47,10 +47,9 @@ module Bane
     end
   end
 
-
   class NeverRespond < BasicServer
     def serve(io)
-      loop {}
+      loop { sleep 1 }
     end
   end
 
