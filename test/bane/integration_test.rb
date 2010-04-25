@@ -23,7 +23,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
     begin
       localhost.cmd("irrelevant command")
-      fail "Should have closed immediately without accepting command"
+      fail "Should have never reponded"
     rescue Timeout::Error
       # expected exception
     ensure
