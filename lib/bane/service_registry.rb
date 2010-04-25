@@ -8,6 +8,10 @@ module Bane
     def self.register(server)
       all_servers << server unless all_servers.include?(server)
     end
+
+    def self.unregister(server)
+      all_servers.delete server
+    end
   end
 
 end
