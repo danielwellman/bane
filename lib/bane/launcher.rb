@@ -9,14 +9,6 @@ module Bane
       @running_servers = []
     end
 
-    def lookup_server_classes(server_classes)
-      if server_classes.empty?
-        ServiceRegistry.all_servers
-      else
-        server_classes.map { |name| Bane.const_get(name) }
-      end
-    end
-    
     def start
       @server_classes.each_with_index do |server, index|
         @running_servers << start_server(server, @port + index)
@@ -30,6 +22,14 @@ module Bane
     end
 
     private
+
+    def lookup_server_classes(server_classes)
+      if server_classes.empty?
+        ServiceRegistry.all_servers
+      else
+        server_classes.map { |name| Bane.const_get(name) }
+      end
+    end
 
     def start_server(server, target_port)
       new_server = server.new(target_port)
