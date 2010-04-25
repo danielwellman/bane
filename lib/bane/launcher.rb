@@ -5,14 +5,18 @@ module Bane
     def initialize(port, *server_classes)
       raise "Port is required" unless port
       @port = port.to_i
-      if server_classes.empty?
-        @server_classes = ServiceRegistry.all_servers
-      else
-        @server_classes = server_classes.map { |name| Bane.const_get(name) }
-      end
+      @server_classes = lookup_server_classes(server_classes)
       @running_servers = []
     end
 
+    def lookup_server_classes(server_classes)
+      if server_classes.empty?
+        ServiceRegistry.all_servers
+      else
+        server_classes.map { |name| Bane.const_get(name) }
+      end
+    end
+    
     def start
       @server_classes.each_with_index do |server, index|
         @running_servers << start_server(server, @port + index)

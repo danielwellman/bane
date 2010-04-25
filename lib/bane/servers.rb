@@ -8,8 +8,6 @@ module Bane
     end
   end
 
-  
-
   class CloseImmediately < BasicServer
     def serve(io)
       # do nothing
@@ -18,7 +16,7 @@ module Bane
 
   class CloseAfterPause < BasicServer
     def serve(io)
-      Thread.sleep(30)
+      sleep(30)
     end
   end
 
