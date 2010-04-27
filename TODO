@@ -1,2 +1,5 @@
 - Add optional and default parameters to behaviors
+- Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
+- Allow passing in modules directly to the launcher for simpler script/test access
 - Create the script-mode usage which can take a hash of behaviors and options
+- Pick an open source license (BSD? Apache 2? CC?)

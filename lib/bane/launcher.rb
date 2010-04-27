@@ -35,7 +35,7 @@ module Bane
     end
 
     def start_server(behavior, target_port)
-      new_server = DelegatingGServer.new(target_port, behavior)
+      new_server = DelegatingGServer.new(target_port, behavior.new)
       new_server.start
       new_server
     end

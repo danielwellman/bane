@@ -6,7 +6,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
   TEST_PORT = 4000
 
   def setup()
-    @launcher = Bane::Launcher.new( TEST_PORT, "NeverRespond")
+    @launcher = Bane::Launcher.new(TEST_PORT, "NeverRespond")
     @launcher.start
   end
 

@@ -4,12 +4,12 @@ module Bane
   class DelegatingGServer < GServer
     def initialize(port, behavior)
       super(port)
-      @behavior = behavior.new
+      @behavior = behavior
       self.audit = true
     end
 
     def serve(io)
-      @behavior.serve(io)
+      @behavior.serve(io, {})
     end
 
     protected
