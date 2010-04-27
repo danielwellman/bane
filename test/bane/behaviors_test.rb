@@ -58,13 +58,13 @@ class BehaviorsTest < Test::Unit::TestCase
     delay = 1
     max_delay = (message.length + 1) * delay
 
-    within(max_delay) { query_server(server, :pause_duration => 1, :message => message)}
+    within(max_delay) { query_server(server, :pause_duration => delay, :message => message)}
 
     assert_equal message, response
   end
 
-  def test_random_response_then_close_sends_a_nonempty_response
-    query_server(create RandomResponseThenClose)
+  def test_random_response_sends_a_nonempty_response
+    query_server(create RandomResponse)
 
     assert (!response.empty?), "Should have served a nonempty response"
   end

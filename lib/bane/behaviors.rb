@@ -8,6 +8,17 @@ module Bane
       end
     end
 
+    # This module can be used to wrap another behavior with
+    # a "while(io.gets)" loop, which reads a line from the input and
+    # then performs the given behavior.
+    module ForEachLine
+      def serve(io, options)
+        while (io.gets)
+          super(io, options)
+        end
+      end
+    end
+
 
     class CloseImmediately < BasicBehavior
       def serve(io, options)
@@ -23,17 +34,9 @@ module Bane
       end
     end
 
-    class RandomResponseThenClose < BasicBehavior
-      def serve(io, options)
-        io.write Utils.random_string()
-      end
-    end
-
     class RandomResponse < BasicBehavior
       def serve(io, options)
-        while (io.gets)
-          io.write Utils.random_string()
-        end
+        io.write Utils.random_string()
       end
     end
 
