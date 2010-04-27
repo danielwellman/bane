@@ -5,6 +5,8 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Ruby SDK 1.8.6 (/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby)" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] mocha (v0.9.8, /Users/wellman/.gem/ruby/1.8/gems/mocha-0.9.8)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, /Library/Ruby/Gems/1.8/gems/rake-0.8.7)" level="application" />
   </component>
 </module>
 

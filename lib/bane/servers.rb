@@ -1,8 +1,6 @@
-require 'gserver'
-
 module Bane
 
-  class BasicServer < GServer
+  class BasicServer
     def self.inherited(clazz)
       ServiceRegistry.register(clazz)
     end

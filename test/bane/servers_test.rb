@@ -43,8 +43,7 @@ class ServersTest < Test::Unit::TestCase
   end
 
   def create(server_class)
-    irrelevant_port = 125873
-    server_class.new(irrelevant_port)
+    server_class.new()
   end
 
 end
