@@ -1,0 +1,2 @@
+- Add optional and default parameters to behaviors
+- Create the script-mode usage which can take a hash of behaviors and options
