@@ -26,10 +26,10 @@ module Bane
     private
 
     def lookup_behavior_classes(behaviors)
-      locator = Behaviors::Locator.new
       if behaviors.empty?
         ServiceRegistry.all_servers
       else
+        locator = Behaviors::Locator.new        
         behaviors.map { |name| locator.find(name) }
       end
     end
