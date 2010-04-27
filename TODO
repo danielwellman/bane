@@ -3,3 +3,7 @@
 - Allow passing in modules directly to the launcher for simpler script/test access
 - Create the script-mode usage which can take a hash of behaviors and options
 - Pick an open source license (BSD? Apache 2? CC?)
+
+Ideas:
+- Use some dynamic class creation using const_missing -- "xyzForEachLine" which wraps the
+  given behavior with a while(io.gets) {} block.

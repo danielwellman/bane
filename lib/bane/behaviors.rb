@@ -36,14 +36,14 @@ module Bane
   end
 
   class SlowResponse < BasicBehavior
-    MESSAGE = "Now is the time for all good foxes to go seeking other foxes and do good stuff for their government."
-
     def serve(io, options)
-      while (io.gets)
-        MESSAGE.each_char do |char|
-          io.write char
-          sleep 10
-        end
+      options = { :message => "Hello, world!", :pause_duration => 10 }.merge(options)
+      message = options[:message]
+      pause_duration = options[:pause_duration]
+
+      message.each_char do |char|
+        io.write char
+        sleep pause_duration
       end
     end
   end

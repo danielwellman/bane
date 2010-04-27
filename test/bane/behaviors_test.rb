@@ -52,17 +52,16 @@ class BehaviorsTest < Test::Unit::TestCase
     within(2) { query_server(server, :duration => 1) }
   end
 
-#  def test_slow_response_sends_a_message_slowly
-#    server = create SlowResponse
-#    message = "Hi!"
-#    delay = 1
-#    max_delay = (message.length + 1) * delay
-#
-#    client_sends "irrelevant command\n"
-#    within(max_delay) { query_server(server, :pause_duration => 1, :message => message)}
-#
-#    assert_equal message, response
-#  end
+  def test_slow_response_sends_a_message_slowly
+    server = create SlowResponse
+    message = "Hi!"
+    delay = 1
+    max_delay = (message.length + 1) * delay
+
+    within(max_delay) { query_server(server, :pause_duration => 1, :message => message)}
+
+    assert_equal message, response
+  end
 
   def test_random_response_then_close_sends_a_nonempty_response
     query_server(create RandomResponseThenClose)
