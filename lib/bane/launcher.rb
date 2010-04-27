@@ -3,15 +3,13 @@ module Bane
   class Launcher
 
     def initialize(port, *behavior_classes)
-      raise "Port is required" unless port
-      @port = port.to_i
-      @behavior_classes = lookup_behavior_classes(behavior_classes)
+      @configurations =  Configuration.new(port, behavior_classes)
       @running_servers = []
     end
 
     def start
-      @behavior_classes.each_with_index do |server, index|
-        @running_servers << start_server(server, @port + index)
+      @running_servers = @configurations.map do |port, server|
+        start_server(server, port)
       end
     end
 
@@ -25,15 +23,6 @@ module Bane
 
     private
 
-    def lookup_behavior_classes(behaviors)
-      if behaviors.empty?
-        ServiceRegistry.all_servers
-      else
-        locator = Behaviors::Locator.new        
-        behaviors.map { |name| locator.find(name) }
-      end
-    end
-
     def start_server(behavior, target_port)
       new_server = DelegatingGServer.new(target_port, behavior.new)
       new_server.start
@@ -42,4 +31,36 @@ module Bane
 
   end
 
+  class Configuration
+
+    include Enumerable
+
+    def initialize(port, behavior_classes)
+      raise "Port is required" unless port
+      port = port.to_i
+      
+      @configurations = []
+
+      if (behavior_classes.empty?)
+        setup(port, ServiceRegistry.all_servers)
+      else
+        setup(port, behavior_classes)
+      end
+    end
+
+    def each
+      @configurations.each do |entry|
+        yield entry[:port], entry[:server]
+      end
+    end
+
+    private
+
+    def setup(port, behavior_classes)
+      locator = Behaviors::Locator.new
+      behavior_classes.each_with_index do |server, index|
+        @configurations << { :port => port + index, :server => locator.find(server) }
+      end
+    end
+  end
 end

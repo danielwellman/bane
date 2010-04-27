@@ -23,4 +23,15 @@ class LauncherTest < Test::Unit::TestCase
       Bane::Launcher.new
     end
   end
+
+
+  def test_configuration_should_map_single_port_and_server_name
+    configuration = Bane::Configuration.new(3000, "FakeTestServer")
+    assert_equal 1, configuration.to_a.size, "Should have created one configuration"
+
+    actual_entry = configuration.to_a[0]
+    assert_equal 3000, actual_entry[0]
+    assert_equal Bane::Behaviors::FakeTestServer, actual_entry[1]
+  end
+
 end
