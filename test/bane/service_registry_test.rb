@@ -4,17 +4,17 @@ class ServiceRegistryTest < Test::Unit::TestCase
 
   include Bane
   
-  def test_registry_adds_and_removes_servers
-    fake = fake_server
+  def test_should_add_and_remove_behaviors
+    fake = fake_behavior
 
     ServiceRegistry.register(fake)
-    assert ServiceRegistry.all_servers.include?(fake), "Should have added the new server"
+    assert ServiceRegistry.all_servers.include?(fake), "Should have added the new behavior"
 
     ServiceRegistry.unregister(fake)
-    assert !(ServiceRegistry.all_servers.include?(fake)), "Should have removed the new server"
+    assert !(ServiceRegistry.all_servers.include?(fake)), "Should have removed the new behavior"
   end
 
-  def fake_server
+  def fake_behavior
     Class.new
   end
 end

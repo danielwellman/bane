@@ -25,12 +25,12 @@ module Bane
 
     private
 
-    def lookup_behavior_classes(classes)
-      if classes.empty?
+    def lookup_behavior_classes(behaviors)
+      locator = Behaviors::Locator.new
+      if behaviors.empty?
         ServiceRegistry.all_servers
       else
-        # Note: This assumes Strings, but what about directly passed classes/modules?
-        classes.map { |name| Bane::Behaviors.const_get(name) }
+        behaviors.map { |name| locator.find(name) }
       end
     end
 
