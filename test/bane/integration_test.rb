@@ -7,9 +7,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
   def setup()
     @launcher = Bane::Launcher.new( TEST_PORT, "NeverRespond")
-    thread = Thread.new(@launcher) do |launcher_thread|
-      launcher_thread.start
-    end
+    @launcher.start
   end
 
   def teardown()

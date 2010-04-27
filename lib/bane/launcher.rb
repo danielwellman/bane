@@ -13,7 +13,9 @@ module Bane
       @behavior_classes.each_with_index do |server, index|
         @running_servers << start_server(server, @port + index)
       end
+    end
 
+    def join
       @running_servers.each { |thr| thr.join }
     end
 
@@ -27,6 +29,7 @@ module Bane
       if classes.empty?
         ServiceRegistry.all_servers
       else
+        # Note: This assumes Strings, but what about directly passed classes/modules?
         classes.map { |name| Bane.const_get(name) }
       end
     end
