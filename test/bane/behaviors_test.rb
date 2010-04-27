@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'timeout'
 
-class ServersTest < Test::Unit::TestCase
+class BehaviorsTest < Test::Unit::TestCase
 
   def setup
     @fake_connection = StringIO.new

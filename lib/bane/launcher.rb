@@ -23,11 +23,11 @@ module Bane
 
     private
 
-    def lookup_behavior_classes(server_classes)
-      if server_classes.empty?
+    def lookup_behavior_classes(classes)
+      if classes.empty?
         ServiceRegistry.all_servers
       else
-        server_classes.map { |name| Bane.const_get(name) }
+        classes.map { |name| Bane.const_get(name) }
       end
     end
 

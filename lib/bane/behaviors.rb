@@ -1,31 +1,31 @@
 module Bane
 
-  class BasicServer
+  class BasicBehavior
     def self.inherited(clazz)
       ServiceRegistry.register(clazz)
     end
   end
 
 
-  class CloseImmediately < BasicServer
+  class CloseImmediately < BasicBehavior
     def serve(io)
       # do nothing
     end
   end
 
-  class CloseAfterPause < BasicServer
+  class CloseAfterPause < BasicBehavior
     def serve(io)
       sleep(30)
     end
   end
 
-  class RandomResponseThenClose < BasicServer
+  class RandomResponseThenClose < BasicBehavior
     def serve(io)
       io.write Utils.random_string()
     end
   end
 
-  class RandomResponse < BasicServer
+  class RandomResponse < BasicBehavior
     def serve(io)
       while (io.gets)
         io.write Utils.random_string()
@@ -33,7 +33,7 @@ module Bane
     end
   end
 
-  class SlowResponse < BasicServer
+  class SlowResponse < BasicBehavior
     MESSAGE = "Now is the time for all good foxes to go seeking other foxes and do good stuff for their government."
 
     def serve(io)
@@ -46,13 +46,13 @@ module Bane
     end
   end
 
-  class NeverRespond < BasicServer
+  class NeverRespond < BasicBehavior
     def serve(io)
       loop { sleep 1 }
     end
   end
 
-  class DelugeResponse < BasicServer
+  class DelugeResponse < BasicBehavior
     def serve(io)
       1_000_000.times { io.write('x') }
     end

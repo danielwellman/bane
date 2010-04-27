@@ -1,5 +1,5 @@
 require 'bane/service_registry'
 require 'bane/utils'
-require 'bane/servers'
+require 'bane/behaviors'
 require 'bane/launcher'
 require 'bane/delegating_gserver'
