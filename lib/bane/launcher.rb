@@ -30,7 +30,7 @@ module Bane
         ServiceRegistry.all_servers
       else
         # Note: This assumes Strings, but what about directly passed classes/modules?
-        classes.map { |name| Bane.const_get(name) }
+        classes.map { |name| Bane::Behaviors.const_get(name) }
       end
     end
 

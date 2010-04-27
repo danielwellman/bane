@@ -4,7 +4,7 @@ require 'mocha'
 
 class BehaviorsTest < Test::Unit::TestCase
 
-  include Bane
+  include Bane::Behaviors
 
   def setup
     @fake_connection = StringIO.new

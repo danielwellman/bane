@@ -2,7 +2,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'mocha'
 
 module Bane
-  class FakeTestServer < BasicBehavior
+  module Behaviors
+    class FakeTestServer < BasicBehavior
+    end
   end
 end
 
