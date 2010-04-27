@@ -40,6 +40,10 @@ module Bane
       end
     end
 
+    class RandomResponseForEachLine < RandomResponse
+      include ForEachLine
+    end
+
     class SlowResponse < BasicBehavior
       def serve(io, options)
         options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
@@ -51,6 +55,10 @@ module Bane
           sleep pause_duration
         end
       end
+    end
+
+    class SlowResponseForEachLine < SlowResponse
+      include ForEachLine
     end
 
     class NeverRespond < BasicBehavior
@@ -66,6 +74,10 @@ module Bane
 
         length.times { io.write('x') }
       end
+    end
+
+    class DelugeResponseForEachLine < DelugeResponse
+      include ForEachLine
     end
 
   end
