@@ -8,9 +8,7 @@ module Bane
       @configurations = []
 
       case args[0]
-        when String
-          map_integer_and_behavior_arguments(*args)
-        when Integer
+        when String, Integer
           map_integer_and_behavior_arguments(*args)
         when Hash
           map_hash_arguments(args[0])
