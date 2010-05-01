@@ -33,9 +33,16 @@ module Bane
       behavior_classes = args
 
       if (behavior_classes.empty?)
-        setup(port, ServiceRegistry.all_servers)
+        setup_linear_ports(port, ServiceRegistry.all_servers)
       else
-        setup(port, behavior_classes)
+        setup_linear_ports(port, behavior_classes)
+      end
+    end
+
+    def setup_linear_ports(port, behavior_classes)
+      locator = Behaviors::Locator.new
+      behavior_classes.each_with_index do |behavior, index|
+        @configurations << { :port => port + index, :server => locator.find(behavior) }
       end
     end
 
@@ -46,12 +53,6 @@ module Bane
       end
     end
 
-    def setup(port, behavior_classes)
-      locator = Behaviors::Locator.new
-      behavior_classes.each_with_index do |behavior, index|
-        @configurations << { :port => port + index, :server => locator.find(behavior) }
-      end
-    end
   end
 
   class ConfigurationError < RuntimeError; end

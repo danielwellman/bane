@@ -1,3 +1,5 @@
+- Clean up Configuration class
+  - remove duplication
 - Dynamically create new behaviors like "SlowResponseForEachLine" by using Module.const_missing
 - Log every request to the server/behavior, in addition to open, close
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
