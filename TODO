@@ -1,9 +1,7 @@
-- Clean up Configuration class
-  - remove duplication
+- Allow behavior options to be passed in the Hash-based configuration mode
+- Remove some duplication / clarify the Configuration class as needed
 - Dynamically create new behaviors like "SlowResponseForEachLine" by using Module.const_missing
 - Log every request to the server/behavior, in addition to open, close
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
-- Allow passing in modules directly to the launcher for simpler script/test access
-- Create the script-mode usage which can take a hash of behaviors and options
 - Pick an open source license (BSD? Apache 2? CC?)
 
