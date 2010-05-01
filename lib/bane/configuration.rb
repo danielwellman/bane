@@ -47,9 +47,8 @@ module Bane
     end
 
     def map_hash_arguments(options)
-      locator = Behaviors::Locator.new
       options.each_pair do |port, behavior|
-        @configurations << ConfigurationRecord.new(port, locator.find(behavior))
+        @configurations << ConfigurationRecord.new(port, behavior)
       end
     end
 
