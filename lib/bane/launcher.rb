@@ -2,8 +2,8 @@ module Bane
 
   class Launcher
 
-    def initialize(port, *behavior_classes)
-      @configurations =  Configuration.new(port, behavior_classes)
+    def initialize(*args)
+      @configurations =  Configuration.new(*args)
       @running_servers = []
     end
 
@@ -31,36 +31,4 @@ module Bane
 
   end
 
-  class Configuration
-
-    include Enumerable
-
-    def initialize(port, behavior_classes)
-      raise "Port is required" unless port
-      port = port.to_i
-      
-      @configurations = []
-
-      if (behavior_classes.empty?)
-        setup(port, ServiceRegistry.all_servers)
-      else
-        setup(port, behavior_classes)
-      end
-    end
-
-    def each
-      @configurations.each do |entry|
-        yield entry[:port], entry[:server]
-      end
-    end
-
-    private
-
-    def setup(port, behavior_classes)
-      locator = Behaviors::Locator.new
-      behavior_classes.each_with_index do |server, index|
-        @configurations << { :port => port + index, :server => locator.find(server) }
-      end
-    end
-  end
 end

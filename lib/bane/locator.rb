@@ -10,6 +10,8 @@ module Bane
             Behaviors.const_get(behavior)
           when Module
             behavior
+          else
+            raise "Unknown behavior #{behavior}"
         end
       end
     end
