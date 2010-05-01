@@ -2,6 +2,7 @@
   <dictionary name="wellman">
     <words>
       <w>args</w>
+      <w>dirname</w>
       <w>locator</w>
     </words>
   </dictionary>
