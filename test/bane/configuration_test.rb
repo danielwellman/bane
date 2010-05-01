@@ -5,28 +5,10 @@ class ConfigurationTest < Test::Unit::TestCase
 
   include Bane
 
-  def test_should_map_string_port
-    configuration = Bane::Configuration.new("3000", "CloseAfterPause")
-    assert_matches_configuration([
-            {:port => 3000, :behavior => Behaviors::CloseAfterPause}
-    ], configuration)
-  end
-
-  def test_should_raise_if_unknown_server_name
-    assert_raises Bane::UnknownBehaviorError do
-      Bane::Configuration.new(IRRELEVANT_PORT, "ABehaviorThatDoesNotExist")
-    end
-  end
+  IRRELEVANT_BEHAVIOR = Module.new
 
   def test_should_map_single_port_and_server_name
     configuration = Bane::Configuration.new(3000, "CloseAfterPause")
-    assert_matches_configuration([
-            {:port => 3000, :behavior => Behaviors::CloseAfterPause}
-    ], configuration)
-  end
-
-  def test_should_map_server_when_given_class
-    configuration = Bane::Configuration.new(3000, Behaviors::CloseAfterPause)
     assert_matches_configuration([
             {:port => 3000, :behavior => Behaviors::CloseAfterPause}
     ], configuration)
@@ -40,9 +22,25 @@ class ConfigurationTest < Test::Unit::TestCase
     ], configuration)
   end
 
+  def test_should_map_string_port
+    configuration = Bane::Configuration.new("3000", IRRELEVANT_BEHAVIOR)
+    assert_equal 3000, configuration.to_a[0][0], "Should have mapped port given a String"
+  end
+
+  def test_should_raise_if_unknown_server_name
+    assert_raises Bane::UnknownBehaviorError do
+      Bane::Configuration.new(IRRELEVANT_PORT, "ABehaviorThatDoesNotExist")
+    end
+  end
+
+  def test_should_map_server_when_given_class
+    configuration = Bane::Configuration.new(IRRELEVANT_PORT, Behaviors::CloseAfterPause)
+    assert_equal Behaviors::CloseAfterPause, configuration.to_a[0][1], "Wrong behavior"
+  end
+
   def test_should_ask_service_registry_for_all_behaviors_if_none_specified
-    fake_behavior = a_behavior()
-    another_fake_behavior = a_behavior
+    fake_behavior = unique_behavior
+    another_fake_behavior = unique_behavior
 
     ServiceRegistry.expects(:all_servers).returns([fake_behavior, another_fake_behavior])
     configuration = Configuration.new(4000)
@@ -60,17 +58,29 @@ class ConfigurationTest < Test::Unit::TestCase
 
   def test_should_raise_exception_if_nil_port_with_behaviors
     assert_raises ConfigurationError do
-      Configuration.new(nil, a_behavior)
+      Configuration.new(nil, IRRELEVANT_BEHAVIOR)
     end
   end
 
-  def test_should_map_single_options_as_port_and_behavior
+  def test_should_map_single_option_as_port_and_behavior
     configuration = Configuration.new(
             10256 => Behaviors::CloseAfterPause
     )
 
     assert_matches_configuration([
             {:port => 10256, :behavior => Behaviors::CloseAfterPause}
+    ], configuration)
+  end
+  
+  def test_should_map_multiple_options_as_port_and_behavior
+    configuration = Configuration.new(
+            10256 => Behaviors::CloseAfterPause,
+            6450 => Behaviors::CloseImmediately
+    )
+
+    assert_matches_configuration([
+            {:port => 10256, :behavior => Behaviors::CloseAfterPause},
+            {:port => 6450, :behavior => Behaviors::CloseImmediately}
     ], configuration)
   end
 
@@ -80,13 +90,15 @@ class ConfigurationTest < Test::Unit::TestCase
     actual_elements = actual_config.to_a
     assert_equal expected_config.size, actual_elements.size, "Did not create correct number of configurations. Actual: #{actual_elements}, expected #{expected_config}"
 
-    expected_config.each_with_index do |expected, index|
-      assert_equal expected[:port], actual_elements[index][0], "Wrong port"
-      assert_equal expected[:behavior], actual_elements[index][1], "Wrong behavior"
+    expected_config.each do |expected|
+      # We make no guarantee on the order of the configurations
+      matching_config = actual_elements.detect { |actual| actual[0] == expected[:port]}
+      assert_not_nil matching_config, "Should have found a configuration with port #{expected[:port]}"
+      assert_equal expected[:behavior], matching_config[1], "Wrong behavior"
     end
   end
 
-  def a_behavior
+  def unique_behavior
     Module.new
   end
 
