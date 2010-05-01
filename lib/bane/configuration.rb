@@ -60,7 +60,7 @@ module Bane
       end
     end
 
-    ConfigurationRecord = Struct.new("ConfigurationElement", :port, :server)
+    ConfigurationRecord = Struct.new("ConfigurationRecord", :port, :server)
     
   end
 
