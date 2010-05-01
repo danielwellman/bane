@@ -18,8 +18,8 @@ class LauncherTest < Test::Unit::TestCase
     launcher.start
   end
 
-  def test_raises_argument_error_if_no_arguments
-    assert_raises ArgumentError do
+  def test_raises_error_if_no_arguments
+    assert_raises RuntimeError do
       Bane::Launcher.new
     end
   end

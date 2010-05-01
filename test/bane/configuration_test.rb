@@ -5,6 +5,13 @@ class ConfigurationTest < Test::Unit::TestCase
 
   include Bane
 
+  def test_should_map_string_port_and_server_name
+    configuration = Bane::Configuration.new("3000", "CloseAfterPause")
+    assert_matches_configuration([
+            {:port => 3000, :behavior => Behaviors::CloseAfterPause}
+    ], configuration)
+  end
+
   def test_should_map_single_port_and_server_name
     configuration = Bane::Configuration.new(3000, "CloseAfterPause")
     assert_matches_configuration([
@@ -21,8 +28,8 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def test_should_ask_service_registry_for_all_behaviors_if_none_specified
-    fake_behavior = Module.new
-    another_fake_behavior = Module.new
+    fake_behavior = a_behavior()
+    another_fake_behavior = a_behavior
 
     ServiceRegistry.expects(:all_servers).returns([fake_behavior, another_fake_behavior])
     configuration = Configuration.new(4000)
@@ -33,13 +40,25 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def test_should_raise_exception_if_no_arguments
-    assert_raises ArgumentError do
+    assert_raises ConfigurationError do
       Configuration.new
     end
   end
 
-  def test_should_map_options_as_port_and_behavior
+  def test_should_raise_exception_if_nil_port_with_behaviors
+    assert_raises ConfigurationError do
+      Configuration.new(nil, a_behavior)
+    end
+  end
 
+  def test_should_map_single_options_as_port_and_behavior
+    configuration = Configuration.new(
+            10256 => Behaviors::CloseAfterPause
+    )
+
+    assert_matches_configuration([
+            {:port => 10256, :behavior => Behaviors::CloseAfterPause}
+    ], configuration)
   end
 
   private
@@ -52,6 +71,10 @@ class ConfigurationTest < Test::Unit::TestCase
       assert_equal expected[:port], actual_elements[index][0], "Wrong port"
       assert_equal expected[:behavior], actual_elements[index][1], "Wrong behavior"
     end
+  end
+
+  def a_behavior
+    Module.new
   end
 
 end
