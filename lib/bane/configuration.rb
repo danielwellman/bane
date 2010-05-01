@@ -31,18 +31,26 @@ module Bane
       port = Integer(args.shift)
 
       behavior_classes = args
+      behavior_classes = ServiceRegistry.all_servers if behavior_classes.empty?
 
-      if (behavior_classes.empty?)
-        setup_linear_ports(port, ServiceRegistry.all_servers)
-      else
-        setup_linear_ports(port, behavior_classes)
-      end
+      setup_linear_ports(port, behavior_classes)
     end
 
     def setup_linear_ports(port, behavior_classes)
-      locator = Behaviors::Locator.new
       behavior_classes.each_with_index do |behavior, index|
-        @configurations << ConfigurationRecord.new(port + index, locator.find(behavior))
+        @configurations << ConfigurationRecord.new(port + index, find(behavior))
+      end
+    end
+
+    def find(behavior)
+      case behavior
+        when String
+          raise UnknownBehaviorError.new(behavior) unless Behaviors.const_defined?(behavior.to_sym)
+          Behaviors.const_get(behavior)
+        when Module
+          behavior
+        else
+          raise UnknownBehaviorError.new(behavior)
       end
     end
 
@@ -57,4 +65,11 @@ module Bane
   end
 
   class ConfigurationError < RuntimeError; end
+
+  class UnknownBehaviorError < RuntimeError
+    def initialize(name)
+      super "Unknown behavior: #{name}"
+    end
+  end
+
 end

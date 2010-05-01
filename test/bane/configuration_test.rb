@@ -5,15 +5,28 @@ class ConfigurationTest < Test::Unit::TestCase
 
   include Bane
 
-  def test_should_map_string_port_and_server_name
+  def test_should_map_string_port
     configuration = Bane::Configuration.new("3000", "CloseAfterPause")
     assert_matches_configuration([
             {:port => 3000, :behavior => Behaviors::CloseAfterPause}
     ], configuration)
   end
 
+  def test_should_raise_if_unknown_server_name
+    assert_raises Bane::UnknownBehaviorError do
+      Bane::Configuration.new(IRRELEVANT_PORT, "ABehaviorThatDoesNotExist")
+    end
+  end
+
   def test_should_map_single_port_and_server_name
     configuration = Bane::Configuration.new(3000, "CloseAfterPause")
+    assert_matches_configuration([
+            {:port => 3000, :behavior => Behaviors::CloseAfterPause}
+    ], configuration)
+  end
+
+  def test_should_map_server_when_given_class
+    configuration = Bane::Configuration.new(3000, Behaviors::CloseAfterPause)
     assert_matches_configuration([
             {:port => 3000, :behavior => Behaviors::CloseAfterPause}
     ], configuration)

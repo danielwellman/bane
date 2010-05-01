@@ -4,7 +4,6 @@ require 'mocha'
 class DelegatingGserverTest < Test::Unit::TestCase
   include Bane
   
-  IRRELEVANT_PORT = 4001
   IRRELEVANT_IO_STREAM = nil
 
   def test_serve_passes_a_hash_of_options_even_if_not_initialized_with_options
