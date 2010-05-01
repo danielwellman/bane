@@ -21,7 +21,7 @@ module Bane
 
     def each
       @configurations.each do |entry|
-        yield entry[:port], entry[:server]
+        yield entry.port, entry.server
       end
     end
 
@@ -42,17 +42,19 @@ module Bane
     def setup_linear_ports(port, behavior_classes)
       locator = Behaviors::Locator.new
       behavior_classes.each_with_index do |behavior, index|
-        @configurations << { :port => port + index, :server => locator.find(behavior) }
+        @configurations << ConfigurationRecord.new(port + index, locator.find(behavior))
       end
     end
 
     def map_hash_arguments(options)
       locator = Behaviors::Locator.new
       options.each_pair do |port, behavior|
-        @configurations << { :port => port, :server => locator.find(behavior) }
+        @configurations << ConfigurationRecord.new(port, locator.find(behavior))
       end
     end
 
+    ConfigurationRecord = Struct.new("ConfigurationElement", :port, :server)
+    
   end
 
   class ConfigurationError < RuntimeError; end
