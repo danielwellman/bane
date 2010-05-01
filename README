@@ -12,7 +12,7 @@ Example: $ bin/bane 3000
 
 3. Advanced Configuration using Ruby.  [NOT YET IMPLEMENTED] If you want to modify some of the defaults used in the included behaviors, you can initialize Bane with a Hash of port numbers, behavior names, and configuration parameters.  For example, you might want to change the DelugeResponder to repond with one gigabyte instead of the default one hundred megabytes. 
 
-Example: [TBD, see the sample.rb file for ideas]
+Example: [TBD] See the examples folder for some options
 
 
 ---
