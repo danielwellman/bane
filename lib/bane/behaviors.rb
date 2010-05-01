@@ -34,6 +34,18 @@ module Bane
       end
     end
 
+    class FixedResponse < BasicBehavior
+      def serve(io, options)
+        options = {:message => "Hello, world!"}.merge(options)
+
+        io.write options[:message]
+      end
+    end
+
+    class FixedResponseForEachLine < FixedResponse
+      include ForEachLine
+    end
+    
     class RandomResponse < BasicBehavior
       def serve(io, options)
         io.write Utils.random_string()

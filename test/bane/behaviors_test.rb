@@ -10,6 +10,12 @@ class BehaviorsTest < Test::Unit::TestCase
     @fake_connection = StringIO.new
   end
 
+  def test_fixed_response_sends_the_specified_message
+    query_server(create(FixedResponse), :message => "Test Message")
+
+    assert_equal "Test Message", response
+  end
+
   def test_deluge_response_sends_one_million_bytes_by_default
     query_server(create DelugeResponse)
 
