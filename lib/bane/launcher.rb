@@ -14,11 +14,11 @@ module Bane
     end
 
     def join
-      @running_servers.each { |thr| thr.join }
+      @running_servers.each { |server| server.join }
     end
 
     def stop
-      @running_servers.each { |thr| thr.stop }
+      @running_servers.each { |server| server.stop }
     end
 
     private
