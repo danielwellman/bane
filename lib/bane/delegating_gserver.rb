@@ -17,7 +17,7 @@ module Bane
     alias_method :original_log, :log
 
     def log(message)
-      original_log("#{@behavior.class.to_s} #{@host}:#{@port} #{message}")
+      original_log("#{@behavior.class.simple_name} #{@host}:#{@port} #{message}")
     end
 
     def connecting(client)

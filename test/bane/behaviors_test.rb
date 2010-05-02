@@ -75,6 +75,10 @@ class BehaviorsTest < Test::Unit::TestCase
     assert (!response.empty?), "Should have served a nonempty response"
   end
 
+  def test_simple_name_strips_away_the_namespace
+    assert_equal "SlowResponse", Bane::Behaviors::SlowResponse.simple_name
+  end
+
   private
 
   def create(server_class)
