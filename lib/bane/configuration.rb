@@ -71,3 +71,13 @@ module Bane
   end
 
 end
+
+# Helper method to easily create configuration.
+#
+# This should likely take the constructor block from the Configuration class
+# and then we can simplify this class so it's not so big.
+module Kernel
+  def Configuration(*args)
+    Bane::Configuration.new(*args)
+  end
+end

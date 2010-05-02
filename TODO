@@ -6,3 +6,6 @@
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
 - Pick an open source license (BSD? Apache 2? CC?)
 
+Ideas:
+- Make the Launcher use a Factory to create the server given a dependency, rather than depending directly on the
+  DelegatingGServer class.  This would make it possible to swap the base server implementation more easily.

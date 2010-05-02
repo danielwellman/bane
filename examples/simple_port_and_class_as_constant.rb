@@ -3,7 +3,7 @@ require 'bane'
 
 include Bane
 
-launcher = Launcher.new(3000, Behaviors::CloseImmediately, Behaviors::CloseAfterPause)
+launcher = Launcher.new(Configuration(3000, Behaviors::CloseImmediately, Behaviors::CloseAfterPause))
 launcher.start
 launcher.join
 # runs until interrupt...

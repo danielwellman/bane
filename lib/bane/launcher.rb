@@ -2,13 +2,13 @@ module Bane
 
   class Launcher
 
-    def initialize(*args)
-      @configurations =  Configuration.new(*args)
+    def initialize(configurations)
+      @configuration =  configurations
       @running_servers = []
     end
 
     def start
-      @running_servers = @configurations.map do |port, server|
+      @running_servers = @configuration.map do |port, server|
         start_server(server, port)
       end
     end

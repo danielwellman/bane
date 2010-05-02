@@ -10,7 +10,7 @@ if ARGV.empty?
   behavior_names = Bane::ServiceRegistry.all_servers.map(&:simple_name)
   behavior_names.sort.each { |behavior| puts " - #{behavior}" }
 else
-  launcher = Bane::Launcher.new(*ARGV)
+  launcher = Bane::Launcher.new(Configuration(*ARGV))
   launcher.start
   launcher.join
 end
