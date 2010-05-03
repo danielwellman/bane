@@ -15,5 +15,15 @@ class DelegatingGserverTest < Test::Unit::TestCase
     server.serve(IRRELEVANT_IO_STREAM)
   end
 
+  def test_serve_passes_constructor_options_to_behaviors_serve_method
+    behavior = mock()
+    
+    initialized_options = {:expected => :options}
+    server = DelegatingGServer.new(IRRELEVANT_PORT, behavior, initialized_options)
+
+    behavior.expects(:serve).with(anything(), equals(initialized_options))
+
+    server.serve(IRRELEVANT_IO_STREAM)
+  end
 
 end

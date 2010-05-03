@@ -1,6 +1,6 @@
 - Allow behavior options to be passed in the Hash-based configuration mode
-- Create a behavior which replies with the sent data; use in integration test for speed
-- Remove some duplication / clarify the Configuration class as needed
+- Speed up 'defaults' integration test to use something other than a timeout test, which is quite slow
+- Rectify the Configuration/ConfigurationParser split -- Remove some duplication / clarify the ConfigurationParser class as needed
 - Dynamically create new behaviors like "SlowResponseForEachLine" by using Module.const_missing
 - Log every request to the server/behavior, in addition to open, close
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)

@@ -8,8 +8,8 @@ module Bane
     end
 
     def start
-      @running_servers = @configuration.map do |port, server|
-        start_server(server, port)
+      @running_servers = @configuration.map do |port, behavior, options|
+        start_server(behavior, port, options)
       end
     end
 
@@ -23,8 +23,8 @@ module Bane
 
     private
 
-    def start_server(behavior, target_port)
-      new_server = DelegatingGServer.new(target_port, behavior.new)
+    def start_server(behavior, target_port, options)
+      new_server = DelegatingGServer.new(target_port, behavior.new, options)
       new_server.start
       new_server
     end

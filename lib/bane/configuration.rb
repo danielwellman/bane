@@ -1,13 +1,14 @@
 module Bane
 
-  class Configuration
+  class ConfigurationParser
+    
+    attr_reader :configurations
 
-    include Enumerable
-
+    
     def initialize(*args)
       @configurations = []
-
-      case args[0]
+      
+      @configurations = case args[0]
         when String, Integer
           map_integer_and_behavior_arguments(*args)
         when Hash
@@ -15,12 +16,7 @@ module Bane
         else
           raise ConfigurationError, "Unknown configuration arguments #{args.inspect}"
       end
-    end
 
-    def each
-      @configurations.each do |entry|
-        yield entry.port, entry.server
-      end
     end
 
     private
@@ -32,12 +28,14 @@ module Bane
       behavior_classes = ServiceRegistry.all_servers if behavior_classes.empty?
 
       setup_linear_ports(port, behavior_classes)
+      @configurations
     end
 
     def setup_linear_ports(port, behavior_classes)
       behavior_classes.each_with_index do |behavior, index|
-        @configurations << ConfigurationRecord.new(port + index, find(behavior))
+        @configurations << Bane::Configuration::ConfigurationRecord.new(port + index, find(behavior))
       end
+      @configurations
     end
 
     def find(behavior)
@@ -54,11 +52,37 @@ module Bane
 
     def map_hash_arguments(options)
       options.each_pair do |port, behavior|
-        @configurations << ConfigurationRecord.new(port, behavior)
+        @configurations << Bane::Configuration::ConfigurationRecord.new(port, behavior)
+      end
+      @configurations
+    end
+
+  end
+
+  class Configuration
+
+    include Enumerable
+
+    def initialize(configurations)
+      @configurations = configurations
+    end
+
+    def each
+      @configurations.each do |entry|
+        yield entry.port, entry.behavior, entry.options
       end
     end
 
-    ConfigurationRecord = Struct.new("ConfigurationRecord", :port, :server)
+
+    class ConfigurationRecord
+      attr_reader :port, :behavior, :options
+
+      def initialize(port, behavior, options = {})
+        @port = port
+        @behavior = behavior
+        @options = options
+      end
+    end
     
   end
 
@@ -78,6 +102,6 @@ end
 # and then we can simplify this class so it's not so big.
 module Kernel
   def Configuration(*args)
-    Bane::Configuration.new(*args)
+    Bane::Configuration.new(Bane::ConfigurationParser.new(*args).configurations)
   end
 end
