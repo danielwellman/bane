@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'mocha'
 
-class ConfigurationTest < Test::Unit::TestCase
+class ConfigurationParserTest < Test::Unit::TestCase
 
   include Bane
 
