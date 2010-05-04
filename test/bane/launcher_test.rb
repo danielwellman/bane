@@ -14,7 +14,7 @@ class LauncherTest < Test::Unit::TestCase
 
   def test_starts_server_on_specified_port
     target_port = 4000
-    DelegatingGServer.expects(:new).with(equals(target_port), anything(), anything()).returns(fake_server)
+    DelegatingGServer.expects(:new).with(equals(target_port), anything(), anything(), anything()).returns(fake_server)
 
     launch_with_configuration(target_port, Behaviors::FakeTestServer)
   end
@@ -22,14 +22,14 @@ class LauncherTest < Test::Unit::TestCase
   def test_starts_server_with_specified_behavior
     behavior_instance = stub('constructed behavior instance')
     Behaviors::FakeTestServer.expects(:new).returns(behavior_instance)
-    DelegatingGServer.expects(:new).with(anything(), equals(behavior_instance), anything()).returns(fake_server)
+    DelegatingGServer.expects(:new).with(anything(), equals(behavior_instance), anything(), anything()).returns(fake_server)
 
     launch_with_configuration(IRRELEVANT_PORT, Behaviors::FakeTestServer)
   end
 
   def test_constructs_server_with_specified_options
     options = { :an_option => :a_value, :another_option => :another_value }
-    DelegatingGServer.expects(:new).with(anything(), anything, has_entries(options)).returns(fake_server)
+    DelegatingGServer.expects(:new).with(anything(), anything, has_entries(options), anything()).returns(fake_server)
 
     launch_with_configuration(IRRELEVANT_PORT, Behaviors::FakeTestServer, options)
   end

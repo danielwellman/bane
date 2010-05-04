@@ -2,11 +2,12 @@ require 'gserver'
 
 module Bane
   class DelegatingGServer < GServer
-    def initialize(port, behavior, options = {})
+    def initialize(port, behavior, options = {}, logger = $stderr)
       super(port)
       @behavior = behavior
       @options = options
       self.audit = true
+      self.stdlog = logger
     end
 
     def serve(io)

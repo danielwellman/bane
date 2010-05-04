@@ -1,6 +1,4 @@
 - Rectify the Configuration/ConfigurationParser split -- Remove some duplication / clarify the ConfigurationParser class as needed
-- Allow configuration of Logger instance
-- Remove integration test log output from server
 - Dynamically create new behaviors like "SlowResponseForEachLine" by using Module.const_missing
 - Log every request to the server/behavior, in addition to open, close
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)

@@ -29,16 +29,18 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
   def run_server_with(* options)
     begin
-      launcher = Bane::Launcher.new(Configuration(*options))
+      launcher = Bane::Launcher.new(Configuration(*options), quiet_logger)
       launcher.start
-
       yield
-
     ensure
       launcher.stop
     end
   end
 
+  def quiet_logger
+    StringIO.new
+  end
+  
   def telnet_to(port)
     begin
       telnet = Net::Telnet::new("Host" => "localhost",

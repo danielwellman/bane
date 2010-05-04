@@ -2,8 +2,9 @@ module Bane
 
   class Launcher
 
-    def initialize(configurations)
-      @configuration =  configurations
+    def initialize(configurations, logger = $stderr)
+      @configuration = configurations
+      @logger = logger
       @running_servers = []
     end
 
@@ -24,7 +25,7 @@ module Bane
     private
 
     def start_server(behavior, target_port, options)
-      new_server = DelegatingGServer.new(target_port, behavior.new, options)
+      new_server = DelegatingGServer.new(target_port, behavior.new, options, @logger)
       new_server.start
       new_server
     end
