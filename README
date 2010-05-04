@@ -10,10 +10,24 @@ Example:  $ bin/bane 8080 NeverRespond
 
 Example: $ bin/bane 3000
 
-3. Advanced Configuration using Ruby.  [NOT YET IMPLEMENTED] If you want to modify some of the defaults used in the included behaviors, you can initialize Bane with a Hash of port numbers, behavior names, and configuration parameters.  For example, you might want to change the DelugeResponder to repond with one gigabyte instead of the default one hundred megabytes. 
+3. Advanced Configuration using Ruby.  If you want to modify some of the defaults used in the included behaviors, you can initialize Bane with a Hash of port numbers, behavior names, and configuration parameters.  For example, you might want to specify a response for the FixedResponse behavior:
 
-Example: [TBD] See the examples folder for some options
+Example:
 
+require 'bane'
+
+include Bane
+include Behaviors
+
+launcher = Launcher.new(Configuration(
+        3000 => {:behavior => FixedResponse, :message => "Shall we play a game?"},
+      )
+)
+launcher.start
+launcher.join
+
+
+See examples/specify_behavior_options.rb for another example.
 
 ---
 
@@ -24,29 +38,17 @@ A list of possible test harness behaviors from "Release It!" p. 126 ("Test Harne
 "... the socket connection is succeptible to the following failures:
 
 * It can be refused.
-
 * It can sit in a listen queue until the caller times out.
-
 * The remote end can reply with a SYN/ACK and then never send any data.
-
 * The remote end can send nothing but RESET packets.
-
 * The remote end can report a full receive window and never drain the data.
-
 * The connection can be established, but the remote end never sends a byte of data.
-
 * The connection can be established, but packets could be lost causing retransmit delays
-
 * The connection can be established, but the remote end never acknowledges receiving a packet, causing endless retransmits
-
 * The service can accept a request, send response headers (supposing HTTP), and ndever send the response body.
-
 * The service can send one byte of the response every thirty seconds.
-
 * The service can send a response of HTML instead of the expected XML.
-
 * The service can send megabytes when kilobytes are expected.
-
 * The service can refuse all authentication credentials.
 
 The failures fall into distinct categories: network transport problems, network protocol problems, application protocol problems, and application logic problems. ..."
