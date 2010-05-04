@@ -1,10 +1,9 @@
-- Allow behavior options to be passed in the Hash-based configuration mode
-- Speed up 'defaults' integration test to use something other than a timeout test, which is quite slow
 - Rectify the Configuration/ConfigurationParser split -- Remove some duplication / clarify the ConfigurationParser class as needed
+- Allow configuration of Logger instance
+- Remove integration test log output from server
 - Dynamically create new behaviors like "SlowResponseForEachLine" by using Module.const_missing
 - Log every request to the server/behavior, in addition to open, close
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
-- Pick an open source license (BSD? Apache 2? CC?)
 
 Ideas:
 - Make the Launcher use a Factory to create the server given a dependency, rather than depending directly on the

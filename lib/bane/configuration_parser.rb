@@ -28,7 +28,6 @@ module Bane
       behavior_classes = ServiceRegistry.all_servers if behavior_classes.empty?
 
       setup_linear_ports(port, behavior_classes)
-      @configurations
     end
 
     def setup_linear_ports(port, behavior_classes)
@@ -51,10 +50,25 @@ module Bane
     end
 
     def map_hash_arguments(options)
-      options.each_pair do |port, behavior|
-        @configurations << Bane::Configuration::ConfigurationRecord.new(port, behavior)
+      options.each_pair do |key, value|
+        @configurations << extract_configuration_from(key, value)
       end
       @configurations
+    end
+
+    def extract_configuration_from(key, value)
+      port = key
+      case value
+        when Module
+          behavior = value
+          Bane::Configuration::ConfigurationRecord.new(port, behavior)
+        when Hash
+          behavior = value.delete(:behavior)
+          options = value
+          Bane::Configuration::ConfigurationRecord.new(port, behavior, options)
+        else
+          raise ConfigurationError, "Unknown configuration option: #{value.inspect}"
+      end
     end
 
   end

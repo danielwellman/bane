@@ -62,7 +62,7 @@ class ConfigurationParserTest < Test::Unit::TestCase
     end
   end
 
-  def test_should_map_single_option_as_port_and_behavior
+  def test_should_map_single_hash_entry_as_port_and_behavior
     parser = ConfigurationParser.new(
             10256 => Behaviors::CloseAfterPause
     )
@@ -72,7 +72,7 @@ class ConfigurationParserTest < Test::Unit::TestCase
     ], parser)
   end
   
-  def test_should_map_multiple_options_as_port_and_behavior
+  def test_should_map_multiple_hash_entries_as_port_and_behavior
     parser = ConfigurationParser.new(
             10256 => Behaviors::CloseAfterPause,
             6450 => Behaviors::CloseImmediately
@@ -84,6 +84,18 @@ class ConfigurationParserTest < Test::Unit::TestCase
     ], parser)
   end
 
+  def test_should_map_hash_with_options
+    parser = ConfigurationParser.new(
+            10256 => {:behavior => Behaviors::CloseAfterPause, :duration => 3},
+            11239 => Behaviors::CloseImmediately
+    )
+    
+    assert_matches_configuration([
+            {:port => 10256, :behavior => Behaviors::CloseAfterPause},
+            {:port => 11239, :behavior => Behaviors::CloseImmediately}
+    ], parser)
+  end
+
   private
 
   def assert_matches_configuration(expected_config, actual_config)
@@ -91,11 +103,17 @@ class ConfigurationParserTest < Test::Unit::TestCase
     assert_equal expected_config.size, actual_elements.size, "Did not create correct number of configurations. Actual: #{actual_elements}, expected #{expected_config}"
 
     expected_config.each do |expected|
+
       # We make no guarantee on the order of the configurations
-      matching_config = actual_elements.detect { |actual| actual.port == expected[:port]}
-      assert_not_nil matching_config, "Should have found a configuration with port #{expected[:port]}"
-      assert_equal expected[:behavior], matching_config.behavior, "Wrong behavior"
+      assert_includes_configuration(actual_elements, expected)
     end
+  end
+
+  def assert_includes_configuration(actual_elements, expected)
+    expected_port = expected[:port]
+    matching_config = actual_elements.detect { |actual| actual.port == expected_port }
+    assert_not_nil matching_config, "Should have found a configuration with port #{expected_port}"
+    assert_equal expected[:behavior], matching_config.behavior, "Wrong behavior for port #{expected_port}"
   end
 
   def unique_behavior
