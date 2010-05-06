@@ -61,7 +61,7 @@ class BehaviorsTest < Test::Unit::TestCase
   def test_slow_response_sends_a_message_slowly
     server = create SlowResponse
     message = "Hi!"
-    delay = 1
+    delay = 0.5
     max_delay = (message.length + 1) * delay
 
     within(max_delay) { query_server(server, :pause_duration => delay, :message => message)}
