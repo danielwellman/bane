@@ -16,7 +16,6 @@ module Bane
         else
           raise ConfigurationError, "Unknown configuration arguments #{args.inspect}"
       end
-
     end
 
     private
@@ -56,8 +55,7 @@ module Bane
       @configurations
     end
 
-    def extract_configuration_from(key, value)
-      port = key
+    def extract_configuration_from(port, value)
       case value
         when Module
           behavior = value

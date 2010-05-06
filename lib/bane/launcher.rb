@@ -9,9 +9,7 @@ module Bane
     end
 
     def start
-      @running_servers = @configuration.map do |port, behavior, options|
-        start_server(behavior, port, options)
-      end
+      @running_servers = @configuration.start(@logger)
     end
 
     def join
@@ -24,11 +22,6 @@ module Bane
 
     private
 
-    def start_server(behavior, target_port, options)
-      new_server = DelegatingGServer.new(target_port, behavior.new, options, @logger)
-      new_server.start
-      new_server
-    end
 
   end
 

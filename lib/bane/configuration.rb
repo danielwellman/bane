@@ -2,18 +2,15 @@ module Bane
   
   class Configuration
 
-    include Enumerable
-
     def initialize(configurations)
       @configurations = configurations
     end
 
-    def each
-      @configurations.each do |entry|
-        yield entry.port, entry.behavior, entry.options
+    def start(logger)
+      @configurations.map do |config|
+        config.start(logger)
       end
     end
-
 
     class ConfigurationRecord
       attr_reader :port, :behavior, :options
@@ -23,8 +20,14 @@ module Bane
         @behavior = behavior
         @options = options
       end
+
+      def start(logger)
+        new_server = DelegatingGServer.new(@port, @behavior.new, @options, logger)
+        new_server.start
+        new_server
+      end
     end
-    
+
   end
 
   class ConfigurationError < RuntimeError; end
