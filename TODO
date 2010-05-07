@@ -3,6 +3,8 @@
 - Log every request to the server/behavior, in addition to open, close.  For this to work, it would have to be the
   behavior's responsibility, since GServer#serve gets called only once for the lifetime of the connection.
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
+- Make and publish a gem
+- Write the bad TCP/IP behaviors - using something like C/C++.
 
 Ideas:
 - Make the Launcher use a Factory to create the server given a dependency, rather than depending directly on the
