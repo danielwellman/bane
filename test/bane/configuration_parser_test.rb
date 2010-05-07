@@ -24,7 +24,8 @@ class ConfigurationParserTest < Test::Unit::TestCase
 
   def test_should_map_string_port
     parser = Bane::ConfigurationParser.new("3000", IRRELEVANT_BEHAVIOR)
-    assert_equal 3000, parser.configurations[0].port, "Should have mapped port given a String"
+    actual = parser.configurations[0]
+    assert_equal 3000, actual.instance_variable_get(:@port), "Should have mapped port given a String"
   end
 
   def test_should_raise_if_unknown_server_name
@@ -35,7 +36,8 @@ class ConfigurationParserTest < Test::Unit::TestCase
 
   def test_should_map_server_when_given_class
     parser = ConfigurationParser.new(IRRELEVANT_PORT, Behaviors::CloseAfterPause)
-    assert_equal Behaviors::CloseAfterPause, parser.configurations[0].behavior, "Wrong behavior"
+    actual = parser.configurations[0]
+    assert_equal Behaviors::CloseAfterPause, actual.instance_variable_get(:@behavior), "Wrong behavior"
   end
 
   def test_should_ask_service_registry_for_all_behaviors_if_none_specified
@@ -103,7 +105,6 @@ class ConfigurationParserTest < Test::Unit::TestCase
     assert_equal expected_config.size, actual_elements.size, "Did not create correct number of configurations. Actual: #{actual_elements}, expected #{expected_config}"
 
     expected_config.each do |expected|
-
       # We make no guarantee on the order of the configurations
       assert_includes_configuration(actual_elements, expected)
     end
@@ -111,9 +112,9 @@ class ConfigurationParserTest < Test::Unit::TestCase
 
   def assert_includes_configuration(actual_elements, expected)
     expected_port = expected[:port]
-    matching_config = actual_elements.detect { |actual| actual.port == expected_port }
+    matching_config = actual_elements.detect { |actual| actual.instance_variable_get(:@port) == expected_port }
     assert_not_nil matching_config, "Should have found a configuration with port #{expected_port}"
-    assert_equal expected[:behavior], matching_config.behavior, "Wrong behavior for port #{expected_port}"
+    assert_equal expected[:behavior], matching_config.instance_variable_get(:@behavior), "Wrong behavior for port #{expected_port}"
   end
 
   def unique_behavior

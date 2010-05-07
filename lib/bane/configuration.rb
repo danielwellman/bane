@@ -13,7 +13,6 @@ module Bane
     end
 
     class ConfigurationRecord
-      attr_reader :port, :behavior, :options
 
       def initialize(port, behavior, options = {})
         @port = port
