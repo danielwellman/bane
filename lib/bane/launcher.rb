@@ -20,9 +20,6 @@ module Bane
       @running_servers.each { |server| server.stop }
     end
 
-    private
-
-
   end
 
 end

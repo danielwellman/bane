@@ -1,10 +1,11 @@
-- Rectify the Configuration/ConfigurationParser split -- Remove some duplication / clarify the ConfigurationParser class as needed
+- Remove some duplication / clarify the ConfigurationParser class as needed
 - Dynamically create new behaviors like "SlowResponseForEachLine" by using Module.const_missing
 - Log every request to the server/behavior, in addition to open, close.  For this to work, it would have to be the
   behavior's responsibility, since GServer#serve gets called only once for the lifetime of the connection.
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
 - Make and publish a gem
 - Write the bad TCP/IP behaviors - using something like C/C++.
+- Write the bad HTTP behaviors - this may require using something other than GServer for the Behavior server.
 
 Ideas:
 - Make the Launcher use a Factory to create the server given a dependency, rather than depending directly on the
