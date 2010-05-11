@@ -44,7 +44,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
   def telnet_to(port)
     begin
       telnet = Net::Telnet::new("Host" => "localhost",
-                                "Port" => TEST_PORT,
+                                "Port" => port,
                                 "Timeout" => 5)
       yield telnet.read
     ensure
