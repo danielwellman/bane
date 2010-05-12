@@ -27,7 +27,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
   private
 
-  def run_server_with(* options)
+  def run_server_with(*options)
     begin
       launcher = Bane::Launcher.new(Configuration(*options), quiet_logger)
       launcher.start
