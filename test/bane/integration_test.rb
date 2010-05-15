@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'net/telnet'
+require 'open-uri'
 
 class BaneIntegrationTest < Test::Unit::TestCase
 
@@ -25,6 +26,18 @@ class BaneIntegrationTest < Test::Unit::TestCase
     end
   end
 
+  def test_serves_http_requests
+    run_server_with(TEST_PORT, "HttpRefuseAllCredentials") do
+      begin
+        open("http://localhost:#{TEST_PORT}/some/url").read
+        flunk "Should have refused access"
+      rescue OpenURI::HTTPError => e
+        assert_match /401/, e.message
+      end
+    end
+
+  end
+
   private
 
   def run_server_with(*options)
@@ -33,7 +46,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
       launcher.start
       yield
     ensure
-      launcher.stop
+      launcher.stop if launcher
     end
   end
 

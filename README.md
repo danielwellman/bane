@@ -49,13 +49,13 @@ Note that these are simple protocol-independent socket behaviors:
 * The server establishes a connection but sends a random reply (RandomResponse)
 * The server accepts a connection and then drops it immediately (CloseImmediately)
 * The service can send megabytes when kilobytes are expected. (rough approximation with the DelugeReponse)
+* The service can refuse all authentication credentials. (HttpRefuseAllCredentials)
 
 The following behaviors are not yet supported; they require the configuration of an HTTP server.
-This should be possible to build and might require a slight change in how Behaviors are served.
+See the implementation of HttpRefuseAllCredentials for a simple example of an HTTP behavior.
 
 * The service can accept a request, send response headers (supposing HTTP), and never send the response body.
 * The service can send a response of HTML instead of the expected XML.
-* The service can refuse all authentication credentials.
 
 The following behaviors are not yet supported. These require the ability to manipulate
 TCP packets at a low level; which may require a C or C++ extension.

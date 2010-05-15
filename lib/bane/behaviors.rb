@@ -49,7 +49,7 @@ module Bane
     class FixedResponseForEachLine < FixedResponse
       include ForEachLine
     end
-    
+
     class RandomResponse < BasicBehavior
       def serve(io, options)
         io.write random_string
@@ -57,9 +57,9 @@ module Bane
 
       private
       def random_string
-        (1..rand(26)+1).map{|i| ('a'..'z').to_a[rand(26)]}.join
+        (1..rand(26)+1).map { |i| ('a'..'z').to_a[rand(26)] }.join
       end
-      
+
     end
 
     class RandomResponseForEachLine < RandomResponse
@@ -102,6 +102,26 @@ module Bane
       include ForEachLine
     end
 
-  end
+    class HttpRefuseAllCredentials < BasicBehavior
+      UNAUTHORIZED_RESPONSE_BODY = <<EOF
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bane Server</title>
+  </head>
+  <body>
+    <h1>Unauthorized</h1>
+  </body>
+</html>
+EOF
 
+      def serve(io, options)
+        io.gets # Read the request before responding
+        response = NaiveHttpResponse.new(401, "Unauthorized", "text/html", UNAUTHORIZED_RESPONSE_BODY)
+        io.write(response.to_s)
+      end
+    end
+
+  end
 end
+

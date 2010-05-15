@@ -6,8 +6,23 @@ class BehaviorsTest < Test::Unit::TestCase
 
   include Bane::Behaviors
 
+  class FakeConnection < StringIO
+    def will_send(query)
+      @query = query
+    end
+
+    def gets
+      @query
+      @read_query = true
+    end
+
+    def read_query?
+      @read_query
+    end
+  end
+
   def setup
-    @fake_connection = StringIO.new
+    @fake_connection = FakeConnection.new
   end
 
   def test_fixed_response_sends_the_specified_message
@@ -73,6 +88,16 @@ class BehaviorsTest < Test::Unit::TestCase
     query_server(create RandomResponse)
 
     assert (!response.empty?), "Should have served a nonempty response"
+  end
+
+  def test_refuse_all_http_credentials_sends_401_response_code
+    @fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
+
+    server = create(HttpRefuseAllCredentials)
+    query_server(server)
+
+    assert @fake_connection.read_query?, "Should have read the HTTP query before sending response"
+    assert_match /HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code'
   end
 
   def test_simple_name_strips_away_the_namespace

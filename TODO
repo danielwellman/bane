@@ -5,7 +5,9 @@
 - Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
 - Make and publish a gem
 - Write the bad TCP/IP behaviors - using something like C/C++.
-- Write the bad HTTP behaviors - this may require using something other than GServer for the Behavior server.
+- Write the remaining bad HTTP behaviors.  In addition, we may want to replace the NaiveHttpResponse with something
+  from the standard Ruby library, so that there's less code in this project, and so we know that we're
+  following the HTTP protocol.
 
 Ideas:
 - Make the Launcher use a Factory to create the server given a dependency, rather than depending directly on the
