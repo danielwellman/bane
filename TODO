@@ -1,13 +1,12 @@
 - Remove some duplication / clarify the ConfigurationParser class as needed
 - Dynamically create new behaviors like "SlowResponseForEachLine" by using Module.const_missing
-- Log every request to the server/behavior, in addition to open, close.  For this to work, it would have to be the
-  behavior's responsibility, since GServer#serve gets called only once for the lifetime of the connection.
-- Use ActiveSupport or other extensions for time durations (seconds, minutes, etc.)
-- Make and publish a gem
+- Use ActiveSupport or create simple extensions for time durations (seconds, minutes, etc.)
 - Write the bad TCP/IP behaviors - using something like C/C++.
 - Write the remaining bad HTTP behaviors.  In addition, we may want to replace the NaiveHttpResponse with something
   from the standard Ruby library, so that there's less code in this project, and so we know that we're
   following the HTTP protocol.
+- Log every request to the server/behavior, in addition to open, close.  For this to work, it would have to be the
+  behavior's responsibility, since GServer#serve gets called only once for the lifetime of the connection.
 
 Ideas:
 - Make the Launcher use a Factory to create the server given a dependency, rather than depending directly on the
