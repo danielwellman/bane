@@ -23,13 +23,17 @@ module Bane
       end
     end
 
-
+    # Closes the connection immediately after a connection is made.
     class CloseImmediately < BasicBehavior
       def serve(io, options)
         # do nothing
       end
     end
 
+    # Accepts a connection, pauses a fixed duration, then closes the connection.
+    #
+    # Options:
+    #   - duration: The number of seconds to wait before disconnect.  Default: 30
     class CloseAfterPause < BasicBehavior
       def serve(io, options)
         options = {:duration => 30}.merge(options)
@@ -38,6 +42,10 @@ module Bane
       end
     end
 
+    # Sends a static response.
+    #
+    # Options:
+    #   - message: The response message to send
     class FixedResponse < BasicBehavior
       def serve(io, options)
         options = {:message => "Hello, world!"}.merge(options)
@@ -50,6 +58,7 @@ module Bane
       include ForEachLine
     end
 
+    # Sends a random response.
     class RandomResponse < BasicBehavior
       def serve(io, options)
         io.write random_string
@@ -66,6 +75,11 @@ module Bane
       include ForEachLine
     end
 
+    # Sends a fixed response chacter-by-character, pausing in between each character.
+    #
+    # Options:
+    #  - message: The response to send
+    #  - pause_duration: The number of seconds to pause between each character.
     class SlowResponse < BasicBehavior
       def serve(io, options)
         options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
@@ -83,12 +97,18 @@ module Bane
       include ForEachLine
     end
 
+    # Accepts a connection and never sends a byte of data.  The connection is
+    # left open indefinitely.
     class NeverRespond < BasicBehavior
       def serve(io, options)
         loop { sleep 1 }
       end
     end
 
+    # Sends a large response.  Response consists of a repeated 'x' character.
+    #
+    # Options
+    #  - length: The size in bytes of the response to send.
     class DelugeResponse < BasicBehavior
       def serve(io, options)
         options = {:length => 1_000_000}.merge(options)
@@ -102,6 +122,10 @@ module Bane
       include ForEachLine
     end
 
+    # Sends an HTTP 401 response (Unauthorized) for every request.  This
+    # attempts to mimic an HTTP server by reading a line (the request)
+    # and then sending the response.  This behavior responds to all
+    # incoming request URLs on the running port. 
     class HttpRefuseAllCredentials < BasicBehavior
       UNAUTHORIZED_RESPONSE_BODY = <<EOF
 <!DOCTYPE html>
