@@ -45,7 +45,7 @@ module Bane
     # Sends a static response.
     #
     # Options:
-    #   - message: The response message to send
+    #   - message: The response message to send. Default: "Hello, world!"
     class FixedResponse < BasicBehavior
       def serve(io, options)
         options = {:message => "Hello, world!"}.merge(options)
@@ -78,8 +78,8 @@ module Bane
     # Sends a fixed response chacter-by-character, pausing in between each character.
     #
     # Options:
-    #  - message: The response to send
-    #  - pause_duration: The number of seconds to pause between each character.
+    #  - message: The response to send. Default: "Hello, world!"
+    #  - pause_duration: The number of seconds to pause between each character. Default: 10 seconds
     class SlowResponse < BasicBehavior
       def serve(io, options)
         options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
@@ -108,7 +108,7 @@ module Bane
     # Sends a large response.  Response consists of a repeated 'x' character.
     #
     # Options
-    #  - length: The size in bytes of the response to send.
+    #  - length: The size in bytes of the response to send. Default: 1,000,000 bytes
     class DelugeResponse < BasicBehavior
       def serve(io, options)
         options = {:length => 1_000_000}.merge(options)
