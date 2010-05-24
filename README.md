@@ -2,21 +2,29 @@
 
 Bane is a test harness used to test your application's interaction with other servers.  It is based upon the material from Michael Nygard's ["Release It!"](http://www.pragprog.com/titles/mnee/release-it) book as described in the "Test Harness" chapter.
 
+## Setup
+
+Bane is available as a gem.  Install it with
+
+  `sudo gem install bane`
+
+Note that Bane installs an executable, `bane`.  Simply invoke `bane` with no arguments to get a usage description.
+
 ## Usage
 
 Bane is designed with a few usage scenarios in mind:
 
 1. Quick start with a specific behavior from the command line.  If your application talks to another server on a given port, you can start Bane from the command line by specifying the desired port and a name of server behavior.  For example, if your server talks to a third-party server on port 8080, you could start the "Never Respond" behavior on port 8080 to observe how your application behaves.
 
-   Example:  `$ bin/bane 8080 NeverRespond`
+   Example:  `$ bane 8080 NeverRespond`
 
 2. Quick start with multiple specific behaviors from the command line.  This will start each behavior on consecutive ports.
 
-   Example:  `$ bin/bane 8080 NeverRespond CloseImmediately`
+   Example:  `$ bane 8080 NeverRespond CloseImmediately`
 
 3. Quick start with all known behaviors from the command line.  This also starts each behavior on a consecutive port, starting from the supplied starting port.  If you just want a general purpose test harness to run, and you can easily control the ports that your application talks to, you can start Bane up with a base port number and it will start all its known behaviors.  This way you can leave Bane running and tweak your application to talk to each of the various behaviors.
 
-   Example: `$ bin/bane 3000`
+   Example: `$ bane 3000`
 
 4. Advanced Configuration using Ruby.  If you want to modify some of the defaults used in the included behaviors, you can initialize Bane with a Hash of port numbers, behavior names, and configuration parameters.  For example, you might want to specify a response for the FixedResponse behavior:
 
