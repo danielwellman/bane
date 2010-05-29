@@ -1,0 +1,6 @@
+coverage
+pkg
+.idea/.rakeTasks
+.idea/projectCodeStyle.xml
+bane.gemspec
+
