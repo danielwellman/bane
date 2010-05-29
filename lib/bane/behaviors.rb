@@ -75,7 +75,7 @@ module Bane
       include ForEachLine
     end
 
-    # Sends a fixed response chacter-by-character, pausing in between each character.
+    # Sends a fixed response character-by-character, pausing between each character.
     #
     # Options:
     #  - message: The response to send. Default: "Hello, world!"
