@@ -3,4 +3,4 @@ pkg
 .idea/.rakeTasks
 .idea/projectCodeStyle.xml
 bane.gemspec
-
+.DS_Store
