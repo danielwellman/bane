@@ -6,21 +6,6 @@ class BehaviorsTest < Test::Unit::TestCase
 
   include Bane::Behaviors
 
-  class FakeConnection < StringIO
-    def will_send(query)
-      @query = query
-    end
-
-    def gets
-      @query
-      @read_query = true
-    end
-
-    def read_query?
-      @read_query
-    end
-  end
-
   def setup
     @fake_connection = FakeConnection.new
   end
@@ -96,12 +81,23 @@ class BehaviorsTest < Test::Unit::TestCase
     server = create(HttpRefuseAllCredentials)
     query_server(server)
 
-    assert @fake_connection.read_query?, "Should have read the HTTP query before sending response"
+    assert @fake_connection.read_all_queries?, "Should have read the HTTP query before sending response"
     assert_match /HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code'
   end
 
   def test_simple_name_strips_away_the_namespace
     assert_equal "SlowResponse", Bane::Behaviors::SlowResponse.simple_name
+  end
+
+  def test_for_each_line_reads_a_line_before_responding
+    server = create(Bane::Behaviors::FixedResponseForEachLine)
+
+    @fake_connection.will_send "irrelevant\n"
+
+    query_server(server, {:message => "Dynamic"})
+    assert_equal "Dynamic", response
+
+    assert @fake_connection.read_all_queries?
   end
 
   private
