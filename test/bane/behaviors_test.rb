@@ -16,8 +16,14 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_equal "Test Message", response
   end
 
+  def test_newline_response_sends_only_a_newline_character
+    query_server(create(NewlineResponse))
+
+    assert_equal "\n", response
+  end
+
   def test_deluge_response_sends_one_million_bytes_by_default
-    query_server(create DelugeResponse)
+    query_server(create(DelugeResponse))
 
     assert_response_length 1_000_000
   end
@@ -29,13 +35,13 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_close_immediately_sends_no_response
-    query_server(create CloseImmediately)
+    query_server(create(CloseImmediately))
 
     assert_empty_response()
   end
 
   def test_never_respond_never_sends_a_response
-    server = create NeverRespond
+    server = create(NeverRespond)
 
     assert_raise Timeout::Error do
       Timeout::timeout(3) { query_server(server) }
@@ -44,7 +50,7 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_close_after_pause_sleeps_30_seconds_by_default_and_sends_nothing
-    server = create CloseAfterPause
+    server = create(CloseAfterPause)
     server.expects(:sleep).with(30)
     
     query_server(server)
@@ -53,13 +59,13 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_close_after_pause_accepts_duration_parameter
-    server = create CloseAfterPause
+    server = create(CloseAfterPause)
 
     within(2) { query_server(server, :duration => 1) }
   end
 
   def test_slow_response_sends_a_message_slowly
-    server = create SlowResponse
+    server = create(SlowResponse)
     message = "Hi!"
     delay = 0.5
     max_delay = (message.length + 1) * delay
@@ -70,7 +76,7 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_random_response_sends_a_nonempty_response
-    query_server(create RandomResponse)
+    query_server(create(RandomResponse))
 
     assert (!response.empty?), "Should have served a nonempty response"
   end
