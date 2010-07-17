@@ -45,6 +45,14 @@ Bane is designed with a few usage scenarios in mind:
    See `examples/specify_behavior_options.rb` for another example.  For a list of options supported by the
    basic behaviors, see the source for the behaviors in `Bane::Behaviors` at `lib/bane/behaviors.rb`.
 
+## Keeping the Connection Open
+
+By default, the socket behaviors that send any data will close the connection immediately after sending the response.  There are variations of these behaviors available that end with `ForEachLine` which will wait for a line of input (using IO's `gets`), respond, then return to the waiting for input state.
+
+For example, if you want to send a static response and then close the connection immediately, use `FixedResponse`.  If you want to keep the connection open and respond to every line of input with the same data, use `FixedResponseForEachLine`.  Note that these behaviors will never close the connection; they will happily respond to every line of input until you stop Bane.
+
+If you are implementing a new behavior, you should consider whether or not you would like to provide another variation which keeps a connection open and responds after every line of input.  If so, create the basic behavior which responds and closes the connection immediately, then create another behavior which includes the `ForEachLine` module.  See the source in `lib/bane/behaviors.rb` for some examples.
+
 ## Background
 
 See the "Test Harness" chapter from "Release It!" to read about the inspiration of Bane.
