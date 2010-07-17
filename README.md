@@ -84,20 +84,3 @@ TCP packets at a low level; which may require a C or C++ extension.
 * The connection can be established, but packets could be lost causing retransmit delays
 * The connection can be established, but the remote end never acknowledges receiving a packet, causing endless retransmits
 
-## Design
-
-Bane Behaviors are simple objects which implement the Strategy pattern.  This makes them
-simple to unit test and allows them to be independent of the underlying server implementation.
-Bane currently serves all Behaviors using Ruby's built-in GServer, which provides a simple
-multi-threaded TCP server.  Behaviors currently:
-
-* Accept an IO stream used to read from or send a response.
-* Accept a hash of configuration options to allow overriding of default behavior parameters.
-* Provide a meaningful name to appear in the Bane log.  This is especially helpful if your application
-  under test dies and you'd like to identify which behavior killed it.
-
-To enable support of different types of behaviors such as HTTP responses or low-level TCP packet
-munging, a different base server instead of GServer may be required.  In that case, it should
-be possible to change how Behaviors are associated with a server, perhaps by making
-Behaviors extend a server base class.
-
