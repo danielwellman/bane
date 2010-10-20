@@ -3,11 +3,11 @@ module Bane
   class Configuration
 
     def initialize(configurations)
-      @configurations = configurations
+      @configuration_records = configurations
     end
 
     def start(logger)
-      @configurations.map do |config|
+      @configuration_records.map do |config|
         config.start(logger)
       end
     end
@@ -40,9 +40,6 @@ module Bane
 end
 
 # Helper method to easily create configuration.
-#
-# This should likely take the constructor block from the Configuration class
-# and then we can simplify this class so it's not so big.
 module Kernel
   def Configuration(*args)
     Bane::Configuration.new(Bane::ConfigurationParser.new(*args).configurations)

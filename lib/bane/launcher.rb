@@ -2,8 +2,8 @@ module Bane
 
   class Launcher
 
-    def initialize(configurations, logger = $stderr)
-      @configuration = configurations
+    def initialize(configuration, logger = $stderr)
+      @configuration = configuration
       @logger = logger
       @running_servers = []
     end
