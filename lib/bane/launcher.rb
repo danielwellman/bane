@@ -5,19 +5,18 @@ module Bane
     def initialize(configuration, logger = $stderr)
       @configuration = configuration
       @logger = logger
-      @running_servers = []
     end
 
     def start
-      @running_servers = @configuration.start(@logger)
+      @configuration.start(@logger)
     end
 
     def join
-      @running_servers.each { |server| server.join }
+      @configuration.join
     end
 
     def stop
-      @running_servers.each { |server| server.stop }
+      @configuration.stop
     end
 
   end

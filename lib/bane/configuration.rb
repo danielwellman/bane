@@ -7,10 +7,19 @@ module Bane
     end
 
     def start(logger)
-      @configuration_records.map do |config|
+      @running_servers = @configuration_records.map do |config|
         config.start(logger)
       end
     end
+
+    def join
+      @running_servers.each { |server| server.join }
+    end
+
+    def stop
+      @running_servers.each { |server| server.stop }
+    end
+    
 
     class ConfigurationRecord
 
