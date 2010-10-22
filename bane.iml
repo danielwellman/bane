@@ -2,7 +2,10 @@
 <module type="RUBY_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/rdoc" />
+    </content>
     <orderEntry type="jdk" jdkName="Ruby SDK 1.8.6 (/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby)" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] mocha (v0.9.8, /Users/wellman/.gem/ruby/1.8/gems/mocha-0.9.8)" level="application" />
