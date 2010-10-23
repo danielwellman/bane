@@ -1,5 +1,6 @@
 Refactor:
-- Simplify the ConfigurationParser/DelegatingGServer relationship
+- Simplify the ConfigurationRecord/DelegatingGServer relationship.  Should the ConfigurationParser directly create
+  DelegatingGServers?  Then we could delete the ConfigurationRecord class.
 - Deprecate the Configuration() method and create a few ConfigurationParser strategies rather than trying to be so flexible
 
 Remaining:
