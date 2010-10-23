@@ -38,11 +38,11 @@ class ConfigurationTest < Test::Unit::TestCase
 
   def start_configuration(target_port, behavior, options = {})
     configuration = configuration_with(target_port, behavior, options)
-    configuration.start(StringIO.new)
+    configuration.start
   end
 
   def configuration_with(port, behavior, options)
-    Configuration.new([Configuration::ConfigurationRecord.new(port, behavior, options)])
+    Configuration.new([Configuration::ConfigurationRecord.new(port, behavior, options)], StringIO.new)
   end
 
   def fake_server

@@ -2,13 +2,15 @@ module Bane
   
   class Configuration
 
-    def initialize(configurations)
+    def initialize(configurations, logger = $stderr)
       @configuration_records = configurations
+      @logger = logger
+      @running_servers = []
     end
 
-    def start(logger)
+    def start
       @running_servers = @configuration_records.map do |config|
-        config.start(logger)
+        config.start(@logger)
       end
     end
 

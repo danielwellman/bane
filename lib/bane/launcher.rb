@@ -2,13 +2,12 @@ module Bane
 
   class Launcher
 
-    def initialize(configuration, logger = $stderr)
+    def initialize(configuration)
       @configuration = configuration
-      @logger = logger
     end
 
     def start
-      @configuration.start(@logger)
+      @configuration.start
     end
 
     def join

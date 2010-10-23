@@ -7,10 +7,9 @@ class LauncherTest < Test::Unit::TestCase
 
   def test_start_delegates_to_configuration
     configuration = mock()
-    logger = stub()
-    launcher = Launcher.new(configuration, logger)
+    launcher = Launcher.new(configuration)
 
-    configuration.expects(:start).with(equals(logger))
+    configuration.expects(:start)
     launcher.start
   end
 end
