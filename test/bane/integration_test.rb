@@ -61,7 +61,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
                                 "Timeout" => 5)
       yield telnet.read
     ensure
-      telnet.close
+      telnet.close if telnet
     end
   end
 end

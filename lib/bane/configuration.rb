@@ -1,21 +1,5 @@
 module Bane
   
-  module Configuration
-
-    class ConfigurationRecord
-
-      attr_reader :port, :behavior, :options
-
-      def initialize(port, behavior, options = {})
-        @port = port
-        @behavior = behavior
-        @options = options
-      end
-
-    end
-
-  end
-
   class ConfigurationError < RuntimeError; end
 
   class UnknownBehaviorError < RuntimeError

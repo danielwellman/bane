@@ -2,18 +2,21 @@ require 'gserver'
 
 module Bane
   class DelegatingGServer < GServer
-    def initialize(port, behavior, options = {}, logger = $stderr)
+    def initialize(port, behavior, options = {})
       super(port)
       @behavior = behavior
       @options = options
       self.audit = true
-      self.stdlog = logger
     end
 
     def serve(io)
       @behavior.serve(io, @options)
     end
 
+    def to_s
+      "<Bane::DelegatingGServer: port=#{@port}, behavior=#{@behavior.class}, options=#{@options}>"
+    end
+    
     protected
 
     alias_method :original_log, :log

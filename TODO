@@ -1,6 +1,5 @@
 Refactor:
-- Simplify the ConfigurationRecord/DelegatingGServer relationship.  Should the ConfigurationParser directly create
-  DelegatingGServers?  Then we could delete the ConfigurationRecord class.
+- Figure out where the logger configuration logic belongs in the Launcher/DelegatingGServer relationship
 - Deprecate the Configuration() method and create a few ConfigurationParser strategies rather than trying to be so flexible
 - Should the default logger go to STDERR or STDOUT?
 

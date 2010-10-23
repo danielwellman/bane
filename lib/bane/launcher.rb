@@ -2,25 +2,24 @@ module Bane
 
   class Launcher
 
-    def initialize(configurations, logger = $stderr)
-      @configuration_records = configurations
+    def initialize(servers, logger = $stderr)
+      @servers = servers
       @logger = logger
-      @running_servers = []
     end
 
     def start
-      @running_servers = @configuration_records.map do |config|
-        new_server = DelegatingGServer.new(config.port, config.behavior.new, config.options, @logger)
-        new_server.start
+      @servers.each do |server|
+        server.stdlog = @logger
+        server.start
       end
     end
 
     def join
-      @running_servers.each { |server| server.join }
+      @servers.each { |server| server.join }
     end
 
     def stop
-      @running_servers.each { |server| server.stop }
+      @servers.each { |server| server.stop }
     end
 
   end

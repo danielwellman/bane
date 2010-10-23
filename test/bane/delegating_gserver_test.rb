@@ -45,8 +45,9 @@ class DelegatingGserverTest < Test::Unit::TestCase
 
   def assert_log_message_uses_short_behavior_name_for(method)
     logger = StringIO.new
-    server = DelegatingGServer.new(IRRELEVANT_PORT, Bane::Behaviors::CloseImmediately.new, IRRELEVANT_OPTIONS, logger)
-
+    server = DelegatingGServer.new(IRRELEVANT_PORT, Bane::Behaviors::CloseImmediately.new, IRRELEVANT_OPTIONS)
+    server.stdlog = logger
+    
     yield server
 
     assert_match /CloseImmediately/, logger.string, "Log for #{method} should contain class short name"

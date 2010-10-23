@@ -5,27 +5,25 @@ class ConfigurationParserTest < Test::Unit::TestCase
 
   include Bane
 
-  IRRELEVANT_BEHAVIOR = Module.new
+  IRRELEVANT_BEHAVIOR = Bane::Behaviors::CloseImmediately
 
   def test_should_map_single_port_and_server_name
-    parser = ConfigurationParser.new(3000, "CloseAfterPause")
-    assert_matches_configuration([
-            {:port => 3000, :behavior => Behaviors::CloseAfterPause}
-    ], parser)
+    expect_server_created_with :port => 3000, :behavior => Behaviors::CloseAfterPause
+
+    ConfigurationParser.new(3000, "CloseAfterPause")
   end
 
   def test_should_map_multiple_servers_given_one_starting_port
-    parser = ConfigurationParser.new(3000, "CloseImmediately", "CloseAfterPause")
-    assert_matches_configuration([
-            {:port => 3000, :behavior => Behaviors::CloseImmediately},
-            {:port => 3001, :behavior => Behaviors::CloseAfterPause}
-    ], parser)
+    expect_server_created_with :port => 3000, :behavior => Behaviors::CloseImmediately
+    expect_server_created_with :port => 3001, :behavior => Behaviors::CloseAfterPause
+
+    ConfigurationParser.new(3000, "CloseImmediately", "CloseAfterPause")
   end
 
   def test_should_map_string_port
-    parser = Bane::ConfigurationParser.new("3000", IRRELEVANT_BEHAVIOR)
-    actual = parser.configurations[0]
-    assert_equal 3000, actual.instance_variable_get(:@port), "Should have mapped port given a String"
+    expect_server_created_with :port => 3000, :behavior => IRRELEVANT_BEHAVIOR
+    
+    Bane::ConfigurationParser.new("3000", IRRELEVANT_BEHAVIOR)
   end
 
   def test_should_raise_if_unknown_server_name
@@ -35,21 +33,20 @@ class ConfigurationParserTest < Test::Unit::TestCase
   end
 
   def test_should_map_server_when_given_class
-    parser = ConfigurationParser.new(IRRELEVANT_PORT, Behaviors::CloseAfterPause)
-    actual = parser.configurations[0]
-    assert_equal Behaviors::CloseAfterPause, actual.instance_variable_get(:@behavior), "Wrong behavior"
+    expect_server_created_with :port => anything(), :behavior => Behaviors::CloseAfterPause
+
+    ConfigurationParser.new(IRRELEVANT_PORT, Behaviors::CloseAfterPause)
   end
 
   def test_should_ask_service_registry_for_all_behaviors_if_none_specified
     fake_behavior = unique_behavior
     another_fake_behavior = unique_behavior
 
+    expect_server_created_with :port => anything(), :behavior => fake_behavior
+    expect_server_created_with :port => anything(), :behavior => another_fake_behavior
+
     ServiceRegistry.expects(:all_servers).returns([fake_behavior, another_fake_behavior])
-    parser = ConfigurationParser.new(4000)
-    assert_matches_configuration([
-            {:port => 4000, :behavior => fake_behavior},
-            {:port => 4001, :behavior => another_fake_behavior}
-    ], parser)
+    ConfigurationParser.new(4000)
   end
 
   def test_should_raise_exception_if_no_arguments
@@ -65,60 +62,43 @@ class ConfigurationParserTest < Test::Unit::TestCase
   end
 
   def test_should_map_single_hash_entry_as_port_and_behavior
-    parser = ConfigurationParser.new(
+    expect_server_created_with :port => 10256, :behavior => Behaviors::CloseAfterPause
+
+    ConfigurationParser.new(
             10256 => Behaviors::CloseAfterPause
     )
-
-    assert_matches_configuration([
-            {:port => 10256, :behavior => Behaviors::CloseAfterPause}
-    ], parser)
   end
   
   def test_should_map_multiple_hash_entries_as_port_and_behavior
-    parser = ConfigurationParser.new(
+    expect_server_created_with :port => 10256, :behavior => Behaviors::CloseAfterPause
+    expect_server_created_with :port => 6450, :behavior => Behaviors::CloseImmediately
+
+    ConfigurationParser.new(
             10256 => Behaviors::CloseAfterPause,
             6450 => Behaviors::CloseImmediately
     )
-
-    assert_matches_configuration([
-            {:port => 10256, :behavior => Behaviors::CloseAfterPause},
-            {:port => 6450, :behavior => Behaviors::CloseImmediately}
-    ], parser)
   end
 
   def test_should_map_hash_with_options
-    parser = ConfigurationParser.new(
+    expect_server_created_with :port => 10256, :behavior => Behaviors::CloseAfterPause, :options => { :duration => 3 }
+    expect_server_created_with :port => 11239, :behavior => Behaviors::CloseImmediately
+
+    ConfigurationParser.new(
             10256 => {:behavior => Behaviors::CloseAfterPause, :duration => 3},
             11239 => Behaviors::CloseImmediately
     )
-    
-    assert_matches_configuration([
-            {:port => 10256, :behavior => Behaviors::CloseAfterPause},
-            {:port => 11239, :behavior => Behaviors::CloseImmediately}
-    ], parser)
   end
 
   private
 
-  def assert_matches_configuration(expected_config, actual_config)
-    actual_elements = actual_config.configurations
-    assert_equal expected_config.size, actual_elements.size, "Did not create correct number of configurations. Actual: #{actual_elements}, expected #{expected_config}"
-
-    expected_config.each do |expected|
-      # We make no guarantee on the order of the configurations
-      assert_includes_configuration(actual_elements, expected)
-    end
+  def expect_server_created_with(arguments)
+    arguments = { :options => anything() }.merge(arguments)
+    DelegatingGServer.expects(:new).with(arguments[:port], instance_of(arguments[:behavior]), arguments[:options])
   end
 
-  def assert_includes_configuration(actual_elements, expected)
-    expected_port = expected[:port]
-    matching_config = actual_elements.detect { |actual| actual.port == expected_port }
-    assert_not_nil matching_config, "Should have found a configuration with port #{expected_port}"
-    assert_equal expected[:behavior], matching_config.behavior, "Wrong behavior for port #{expected_port}"
-  end
-
+  
   def unique_behavior
-    Module.new
+    Class.new
   end
 
 end
