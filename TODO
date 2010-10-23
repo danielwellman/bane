@@ -2,6 +2,7 @@ Refactor:
 - Simplify the ConfigurationRecord/DelegatingGServer relationship.  Should the ConfigurationParser directly create
   DelegatingGServers?  Then we could delete the ConfigurationRecord class.
 - Deprecate the Configuration() method and create a few ConfigurationParser strategies rather than trying to be so flexible
+- Should the default logger go to STDERR or STDOUT?
 
 Remaining:
 - Write the bad TCP/IP behaviors - using something like C/C++.
