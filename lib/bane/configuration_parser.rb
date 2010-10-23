@@ -4,7 +4,6 @@ module Bane
 
     attr_reader :configurations
 
-
     def initialize(*args)
       @configurations = []
 
@@ -31,7 +30,7 @@ module Bane
 
     def setup_linear_ports(port, behavior_classes)
       behavior_classes.each_with_index do |behavior, index|
-        @configurations << Bane::Configuration::ConfigurationRecord.new(port + index, find(behavior))
+        @configurations << create_server(port + index, find(behavior))
       end
       @configurations
     end
@@ -59,14 +58,18 @@ module Bane
       case value
         when Module
           behavior = value
-          Bane::Configuration::ConfigurationRecord.new(port, behavior)
+          create_server(port, behavior)
         when Hash
           behavior = value.delete(:behavior)
           options = value
-          Bane::Configuration::ConfigurationRecord.new(port, behavior, options)
+          create_server(port, behavior, options)
         else
           raise ConfigurationError, "Unknown configuration option: #{value.inspect}"
       end
+    end
+
+    def create_server(port, behavior, options = {})
+      Bane::Configuration::ConfigurationRecord.new(port, behavior, options)
     end
 
   end
