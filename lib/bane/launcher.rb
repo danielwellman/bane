@@ -2,22 +2,26 @@ module Bane
 
   class Launcher
 
-    def initialize(configuration)
-      @configuration = configuration
+    def initialize(configurations, logger = $stderr)
+      @configuration_records = configurations
+      @logger = logger
+      @running_servers = []
     end
 
     def start
-      @configuration.start
+      @running_servers = @configuration_records.map do |config|
+        config.start(@logger)
+      end
     end
 
     def join
-      @configuration.join
+      @running_servers.each { |server| server.join }
     end
 
     def stop
-      @configuration.stop
+      @running_servers.each { |server| server.stop }
     end
 
   end
-
+  
 end

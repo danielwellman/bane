@@ -8,7 +8,7 @@ module Bane
   end
 end
 
-class ConfigurationTest < Test::Unit::TestCase
+class ConfigurationRecordTest < Test::Unit::TestCase
 
   include Bane
   
@@ -36,13 +36,13 @@ class ConfigurationTest < Test::Unit::TestCase
 
   private
 
-  def start_configuration(target_port, behavior, options = {})
-    configuration = configuration_with(target_port, behavior, options)
-    configuration.start
+  def quiet_logger
+    StringIO.new
   end
 
-  def configuration_with(port, behavior, options)
-    Configuration.new([Configuration::ConfigurationRecord.new(port, behavior, options)], StringIO.new)
+  def start_configuration(port, behavior, options = {})
+    configuration = Configuration::ConfigurationRecord.new(port, behavior, options)
+    configuration.start(quiet_logger)
   end
 
   def fake_server
