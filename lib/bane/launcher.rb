@@ -10,7 +10,8 @@ module Bane
 
     def start
       @running_servers = @configuration_records.map do |config|
-        config.start(@logger)
+        new_server = DelegatingGServer.new(config.port, config.behavior.new, config.options, @logger)
+        new_server.start
       end
     end
 

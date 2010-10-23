@@ -4,17 +4,14 @@ module Bane
 
     class ConfigurationRecord
 
+      attr_reader :port, :behavior, :options
+
       def initialize(port, behavior, options = {})
         @port = port
         @behavior = behavior
         @options = options
       end
 
-      def start(logger)
-        new_server = DelegatingGServer.new(@port, @behavior.new, @options, logger)
-        new_server.start
-        new_server
-      end
     end
 
   end

@@ -112,9 +112,9 @@ class ConfigurationParserTest < Test::Unit::TestCase
 
   def assert_includes_configuration(actual_elements, expected)
     expected_port = expected[:port]
-    matching_config = actual_elements.detect { |actual| actual.instance_variable_get(:@port) == expected_port }
+    matching_config = actual_elements.detect { |actual| actual.port == expected_port }
     assert_not_nil matching_config, "Should have found a configuration with port #{expected_port}"
-    assert_equal expected[:behavior], matching_config.instance_variable_get(:@behavior), "Wrong behavior for port #{expected_port}"
+    assert_equal expected[:behavior], matching_config.behavior, "Wrong behavior for port #{expected_port}"
   end
 
   def unique_behavior
