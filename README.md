@@ -84,3 +84,9 @@ TCP packets at a low level; which may require a C or C++ extension.
 * The connection can be established, but packets could be lost causing retransmit delays
 * The connection can be established, but the remote end never acknowledges receiving a packet, causing endless retransmits
 
+## For More Information
+
+See Bane's [wiki](http://github.com/danielwellman/bane/wiki), including the [FAQ](http://github.com/danielwellman/bane/wiki/FAQ).
+
+Join the Bane [Google Group](http://groups.google.com/group/bane-users) for questions about how to use Bane and development discussions.
+
