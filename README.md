@@ -86,6 +86,8 @@ TCP packets at a low level; which may require a C or C++ extension.
 
 ## For More Information
 
+Read a brief [introduction to Bane](http://blog.danielwellman.com/2010/09/introducing-bane-a-test-harness-for-server-connections.html).
+
 See Bane's [wiki](http://github.com/danielwellman/bane/wiki), including the [FAQ](http://github.com/danielwellman/bane/wiki/FAQ).
 
 Join the Bane [Google Group](http://groups.google.com/group/bane-users) for questions about how to use Bane and development discussions.
