@@ -4,7 +4,7 @@ Bane is a test harness used to test your application's interaction with other se
 
 ## Background
 
-If you are building an application, you may depend on third-party servers or web services for your data. Most of the time these services are reliable, but at some point they’ll behave in an unusual manner - connect but never respond, send data very slowly, or send an unexpected response. To ensure your application survives these scenarios, you should test your application against these bad behaviors. Bane helps you recreate these scenarios by standing in for your third-party servers and responding in several nefarious ways.
+If you are building an application, you may depend on third-party servers or web services for your data. Most of the time these services are reliable, but at some point they will behave in an unusual manner - such as connecting but never respond, sending data very slowly, or sending an unexpected response. To ensure your application survives these scenarios, you should test your application against these bad behaviors. Bane helps you recreate these scenarios by standing in for your third-party servers and responding in several nefarious ways.
 
 ## Setup
 
