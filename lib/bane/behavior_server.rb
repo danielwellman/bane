@@ -1,7 +1,7 @@
 require 'gserver'
 
 module Bane
-  class DelegatingGServer < GServer
+  class BehaviorServer < GServer
     def initialize(port, behavior, options = {})
       super(port)
       @behavior = behavior
@@ -14,7 +14,7 @@ module Bane
     end
 
     def to_s
-      "<Bane::DelegatingGServer: port=#{@port}, behavior=#{@behavior.class}, options=#{@options}>"
+      "<Bane::BehaviorServer: port=#{@port}, behavior=#{@behavior.class}, options=#{@options}>"
     end
     
     protected

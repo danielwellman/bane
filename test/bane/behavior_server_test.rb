@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'mocha'
 
-class DelegatingGserverTest < Test::Unit::TestCase
+class BehaviorServerTest < Test::Unit::TestCase
   include Bane
   
   IRRELEVANT_IO_STREAM = nil
@@ -9,7 +9,7 @@ class DelegatingGserverTest < Test::Unit::TestCase
 
   def test_serve_passes_a_hash_of_options_even_if_not_initialized_with_options
     behavior = mock()
-    server = DelegatingGServer.new(IRRELEVANT_PORT, behavior)
+    server = BehaviorServer.new(IRRELEVANT_PORT, behavior)
 
     behavior.expects(:serve).with(anything(), is_a(Hash))
 
@@ -20,7 +20,7 @@ class DelegatingGserverTest < Test::Unit::TestCase
     behavior = mock()
     
     initialized_options = {:expected => :options}
-    server = DelegatingGServer.new(IRRELEVANT_PORT, behavior, initialized_options)
+    server = BehaviorServer.new(IRRELEVANT_PORT, behavior, initialized_options)
 
     behavior.expects(:serve).with(anything(), equals(initialized_options))
 
@@ -45,7 +45,7 @@ class DelegatingGserverTest < Test::Unit::TestCase
 
   def assert_log_message_uses_short_behavior_name_for(method)
     logger = StringIO.new
-    server = DelegatingGServer.new(IRRELEVANT_PORT, Bane::Behaviors::CloseImmediately.new, IRRELEVANT_OPTIONS)
+    server = BehaviorServer.new(IRRELEVANT_PORT, Bane::Behaviors::CloseImmediately.new, IRRELEVANT_OPTIONS)
     server.stdlog = logger
     
     yield server

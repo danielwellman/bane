@@ -69,7 +69,7 @@ module Bane
     end
 
     def create_server(port, behavior, options = {})
-      DelegatingGServer.new(port, behavior.new, options)
+      BehaviorServer.new(port, behavior.new, options)
     end
 
   end
