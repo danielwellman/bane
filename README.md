@@ -2,6 +2,10 @@
 
 Bane is a test harness used to test your application's interaction with other servers.  It is based upon the material from Michael Nygard's ["Release It!"](http://www.pragprog.com/titles/mnee/release-it) book as described in the "Test Harness" chapter.
 
+## Background
+
+If you are building an application, you may depend on third-party servers or web services for your data. Most of the time these services are reliable, but at some point they’ll behave in an unusual manner - connect but never respond, send data very slowly, or send an unexpected response. To ensure your application survives these scenarios, you should test your application against these bad behaviors. Bane helps you recreate these scenarios by standing in for your third-party servers and responding in several nefarious ways.
+
 ## Setup
 
 Bane is available as a gem.  Install it with
@@ -83,12 +87,4 @@ TCP packets at a low level; which may require a C or C++ extension.
 * The remote end can report a full receive window and never drain the data.
 * The connection can be established, but packets could be lost causing retransmit delays
 * The connection can be established, but the remote end never acknowledges receiving a packet, causing endless retransmits
-
-## For More Information
-
-Read a brief [introduction to Bane](http://blog.danielwellman.com/2010/09/introducing-bane-a-test-harness-for-server-connections.html).
-
-See Bane's [wiki](http://github.com/danielwellman/bane/wiki), including the [FAQ](http://github.com/danielwellman/bane/wiki/FAQ).
-
-Join the Bane [Google Group](http://groups.google.com/group/bane-users) for questions about how to use Bane and development discussions.
 
