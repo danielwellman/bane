@@ -1,4 +1,7 @@
-require File.dirname(__FILE__) + '/../test_helper'
+# From Ruport:
+#require File.join(File.expand_path(File.dirname(__FILE__)), "helpers")
+
+require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
 require 'mocha'
 
 class BehaviorServerTest < Test::Unit::TestCase
