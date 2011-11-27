@@ -4,14 +4,11 @@ module Bane
 
     def initialize(servers, logger = $stderr)
       @servers = servers
-      @logger = logger
+      @servers.each { |server| server.stdlog = logger }
     end
 
     def start
-      @servers.each do |server|
-        server.stdlog = @logger
-        server.start
-      end
+      @servers.each { |server| server.start }
     end
 
     def join
