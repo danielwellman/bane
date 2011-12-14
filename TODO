@@ -1,3 +1,7 @@
+Feature:
+- Make Bane launch from Windows with "bane" command -- Create a bin\bane.bat file?
+- Allow Bane to listen on all addresses (0.0.0.0) rather than default local-only (127.0.0.1)
+
 Refactor:
 - Decide if the current behaviors should be tied more directly to BehaviorServer, via subclassing or some other way.
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship
