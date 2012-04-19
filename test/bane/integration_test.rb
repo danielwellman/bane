@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
-require 'net/telnet'
 require 'open-uri'
 
 class BaneIntegrationTest < Test::Unit::TestCase
@@ -8,7 +7,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
   def test_uses_specified_port_and_server
     run_server_with(TEST_PORT, "FixedResponse") do
-      telnet_to TEST_PORT do |response|
+      connect_to TEST_PORT do |response|
         assert !response.empty?, "Should have had a non-empty response"
       end
     end
@@ -20,7 +19,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
                              :message => expected_message}}
 
     run_server_with(options) do
-      telnet_to TEST_PORT do |response|
+      connect_to TEST_PORT do |response|
         assert_equal expected_message, response, "Wrong response from server"
       end
     end
@@ -54,14 +53,12 @@ class BaneIntegrationTest < Test::Unit::TestCase
     StringIO.new
   end
   
-  def telnet_to(port)
+  def connect_to(port)
     begin
-      telnet = Net::Telnet::new("Host" => "localhost",
-                                "Port" => port,
-                                "Timeout" => 5)
-      yield telnet.read
+      connection = TCPSocket.new "localhost", port
+      yield connection.read
     ensure
-      telnet.close if telnet
+      connection.close if connection
     end
   end
 end
