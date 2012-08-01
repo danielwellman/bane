@@ -7,6 +7,8 @@ Refactor:
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship
 - Deprecate the Configuration() method and create a few ConfigurationParser strategies rather than trying to be so flexible
 - Should the default logger go to STDERR or STDOUT?
+- Break the Behaviors out into several files and test files?
+- Remove duplication in sleep method calls in the behavior tests? Check consistency of verifying sleep in tests.
 
 Remaining:
 - Create a more configurable version of the DelugeResponse which allows for a header, footer, content and times to repeat.
