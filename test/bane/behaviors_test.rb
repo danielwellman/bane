@@ -44,33 +44,41 @@ class BehaviorsTest < Test::Unit::TestCase
     server = create(NeverRespond)
 
     assert_raise Timeout::Error do
-      Timeout::timeout(3) { query_server(server) }
+      Timeout::timeout(1) { query_server(server) }
     end
     assert_empty_response
   end
 
-  def test_close_after_pause_sleeps_30_seconds_by_default_and_sends_nothing
+  def test_close_after_pause_sleeps_30_seconds_by_default
     server = create(CloseAfterPause)
     server.expects(:sleep).with(30)
-    
-    query_server(server)
 
-    assert_empty_response
+    query_server(server)
   end
+
 
   def test_close_after_pause_accepts_duration_parameter
     server = create(CloseAfterPause)
+    server.expects(:sleep).with(1)
 
-    within(2) { query_server(server, :duration => 1) }
+    query_server(server, :duration => 1)
+  end
+
+  def test_close_after_pause_sends_nothing
+    server = create(CloseAfterPause)
+    server.stubs(:sleep)
+
+    query_server(server)
   end
 
   def test_slow_response_sends_a_message_slowly
-    server = create(SlowResponse)
     message = "Hi!"
     delay = 0.5
-    max_delay = (message.length + 1) * delay
 
-    within(max_delay) { query_server(server, :pause_duration => delay, :message => message)}
+    server = create(SlowResponse)
+    server.expects(:sleep).with(delay).at_least(message.length)
+
+    query_server(server, :pause_duration => delay, :message => message)
 
     assert_equal message, response
   end
@@ -126,14 +134,6 @@ class BehaviorsTest < Test::Unit::TestCase
 
   def assert_response_length(expected_length)
     assert_equal expected_length, response.length, "Response was the wrong length"
-  end
-
-  def within(duration)
-    begin
-      Timeout::timeout(duration) { yield }
-    rescue Timeout::Error
-      flunk "Test took too long - should have completed within #{duration} seconds."
-    end
   end
 
 end
