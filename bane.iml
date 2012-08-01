@@ -8,15 +8,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="bane (v0.2.0, ruby-1.8.7-p249) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="gemcutter (v0.7.1, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.0.0, ruby-1.8.7-p249) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="git (v1.2.5, ruby-1.8.7-p249) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="jeweler (v1.4.0, ruby-1.8.7-p249) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="json_pure (v1.7.3, ruby-1.8.7-p249) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mocha (v0.9.8, ruby-1.8.7-p249) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rake (v0.8.7, ruby-1.8.7-p249) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubyforge (v2.0.4, ruby-1.8.7-p249) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubygems-update (v1.3.7, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jeweler (v1.8.4, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="json (v1.7.4, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="metaclass (v0.0.1, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mocha (v0.12.1, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v0.9.2.2, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rcov (v1.0.0, ruby-1.8.7-p249) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rdoc (v3.12, ruby-1.8.7-p249) [gem]" level="application" />
   </component>
 </module>
 
