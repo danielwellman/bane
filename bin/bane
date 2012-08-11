@@ -15,3 +15,9 @@ else
   launcher.join
 end
 
+# failure_strategy = lambda { |message| puts message; exit 1; }
+# config = Configuration.from(ARGV, failure_strategy)
+
+# launcher = Bane::Launcher.new(config.servers)
+# launcher.start
+# launcher.join
