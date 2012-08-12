@@ -4,6 +4,8 @@ require 'mocha'
 class ConfigurationTest < Test::Unit::TestCase
   include Bane
 
+  IRRELEVANT_BEHAVIOR = "CloseImmediately"
+
   def test_creates_specified_behavior_on_given_port
     expect_server_created_with(:port => 3000, :behavior => Behaviors::CloseImmediately)
 
@@ -29,7 +31,20 @@ class ConfigurationTest < Test::Unit::TestCase
     create_configuration_for([3000, "CloseImmediately", "CloseAfterPause"])
   end
 
+  def test_dash_h_option_sets_listen_host
+    expect_server_created_with :host => "0.0.0.0"
 
+    create_configuration_for(["-h", "0.0.0.0", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+  end
+
+  def test_default_listen_host_is_localhost_if_dash_h_not_specified
+    expect_server_created_with :host => BehaviorServer::DEFAULT_HOST
+
+    create_configuration_for([IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+  end
+
+
+  # def_test_dash_H_prints_usage_message_and_fails_if_no_host_argument_specified
   private
 
   def create_configuration_for(array)
@@ -43,8 +58,10 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def expect_server_created_with(arguments)
-    arguments = { :options => anything() }.merge(arguments)
-    BehaviorServer.expects(:new).with(arguments[:port], instance_of(arguments[:behavior]), arguments[:options])
+    arguments = { :port => anything(), :host => anything() }.merge(arguments)
+    behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
+    BehaviorServer.expects(:new).with(arguments[:port], arguments[:host], 
+      behavior_matcher)
   end
 
 end
