@@ -12,15 +12,15 @@ module Bane
     end
 
     def parse
-     options = { :host => BehaviorServer::DEFAULT_HOST }
+      options = { :host => BehaviorServer::DEFAULT_HOST }
 
       OptionParser.new do |opts|
         opts.banner = "Usage: bane [options] port [behaviors]"
-        opts.on("-l", "--listen-localhost",
+        opts.on("-l", "--listen-on-localhost",
           "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
           options[:host] = BehaviorServer::DEFAULT_HOST
         end
-        opts.on("-a", "--listen-all", "Listen on all interfaces, 0.0.0.0") do
+        opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, 0.0.0.0") do
           options[:host] = BehaviorServer::ALL_INTERFACES
         end
       end.parse!(@args)
