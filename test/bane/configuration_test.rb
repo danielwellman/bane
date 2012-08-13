@@ -31,20 +31,30 @@ class ConfigurationTest < Test::Unit::TestCase
     create_configuration_for([3000, "CloseImmediately", "CloseAfterPause"])
   end
 
-  def test_dash_h_option_sets_listen_host
-    expect_server_created_with :host => "0.0.0.0"
-
-    create_configuration_for(["-h", "0.0.0.0", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
-  end
-
-  def test_default_listen_host_is_localhost_if_dash_h_not_specified
+  def test_dash_l_option_sets_listen_host_to_localhost
     expect_server_created_with :host => BehaviorServer::DEFAULT_HOST
 
-    create_configuration_for([IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    create_configuration_for(["-l", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
+  def test_listen_localhost_sets_listen_host_to_localhost
+    expect_server_created_with :host => BehaviorServer::DEFAULT_HOST
 
-  # def_test_dash_H_prints_usage_message_and_fails_if_no_host_argument_specified
+    create_configuration_for(["--listen-localhost", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+  end
+
+  def test_dash_a_option_sets_listen_host_to_all_interfaces
+    expect_server_created_with :host => BehaviorServer::ALL_INTERFACES
+
+    create_configuration_for(["-a", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+  end
+
+  def test_listen_all_option_sets_listen_host_to_all_interfaces
+    expect_server_created_with :host => BehaviorServer::ALL_INTERFACES
+
+    create_configuration_for(["--listen-all", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+  end
+
   private
 
   def create_configuration_for(array)

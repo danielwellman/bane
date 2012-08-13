@@ -2,6 +2,9 @@ require 'gserver'
 
 module Bane
   class BehaviorServer < GServer
+
+    ALL_INTERFACES = "0.0.0.0"
+
     def initialize(port, behavior, options = {})
       super(port)
       @behavior = behavior
