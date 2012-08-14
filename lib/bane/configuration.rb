@@ -14,30 +14,33 @@ module Bane
     def parse
       options = { :host => BehaviorServer::DEFAULT_HOST }
 
-      OptionParser.new do |opts|
+      option_parser = OptionParser.new do |opts|
         opts.banner = "Usage: bane [options] port [behaviors]"
+        opts.separator ""
         opts.on("-l", "--listen-on-localhost",
           "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
           options[:host] = BehaviorServer::DEFAULT_HOST
         end
-        opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, 0.0.0.0") do
+        opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (0.0.0.0)") do
           options[:host] = BehaviorServer::ALL_INTERFACES
         end
-      end.parse!(@args)
+      end
+      option_parser.parse!(@args)
 
-      if (@args.size == 1)
-        LinearPortMappedBehaviorConfiguration.new(Integer(@args[0]), ServiceRegistry.all_servers, options[:host])
-      elsif (@args.size >= 2)
-        behaviors = @args.drop(1).map { |behavior| find(behavior) }
-        LinearPortMappedBehaviorConfiguration.new(Integer(@args[0]), behaviors, options[:host])
+      port = Integer(@args[0])
+      behaviors = @args.drop(1).map { |behavior| find(behavior) }
+
+      if (behaviors.empty?)
+        LinearPortMappedBehaviorConfiguration.new(port, ServiceRegistry.all_servers, options[:host])
       else
-        raise "nothing"
+        LinearPortMappedBehaviorConfiguration.new(port, behaviors, options[:host])
       end
     end
 
     private 
 
     def find(behavior)
+      #TODO throw exception if not found
       Behaviors.const_get(behavior)      
     end
 
