@@ -1,18 +1,16 @@
-Feature:
+Features:
 - Make Bane launch from Windows with "bane" command -- Create a bin\bane.bat file?
 - Allow Bane to listen on all addresses (0.0.0.0) rather than default local-only (127.0.0.1)
 
-Refactor:
+Design questions:
 - Decide if the current behaviors should be tied more directly to BehaviorServer, via subclassing or some other way.
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship
 - Deprecate the Configuration() method and create a few ConfigurationParser strategies rather than trying to be so flexible
 - Should the default logger go to STDERR or STDOUT?
 - Break the Behaviors out into several files and test files?
-- Remove duplication in sleep method calls in the behavior tests? Check consistency of verifying sleep in tests.
 
-Remaining:
+Future Behaviors:
 - Create a more configurable version of the DelugeResponse which allows for a header, footer, content and times to repeat.
-- Write the bad TCP/IP behaviors - using something like C/C++.
 - Write the remaining bad HTTP behaviors.  In addition, we may want to replace the NaiveHttpResponse with something
   from the standard Ruby library, so that there's less code in this project, and so we know that we're
   following the HTTP protocol.
@@ -23,3 +21,18 @@ Ideas:
   applicable for some behaviors)
 - Log every request to the server/behavior, in addition to open, close.  For this to work, it would have to be the
   behavior's responsibility, since GServer#serve gets called only once for the lifetime of the connection.
+
+
+Current Task:
+- Print out usage on empty arguments
+- Print out all behaviors on empty arguments
+- Print out nice error message on bad arguments
+- Print out nice error message if unknown Behavior name
+- Extract methods/objects in Configuration
+- Rename Configuration to something more appropriate? (CommandLineConfiguration?)
+- Change bin/bane command to use new configuration code
+- Add Windows support
+- Document new way to programmatically create behaviors (as a list of BehaviorServers)
+- Add a deprecation warning to the Configuration() method
+- Bump version
+- Release new gem
