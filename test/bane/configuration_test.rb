@@ -55,10 +55,19 @@ class ConfigurationTest < Test::Unit::TestCase
     create_configuration_for(["--listen-on-all-hosts", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
+  def test_no_arguments_prints_usage_to_failure_handler
+    failure_message = String.new
+    failure_strategy = lambda { |message| failure_message << message }
+
+    Configuration.from([], failure_strategy)
+    
+    assert_match(/Usage/i, failure_message, "Should have logged a failure with the usage message")
+  end
+
   private
 
   def create_configuration_for(array)
-    config = Configuration.from(array)
+    config = Configuration.from(array, mock())
     config.servers
   end
 

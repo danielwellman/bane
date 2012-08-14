@@ -3,21 +3,9 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
-if ARGV.empty?
-  puts "Usage: bane port_number <servers>"
-  puts
-  puts "All behaviors:"
-  behavior_names = Bane::ServiceRegistry.all_servers.map(&:simple_name)
-  behavior_names.sort.each { |behavior| puts " - #{behavior}" }
-else
-  launcher = Bane::Launcher.new(Configuration(*ARGV))
-  launcher.start
-  launcher.join
-end
+failure_policy = lambda { |message| puts message; exit 1; }
+config = Bane::Configuration.from(ARGV, failure_policy)
 
-# failure_strategy = lambda { |message| puts message; exit 1; }
-# config = Configuration.from(ARGV, failure_strategy)
-
-# launcher = Bane::Launcher.new(config.servers)
-# launcher.start
-# launcher.join
+launcher = Bane::Launcher.new(config.servers)
+launcher.start
+launcher.join

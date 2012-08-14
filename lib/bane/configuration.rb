@@ -2,13 +2,14 @@ require 'optparse'
 
 module Bane
   class Configuration
-  	def self.from(args)
-      config = self.new(args)
-      results = config.parse
+  	def self.from(args, failure_policy = method(:raise))
+      config = self.new(args, failure_policy)
+      config.parse
   	end
 
-    def initialize(args)
+    def initialize(args, failure_policy)
       @args = args
+      @failure_policy = failure_policy
     end
 
     def parse
@@ -26,7 +27,15 @@ module Bane
         end
       end
       option_parser.parse!(@args)
+      # rescue OptionParser::InvalidOption or a namespaced OptionpParser::Exception (if even possible)?
 
+
+      if (@args.empty?)
+        @failure_policy.call(option_parser.help)
+        return nil;
+      end
+
+      # TODO Try to parse arguments here and catch, report errors to user
       port = Integer(@args[0])
       behaviors = @args.drop(1).map { |behavior| find(behavior) }
 

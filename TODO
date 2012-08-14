@@ -1,6 +1,7 @@
 Features:
 - Make Bane launch from Windows with "bane" command -- Create a bin\bane.bat file?
 - Allow Bane to listen on all addresses (0.0.0.0) rather than default local-only (127.0.0.1)
+- Quieter exits on Ctrl-C (than plain stack trace)
 
 Design questions:
 - Decide if the current behaviors should be tied more directly to BehaviorServer, via subclassing or some other way.
@@ -24,7 +25,6 @@ Ideas:
 
 
 Current Task:
-- Print out usage on empty arguments
 - Print out all behaviors on empty arguments
 - Print out nice error message on bad arguments
 - Print out nice error message if unknown Behavior name
