@@ -6,10 +6,11 @@ class BehaviorServerTest < Test::Unit::TestCase
   
   IRRELEVANT_IO_STREAM = nil
   IRRELEVANT_OPTIONS = {}
+  IRRELEVANT_HOST = "1.1.1.1"
 
   def test_serve_passes_a_hash_of_options_even_if_not_initialized_with_options
     behavior = mock()
-    server = BehaviorServer.new(IRRELEVANT_PORT, behavior)
+    server = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_HOST, behavior)
 
     behavior.expects(:serve).with(anything(), is_a(Hash))
 
@@ -20,7 +21,7 @@ class BehaviorServerTest < Test::Unit::TestCase
     behavior = mock()
     
     initialized_options = {:expected => :options}
-    server = BehaviorServer.new(IRRELEVANT_PORT, behavior, initialized_options)
+    server = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_HOST, behavior, initialized_options)
 
     behavior.expects(:serve).with(anything(), equals(initialized_options))
 
@@ -45,7 +46,7 @@ class BehaviorServerTest < Test::Unit::TestCase
 
   def assert_log_message_uses_short_behavior_name_for(method)
     logger = StringIO.new
-    server = BehaviorServer.new(IRRELEVANT_PORT, Bane::Behaviors::CloseImmediately.new, IRRELEVANT_OPTIONS)
+    server = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_HOST, Bane::Behaviors::CloseImmediately.new, IRRELEVANT_OPTIONS)
     server.stdlog = logger
     
     yield server

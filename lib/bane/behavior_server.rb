@@ -5,8 +5,8 @@ module Bane
 
     ALL_INTERFACES = "0.0.0.0"
 
-    def initialize(port, behavior, options = {})
-      super(port)
+    def initialize(port, host, behavior, options = {})
+      super(port, host)
       @behavior = behavior
       @options = options
       self.audit = true
