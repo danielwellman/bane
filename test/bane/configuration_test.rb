@@ -60,6 +60,11 @@ class ConfigurationTest < Test::Unit::TestCase
       "Should have logged a failure with the usage message")
   end
 
+  def test_non_integer_port_fails_with_error_message
+    assert_invaild_arguments_fail_matching_message(["text_instead_of_an_integer"], /Invalid Port Number/i,
+      "Should have indicated the port was invalid.")
+  end
+
   def test_unknown_behavior_fails_with_unknown_behavior_message
     assert_invaild_arguments_fail_matching_message([IRRELEVANT_PORT, "AnUknownBehavior"], /Unknown Behavior/i,
       "Should have indicated the given behavior is unknown.")

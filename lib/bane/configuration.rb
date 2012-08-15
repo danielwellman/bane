@@ -38,8 +38,13 @@ module Bane
         return nil;
       end
 
-      # TODO Try to parse arguments here and catch, report errors to user
-      port = Integer(@args[0])
+      begin
+        port = Integer(@args[0])
+      rescue ArgumentError => ae
+        @failure_policy.call("Invalid port number: #{@args[0]}")
+        return nil
+      end
+
       begin
         behaviors = @args.drop(1).map { |behavior| find(behavior) }
       rescue UnknownBehaviorError => ube
