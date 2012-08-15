@@ -19,7 +19,7 @@ class ConfigurationTest < Test::Unit::TestCase
     expect_server_created_with :port => 4000, :behavior => first_behavior
     expect_server_created_with :port => 4001, :behavior => second_behavior
 
-    ServiceRegistry.expects(:all_servers).returns([first_behavior, second_behavior])
+    ServiceRegistry.stubs(:all_servers).returns([first_behavior, second_behavior])
 
     create_configuration_for([4000])
   end
@@ -77,7 +77,6 @@ class ConfigurationTest < Test::Unit::TestCase
     config = Configuration.from(array, mock())
     config.servers
   end
-
 
   def unique_behavior
     Class.new
