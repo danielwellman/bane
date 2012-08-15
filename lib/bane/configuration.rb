@@ -22,12 +22,12 @@ module Bane
           "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
           options[:host] = BehaviorServer::DEFAULT_HOST
         end
-        opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (0.0.0.0)") do
+        opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
           options[:host] = BehaviorServer::ALL_INTERFACES
         end
       end
       option_parser.parse!(@args)
-      # rescue OptionParser::InvalidOption or a namespaced OptionpParser::Exception (if even possible)?
+      # rescue OptionParser::InvalidOption or a namespaced OptionParser::Exception (if even possible)?
 
 
       if (@args.empty?)
@@ -37,7 +37,12 @@ module Bane
 
       # TODO Try to parse arguments here and catch, report errors to user
       port = Integer(@args[0])
-      behaviors = @args.drop(1).map { |behavior| find(behavior) }
+      begin
+        behaviors = @args.drop(1).map { |behavior| find(behavior) }
+      rescue UnknownBehaviorError => ube
+        @failure_policy.call(ube.message)
+        return nil
+      end
 
       if (behaviors.empty?)
         LinearPortMappedBehaviorConfiguration.new(port, ServiceRegistry.all_servers, options[:host])
@@ -49,7 +54,7 @@ module Bane
     private 
 
     def find(behavior)
-      #TODO throw exception if not found
+      raise UnknownBehaviorError.new(behavior) unless Behaviors.const_defined?(behavior)
       Behaviors.const_get(behavior)      
     end
 

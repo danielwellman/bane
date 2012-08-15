@@ -64,6 +64,16 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_match(/Usage/i, failure_message, "Should have logged a failure with the usage message")
   end
 
+  def test_unknown_behavior_prints_failure_to_failure_handler
+    failure_message = String.new
+    failure_strategy = lambda { |message| failure_message << message }
+
+    Configuration.from([IRRELEVANT_PORT, "AnUknownBehavior"], failure_strategy)
+
+    assert_match(/Unknown Behavior/i, failure_message, "Should have indicated the given behavior is unknown.")
+  end
+
+
   private
 
   def create_configuration_for(array)
