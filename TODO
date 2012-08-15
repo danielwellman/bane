@@ -28,7 +28,6 @@ Current Task:
 - Print out all behaviors on empty arguments
 - Extract methods/objects in Configuration
 - Rename Configuration to something more appropriate? (CommandLineConfiguration?)
-- Change bin/bane command to use new configuration code
 - Add Windows support
 - Document new way to programmatically create behaviors (as a list of BehaviorServers)
 - Add a deprecation warning to the Configuration() method
