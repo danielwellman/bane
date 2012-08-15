@@ -26,7 +26,6 @@ Ideas:
 
 Current Task:
 - Print out all behaviors on empty arguments
-- Print out nice error message on bad arguments
 - Extract methods/objects in Configuration
 - Rename Configuration to something more appropriate? (CommandLineConfiguration?)
 - Change bin/bane command to use new configuration code

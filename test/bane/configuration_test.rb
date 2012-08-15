@@ -55,22 +55,19 @@ class ConfigurationTest < Test::Unit::TestCase
     create_configuration_for(["--listen-on-all-hosts", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
-  def test_no_arguments_prints_usage_to_failure_handler
-    failure_message = String.new
-    failure_strategy = lambda { |message| failure_message << message }
-
-    Configuration.from([], failure_strategy)
-    
-    assert_match(/Usage/i, failure_message, "Should have logged a failure with the usage message")
+  def test_no_arguments_fails_prints_usage_message
+    assert_invaild_arguments_fail_matching_message([], /Usage/i, 
+      "Should have logged a failure with the usage message")
   end
 
-  def test_unknown_behavior_prints_failure_to_failure_handler
-    failure_message = String.new
-    failure_strategy = lambda { |message| failure_message << message }
+  def test_unknown_behavior_fails_with_unknown_behavior_message
+    assert_invaild_arguments_fail_matching_message([IRRELEVANT_PORT, "AnUknownBehavior"], /Unknown Behavior/i,
+      "Should have indicated the given behavior is unknown.")
+  end
 
-    Configuration.from([IRRELEVANT_PORT, "AnUknownBehavior"], failure_strategy)
-
-    assert_match(/Unknown Behavior/i, failure_message, "Should have indicated the given behavior is unknown.")
+  def test_invalid_option_fails_with_error_message
+    assert_invaild_arguments_fail_matching_message(["--unknown-option", IRRELEVANT_PORT], /Invalid Option/i,
+      "Should have indicated the --uknown-option switch was unknown.")
   end
 
 
@@ -91,6 +88,15 @@ class ConfigurationTest < Test::Unit::TestCase
     behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
     BehaviorServer.expects(:new).with(arguments[:port], arguments[:host], 
       behavior_matcher)
+  end
+
+  def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
+    actual_message = String.new
+    failure_strategy = lambda { |message| actual_message << message }
+
+    Configuration.from(arguments, failure_strategy)
+    
+    assert_match(message_matcher, actual_message, assertion_failure_message)    
   end
 
 end

@@ -15,20 +15,23 @@ module Bane
     def parse
       options = { :host => BehaviorServer::DEFAULT_HOST }
 
-      option_parser = OptionParser.new do |opts|
-        opts.banner = "Usage: bane [options] port [behaviors]"
-        opts.separator ""
-        opts.on("-l", "--listen-on-localhost",
-          "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
-          options[:host] = BehaviorServer::DEFAULT_HOST
+      begin
+        option_parser = OptionParser.new do |opts|
+          opts.banner = "Usage: bane [options] port [behaviors]"
+          opts.separator ""
+          opts.on("-l", "--listen-on-localhost",
+            "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
+            options[:host] = BehaviorServer::DEFAULT_HOST
+          end
+          opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
+            options[:host] = BehaviorServer::ALL_INTERFACES
+          end
         end
-        opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
-          options[:host] = BehaviorServer::ALL_INTERFACES
-        end
+        option_parser.parse!(@args)
+      rescue OptionParser::InvalidOption => io
+        @failure_policy.call(io.message)
+        return nil
       end
-      option_parser.parse!(@args)
-      # rescue OptionParser::InvalidOption or a namespaced OptionParser::Exception (if even possible)?
-
 
       if (@args.empty?)
         @failure_policy.call(option_parser.help)
@@ -44,11 +47,8 @@ module Bane
         return nil
       end
 
-      if (behaviors.empty?)
-        LinearPortMappedBehaviorConfiguration.new(port, ServiceRegistry.all_servers, options[:host])
-      else
-        LinearPortMappedBehaviorConfiguration.new(port, behaviors, options[:host])
-      end
+      behaviors = ServiceRegistry.all_servers if behaviors.empty?
+      LinearPortMappedBehaviorConfiguration.new(port, behaviors, options[:host])
     end
 
     private 
