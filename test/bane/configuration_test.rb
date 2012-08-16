@@ -55,8 +55,8 @@ class ConfigurationTest < Test::Unit::TestCase
     create_configuration_for(["--listen-on-all-hosts", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
-  def test_no_arguments_fails_prints_usage_message
-    assert_invaild_arguments_fail_matching_message([], /Usage/i, 
+  def test_no_arguments_prints_usage_message
+    assert_prints_message([], /Usage/i, 
       "Should have logged a failure with the usage message")
   end
 
@@ -94,13 +94,21 @@ class ConfigurationTest < Test::Unit::TestCase
       behavior_matcher)
   end
 
-  def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
+  def assert_prints_message(arguments, message_matcher, assertion_failure_message)
     actual_message = String.new
-    failure_strategy = lambda { |message| actual_message << message }
+    notification_policy = lambda { |message| actual_message << message }
 
-    Configuration.from(arguments, failure_strategy)
+    Configuration.from(arguments, notification_policy)
     
     assert_match(message_matcher, actual_message, assertion_failure_message)    
   end
+
+  def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
+    Configuration.from(arguments, mock())
+    fail "Should have failed"
+    rescue ConfigurationError => ce
+      assert_match(message_matcher, ce.message, assertion_failure_message)
+  end
+
 
 end
