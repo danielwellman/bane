@@ -2,11 +2,6 @@ require 'optparse'
 
 module Bane
   class Configuration
-  	def self.from(args)
-      config = self.new(args)
-      config.parse
-  	end
-
     def initialize(args)
       @args = args
       @options = { :host => BehaviorServer::DEFAULT_HOST }
@@ -31,7 +26,7 @@ module Bane
 
     private 
 
-    def init_option_parser()
+    def init_option_parser
       OptionParser.new do |opts|
         opts.banner = "Usage: bane [options] port [behaviors]"
         opts.separator ""

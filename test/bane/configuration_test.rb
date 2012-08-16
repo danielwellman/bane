@@ -56,7 +56,7 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def test_no_arguments_returns_nil_configuration
-    assert_equal(nil, Configuration.from([]),
+    assert_equal(nil, Configuration.new([]).parse,
       "Should have returned no configurations for empty arguments")
   end
 
@@ -79,7 +79,7 @@ class ConfigurationTest < Test::Unit::TestCase
   private
 
   def create_configuration_for(array)
-    config = Configuration.from(array)
+    config = Configuration.new(array).parse
     config.servers
   end
 
@@ -95,7 +95,7 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
-    Configuration.from(arguments)
+    Configuration.new(arguments).parse
     fail "Should have failed"
     rescue ConfigurationError => ce
       assert_match(message_matcher, ce.message, assertion_failure_message)
