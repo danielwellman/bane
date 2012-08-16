@@ -55,9 +55,9 @@ class ConfigurationTest < Test::Unit::TestCase
     create_configuration_for(["--listen-on-all-hosts", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
-  def test_no_arguments_prints_usage_message
-    assert_prints_message([], /Usage/i, 
-      "Should have logged a failure with the usage message")
+  def test_no_arguments_returns_nil_configuration
+    assert_equal(nil, Configuration.from([]),
+      "Should have returned no configurations for empty arguments")
   end
 
   def test_non_integer_port_fails_with_error_message
@@ -79,7 +79,7 @@ class ConfigurationTest < Test::Unit::TestCase
   private
 
   def create_configuration_for(array)
-    config = Configuration.from(array, mock())
+    config = Configuration.from(array)
     config.servers
   end
 
@@ -94,17 +94,8 @@ class ConfigurationTest < Test::Unit::TestCase
       behavior_matcher)
   end
 
-  def assert_prints_message(arguments, message_matcher, assertion_failure_message)
-    actual_message = String.new
-    notification_policy = lambda { |message| actual_message << message }
-
-    Configuration.from(arguments, notification_policy)
-    
-    assert_match(message_matcher, actual_message, assertion_failure_message)    
-  end
-
   def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
-    Configuration.from(arguments, mock())
+    Configuration.from(arguments)
     fail "Should have failed"
     rescue ConfigurationError => ce
       assert_match(message_matcher, ce.message, assertion_failure_message)

@@ -3,14 +3,20 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
-failure_policy = lambda { |message| puts message; exit 0; }
+config = Bane::Configuration.new(ARGV)
 begin
-  config = Bane::Configuration.from(ARGV, failure_policy)
+  servers = config.parse
 rescue Bane::ConfigurationError => ce
   puts ce.message
+  puts config.usage
   exit 1
 end
 
-launcher = Bane::Launcher.new(config.servers)
+if servers.nil?
+  puts config.usage
+  exit 0
+end
+
+launcher = Bane::Launcher.new(servers.servers)
 launcher.start
 launcher.join

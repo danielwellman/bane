@@ -2,48 +2,51 @@ require 'optparse'
 
 module Bane
   class Configuration
-  	def self.from(args, safe_exit_policy = method(:raise))
-      config = self.new(args, safe_exit_policy)
+  	def self.from(args)
+      config = self.new(args)
       config.parse
   	end
 
-    def initialize(args, safe_exit_policy)
+    def initialize(args)
       @args = args
-      @safe_exit_policy = safe_exit_policy
+      @options = { :host => BehaviorServer::DEFAULT_HOST }
+      @option_parser = init_option_parser
     end
 
     def parse
-      options = { :host => BehaviorServer::DEFAULT_HOST }
-      option_parser = parse_options(options)
+      parse_options(@options)
 
-      if (@args.empty?)
-        @safe_exit_policy.call(option_parser.help)
-        return nil;
-      end
+      return nil if (@args.empty?)
 
       port = parse_port
       behaviors = parse_behaviors
 
       behaviors = ServiceRegistry.all_servers if behaviors.empty?
-      LinearPortMappedBehaviorConfiguration.new(port, behaviors, options[:host])
+      LinearPortMappedBehaviorConfiguration.new(port, behaviors, @options[:host])
+    end
+
+    def usage
+      @option_parser.help
     end
 
     private 
 
-    def parse_options(options)
-      option_parser = OptionParser.new do |opts|
+    def init_option_parser()
+      OptionParser.new do |opts|
         opts.banner = "Usage: bane [options] port [behaviors]"
         opts.separator ""
         opts.on("-l", "--listen-on-localhost",
           "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
-          options[:host] = BehaviorServer::DEFAULT_HOST
+          @options[:host] = BehaviorServer::DEFAULT_HOST
         end
         opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
-          options[:host] = BehaviorServer::ALL_INTERFACES
+          @options[:host] = BehaviorServer::ALL_INTERFACES
         end
       end
-      option_parser.parse!(@args)
-      option_parser
+    end
+
+    def parse_options(options)
+      @option_parser.parse!(@args)
       rescue OptionParser::InvalidOption => io
         raise ConfigurationError, io.message
     end
