@@ -11,13 +11,13 @@ module Bane
     def parse
       parse_options(@options)
 
-      return nil if (@args.empty?)
+      return [] if (@args.empty?)
 
       port = parse_port
       behaviors = parse_behaviors
 
       behaviors = ServiceRegistry.all_servers if behaviors.empty?
-      LinearPortMappedBehaviorConfiguration.new(port, behaviors, @options[:host])
+      LinearPortMappedBehaviorConfiguration.new(port, behaviors, @options[:host]).servers
     end
 
     def usage

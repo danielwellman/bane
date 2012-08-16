@@ -12,11 +12,11 @@ rescue Bane::ConfigurationError => ce
   exit 1
 end
 
-if servers.nil?
+if servers.empty?
   puts config.usage
   exit 0
 end
 
-launcher = Bane::Launcher.new(servers.servers)
+launcher = Bane::Launcher.new(servers)
 launcher.start
 launcher.join

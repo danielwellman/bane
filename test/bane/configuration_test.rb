@@ -55,8 +55,8 @@ class ConfigurationTest < Test::Unit::TestCase
     create_configuration_for(["--listen-on-all-hosts", IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
-  def test_no_arguments_returns_nil_configuration
-    assert_equal(nil, Configuration.new([]).parse,
+  def test_no_arguments_returns_empty_configuration
+    assert(create_configuration_for([]).empty?,
       "Should have returned no configurations for empty arguments")
   end
 
@@ -79,8 +79,7 @@ class ConfigurationTest < Test::Unit::TestCase
   private
 
   def create_configuration_for(array)
-    config = Configuration.new(array).parse
-    config.servers
+    Configuration.new(array).parse
   end
 
   def unique_behavior
