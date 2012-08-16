@@ -79,7 +79,7 @@ class ConfigurationTest < Test::Unit::TestCase
   private
 
   def create_configuration_for(array)
-    Configuration.new(array).parse
+    Configuration.new().parse(array)
   end
 
   def unique_behavior
@@ -94,7 +94,7 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
-    Configuration.new(arguments).parse
+    create_configuration_for(arguments)
     fail "Should have failed"
     rescue ConfigurationError => ce
       assert_match(message_matcher, ce.message, assertion_failure_message)

@@ -2,19 +2,18 @@ require 'optparse'
 
 module Bane
   class Configuration
-    def initialize(args)
-      @args = args
+    def initialize()
       @options = { :host => BehaviorServer::DEFAULT_HOST }
       @option_parser = init_option_parser
     end
 
-    def parse
-      parse_options(@options)
+    def parse(args)
+      parse_options(@options, args)
 
-      return [] if (@args.empty?)
+      return [] if (args.empty?)
 
-      port = parse_port
-      behaviors = parse_behaviors
+      port = parse_port(args)
+      behaviors = parse_behaviors(args)
 
       behaviors = ServiceRegistry.all_servers if behaviors.empty?
       LinearPortMappedBehaviorConfiguration.new(port, behaviors, @options[:host]).servers
@@ -40,20 +39,20 @@ module Bane
       end
     end
 
-    def parse_options(options)
-      @option_parser.parse!(@args)
+    def parse_options(options, args)
+      @option_parser.parse!(args)
       rescue OptionParser::InvalidOption => io
         raise ConfigurationError, io.message
     end
 
-    def parse_port
-      Integer(@args[0])
+    def parse_port(args)
+      Integer(args[0])
       rescue ArgumentError => ae
-        raise ConfigurationError, "Invalid port number: #{@args[0]}"
+        raise ConfigurationError, "Invalid port number: #{args[0]}"
     end
 
-    def parse_behaviors
-      @args.drop(1).map { |behavior| find(behavior) }
+    def parse_behaviors(args)
+      args.drop(1).map { |behavior| find(behavior) }
       rescue UnknownBehaviorError => ube
         raise ConfigurationError, ube.message
     end

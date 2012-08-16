@@ -3,9 +3,9 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
-config = Bane::Configuration.new(ARGV)
+config = Bane::Configuration.new()
 begin
-  servers = config.parse
+  servers = config.parse(ARGV)
 rescue Bane::ConfigurationError => ce
   puts ce.message
   puts config.usage
