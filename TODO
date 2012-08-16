@@ -25,8 +25,6 @@ Ideas:
 
 
 Current Task:
-- Remove .servers method
-  - Clean up test test_no_arguments_returns_nil_configuration
 - Print out all behaviors on empty arguments
 - Extract methods/objects in Configuration
 - Rename Configuration to something more appropriate? (CommandLineConfiguration?)
