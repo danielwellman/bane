@@ -12,8 +12,8 @@ module Bane
 
       return [] if (args.empty?)
 
-      port = parse_port(args)
-      behaviors = parse_behaviors(args)
+      port = parse_port(args[0])
+      behaviors = parse_behaviors(args.drop(1))
 
       behaviors = ServiceRegistry.all_servers if behaviors.empty?
       LinearPortMappedBehaviorConfiguration.new(port, behaviors, @options[:host]).servers
@@ -45,14 +45,14 @@ module Bane
         raise ConfigurationError, io.message
     end
 
-    def parse_port(args)
-      Integer(args[0])
+    def parse_port(port)
+      Integer(port)
       rescue ArgumentError => ae
-        raise ConfigurationError, "Invalid port number: #{args[0]}"
+        raise ConfigurationError, "Invalid port number: #{port}"
     end
 
-    def parse_behaviors(args)
-      args.drop(1).map { |behavior| find(behavior) }
+    def parse_behaviors(behaviors)
+      behaviors.map { |behavior| find(behavior) }
       rescue UnknownBehaviorError => ube
         raise ConfigurationError, ube.message
     end
