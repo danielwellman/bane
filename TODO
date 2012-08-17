@@ -4,6 +4,8 @@ Features:
 
 Design questions:
 - Is there a natural separation in Configuration between parsing arguments and instantiating/finding behaviors?
+  In particular, mocking "new" on a class seems to be a smell -- at least because I keep forgetting that 'new' must
+  return an object, and my mocks didn't do that (see CommandLineConfigurationTest, and the messier ConfigurationParserTest)
 - Explore the ServiceRegistry usage -- should "find" behaviors be there? Printing?
 - Decide if the current behaviors should be tied more directly to BehaviorServer, via subclassing or some other way.
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship

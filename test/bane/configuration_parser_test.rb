@@ -93,7 +93,10 @@ class ConfigurationParserTest < Test::Unit::TestCase
 
   def expect_server_created_with(arguments)
     arguments = { :options => anything() }.merge(arguments)
-    BehaviorServer.expects(:new).with(arguments[:port], instance_of(arguments[:behavior]), BehaviorServer::DEFAULT_HOST, arguments[:options])
+    a_behavior_instance = "an instance of #{arguments[:behavior]}.to_s"
+    behavior = arguments[:behavior]
+    behavior.expects(:new).with(arguments[:options]).returns(a_behavior_instance)
+    BehaviorServer.expects(:new).with(arguments[:port], a_behavior_instance, BehaviorServer::DEFAULT_HOST)
   end
 
   

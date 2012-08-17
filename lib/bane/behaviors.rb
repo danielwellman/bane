@@ -16,16 +16,16 @@ module Bane
     # a "while(io.gets)" loop, which reads a line from the input and
     # then performs the given behavior.
     module ForEachLine
-      def serve(io, options)
+      def serve(io)
         while (io.gets)
-          super(io, options)
+          super(io)
         end
       end
     end
 
     # Closes the connection immediately after a connection is made.
     class CloseImmediately < BasicBehavior
-      def serve(io, options)
+      def serve(io)
         # do nothing
       end
     end
@@ -35,10 +35,12 @@ module Bane
     # Options:
     #   - duration: The number of seconds to wait before disconnect.  Default: 30
     class CloseAfterPause < BasicBehavior
-      def serve(io, options)
-        options = {:duration => 30}.merge(options)
+      def initialize(options = {})
+        @options = {:duration => 30}.merge(options)
+      end
 
-        sleep(options[:duration])
+      def serve(io)
+        sleep(@options[:duration])
       end
     end
 
@@ -47,10 +49,12 @@ module Bane
     # Options:
     #   - message: The response message to send. Default: "Hello, world!"
     class FixedResponse < BasicBehavior
-      def serve(io, options)
-        options = {:message => "Hello, world!"}.merge(options)
+      def initialize(options = {})
+        @options = {:message => "Hello, world!"}.merge(options)
+      end
 
-        io.write options[:message]
+      def serve(io)
+        io.write @options[:message]
       end
     end
 
@@ -60,7 +64,7 @@ module Bane
 
     # Sends a newline character as the only response 
     class NewlineResponse < BasicBehavior
-      def serve(io, options)
+      def serve(io)
         io.write "\n"
       end
     end
@@ -71,7 +75,7 @@ module Bane
 
     # Sends a random response.
     class RandomResponse < BasicBehavior
-      def serve(io, options)
+      def serve(io)
         io.write random_string
       end
 
@@ -92,10 +96,13 @@ module Bane
     #  - message: The response to send. Default: "Hello, world!"
     #  - pause_duration: The number of seconds to pause between each character. Default: 10 seconds
     class SlowResponse < BasicBehavior
-      def serve(io, options)
-        options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
-        message = options[:message]
-        pause_duration = options[:pause_duration]
+      def initialize(options = {})
+        @options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
+      end
+
+      def serve(io)
+        message = @options[:message]
+        pause_duration = @options[:pause_duration]
 
         message.each_char do |char|
           io.write char
@@ -111,7 +118,7 @@ module Bane
     # Accepts a connection and never sends a byte of data.  The connection is
     # left open indefinitely.
     class NeverRespond < BasicBehavior
-      def serve(io, options)
+      def serve(io)
         loop { sleep 1 }
       end
     end
@@ -121,9 +128,11 @@ module Bane
     # Options
     #  - length: The size in bytes of the response to send. Default: 1,000,000 bytes
     class DelugeResponse < BasicBehavior
-      def serve(io, options)
-        options = {:length => 1_000_000}.merge(options)
-        length = options[:length]
+      def initialize(options = {})
+        @options = {:length => 1_000_000}.merge(options)
+      end
+      def serve(io)
+        length = @options[:length]
 
         length.times { io.write('x') }
       end
@@ -150,7 +159,7 @@ module Bane
 </html>
 EOF
 
-      def serve(io, options)
+      def serve(io)
         io.gets # Read the request before responding
         response = NaiveHttpResponse.new(401, "Unauthorized", "text/html", UNAUTHORIZED_RESPONSE_BODY)
         io.write(response.to_s)

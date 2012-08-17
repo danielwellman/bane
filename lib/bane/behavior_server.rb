@@ -5,19 +5,18 @@ module Bane
 
     ALL_INTERFACES = "0.0.0.0"
 
-    def initialize(port, behavior, host = BehaviorServer::DEFAULT_HOST, options = {})
+    def initialize(port, behavior, host = BehaviorServer::DEFAULT_HOST)
       super(port, host)
       @behavior = behavior
-      @options = options
       self.audit = true
     end
 
     def serve(io)
-      @behavior.serve(io, @options)
+      @behavior.serve(io)
     end
 
     def to_s
-      "<Bane::BehaviorServer: port=#{@port}, behavior=#{@behavior.class}, options=#{@options}>"
+      "<Bane::BehaviorServer: port=#{@port}, behavior=#{@behavior.class}>"
     end
     
     protected

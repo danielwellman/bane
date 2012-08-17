@@ -19,24 +19,14 @@ class BehaviorServerTest < Test::Unit::TestCase
     assert_equal "hostname", server.host
   end
 
-  def test_serve_passes_a_hash_of_options_even_if_not_initialized_with_options
+  def test_delegates_serve_call_to_behavior
+    io = mock()
     behavior = mock()
     server = BehaviorServer.new(IRRELEVANT_PORT, behavior)
 
-    behavior.expects(:serve).with(anything(), is_a(Hash))
+    behavior.expects(:serve).with(io)
 
-    server.serve(IRRELEVANT_IO_STREAM)
-  end
-
-  def test_serve_passes_constructor_options_to_behaviors_serve_method
-    behavior = mock()
-    
-    initialized_options = {:expected => :options}
-    server = BehaviorServer.new(IRRELEVANT_PORT, behavior, IRRELEVANT_HOST, initialized_options)
-
-    behavior.expects(:serve).with(anything(), equals(initialized_options))
-
-    server.serve(IRRELEVANT_IO_STREAM)
+    server.serve(io)
   end
 
   def test_connection_log_messages_use_short_behavior_name_to_shorten_log_messages
