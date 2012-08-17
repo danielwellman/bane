@@ -1,7 +1,7 @@
 require 'optparse'
 
 module Bane
-  class Configuration
+  class CommandLineConfiguration
     def initialize()
       @options = { :host => BehaviorServer::DEFAULT_HOST }
       @option_parser = init_option_parser

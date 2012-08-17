@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
 require 'mocha'
 
-class ConfigurationTest < Test::Unit::TestCase
+class CommandLineConfigurationTest < Test::Unit::TestCase
   include Bane
 
   IRRELEVANT_BEHAVIOR = "CloseImmediately"
@@ -76,7 +76,7 @@ class ConfigurationTest < Test::Unit::TestCase
   private
 
   def create_configuration_for(array)
-    Configuration.new().parse(array)
+    CommandLineConfiguration.new().parse(array)
   end
 
   def unique_behavior
