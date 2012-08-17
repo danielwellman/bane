@@ -27,7 +27,6 @@ Ideas:
 
 
 Current Task:
-- Make options be passed into constructor of Behavior classes instead of through BehaviorServer (middleman smell)
 - Create new examples (make host have a default?)
 - Document new way to programmatically create behaviors in README (as a list of BehaviorServers)
 - Change or delete integration tests to have one CLI configuration happy path?
