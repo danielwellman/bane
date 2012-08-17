@@ -84,4 +84,13 @@ module Bane
     end
 
   end
+
+  class ConfigurationError < RuntimeError; end
+
+  class UnknownBehaviorError < RuntimeError
+    def initialize(name)
+      super "Unknown behavior: #{name}"
+    end
+  end
+
 end
