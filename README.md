@@ -10,7 +10,7 @@ If you are building an application, you may depend on third-party servers or web
 
 Bane is available as a gem.  Install it with
 
-  `sudo gem install bane`
+  `gem install bane`
 
 Note that Bane installs an executable, `bane`.  Simply invoke `bane` with no arguments to get a usage description.
 
@@ -34,19 +34,16 @@ Bane is designed with a few usage scenarios in mind:
 
    Example:
 
-        require 'bane'
+     require 'bane'
 
-        include Bane
-        include Behaviors
+     include Bane
 
-        launcher = Launcher.new(Configuration(
-                3000 => {:behavior => FixedResponse, :message => "Shall we play a game?"},
-              )
-        )
-        launcher.start
-        launcher.join
+     launcher = Launcher.new(
+             [BehaviorServer.new(3000, Behaviors::FixedResponse.new(:message => "Shall we play a game?"))])
+     launcher.start
+     launcher.join
 
-   See `examples/specify_behavior_options.rb` for another example.  For a list of options supported by the
+   See the `examples`directory for more examples.  For a list of options supported by the
    basic behaviors, see the source for the behaviors in `Bane::Behaviors` at `lib/bane/behaviors.rb`.
 
 ## Keeping the Connection Open
