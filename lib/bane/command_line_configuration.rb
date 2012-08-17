@@ -76,7 +76,7 @@ module Bane
       def servers
         configurations = []
         @behaviors.each_with_index do |behavior, index|
-          configurations << BehaviorServer.new(@starting_port + index, @host, behavior.new)
+          configurations << BehaviorServer.new(@starting_port + index, behavior.new, @host)
         end
         configurations
       end

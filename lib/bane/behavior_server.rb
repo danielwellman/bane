@@ -5,7 +5,7 @@ module Bane
 
     ALL_INTERFACES = "0.0.0.0"
 
-    def initialize(port, host, behavior, options = {})
+    def initialize(port, behavior, host = BehaviorServer::DEFAULT_HOST, options = {})
       super(port, host)
       @behavior = behavior
       @options = options

@@ -69,7 +69,7 @@ module Bane
     end
 
     def create_server(port, behavior, options = {})
-      BehaviorServer.new(port, BehaviorServer::DEFAULT_HOST, behavior.new, options)
+      BehaviorServer.new(port, behavior.new, BehaviorServer::DEFAULT_HOST, options)
     end
 
   end

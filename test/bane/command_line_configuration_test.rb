@@ -86,8 +86,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   def expect_server_created_with(arguments)
     arguments = { :port => anything(), :host => anything() }.merge(arguments)
     behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
-    BehaviorServer.expects(:new).with(arguments[:port], arguments[:host], 
-      behavior_matcher)
+    BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host])
   end
 
   def assert_invaild_arguments_fail_matching_message(arguments, message_matcher, assertion_failure_message)
