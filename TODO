@@ -27,10 +27,10 @@ Ideas:
 
 
 Current Task:
-- Update wiki: "The Design of Behaviors"
-- Update wiki: "Configuring with a Hash"
 - Change or delete integration tests to have one CLI configuration happy path?
 - Add a deprecation warning to the Configuration() method
 - Merge back into master
+- Update wiki: "The Design of Behaviors"
+- Update wiki: "Configuring with a Hash"
 - Bump version (to 0.3.0)
 - Release new gem
