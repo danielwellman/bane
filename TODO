@@ -4,6 +4,7 @@ Features:
 - Quieter exits on Ctrl-C (than plain stack trace)
 
 Design questions:
+- Is there a natural separation in Configuration between parsing arguments and instantiating/finding behaviors?
 - Explore the ServiceRegistry usage -- should "find" behaviors be there? Printing?
 - Decide if the current behaviors should be tied more directly to BehaviorServer, via subclassing or some other way.
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship
