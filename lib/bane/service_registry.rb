@@ -5,6 +5,10 @@ module Bane
       @servers ||= []
     end
 
+    def self.all_server_names
+      all_servers.map(&:simple_name).sort
+    end
+
     def self.register(server)
       all_servers << server unless all_servers.include?(server)
     end

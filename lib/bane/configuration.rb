@@ -36,6 +36,10 @@ module Bane
         opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
           @options[:host] = BehaviorServer::ALL_INTERFACES
         end
+        opts.separator ""
+        opts.separator "All behaviors:"        
+        opts.separator ServiceRegistry.all_server_names.map { |title| " - #{title}" }.join("\n")
+
       end
     end
 

@@ -13,13 +13,10 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def test_creates_all_known_behavior_if_only_port_specified
-    first_behavior = unique_behavior
-    second_behavior = unique_behavior
+    expect_server_created_with :port => 4000, :behavior => Behaviors::CloseImmediately
+    expect_server_created_with :port => 4001, :behavior => Behaviors::NeverRespond
 
-    expect_server_created_with :port => 4000, :behavior => first_behavior
-    expect_server_created_with :port => 4001, :behavior => second_behavior
-
-    ServiceRegistry.stubs(:all_servers).returns([first_behavior, second_behavior])
+    ServiceRegistry.stubs(:all_servers).returns([Behaviors::CloseImmediately, Behaviors::NeverRespond])
 
     create_configuration_for([4000])
   end

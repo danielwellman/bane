@@ -26,7 +26,6 @@ Ideas:
 
 
 Current Task:
-- Print out all behaviors on empty arguments
 - Rename Configuration to something more appropriate? (CommandLineConfiguration?)
 - Document new way to programmatically create behaviors (as a list of BehaviorServers)
 - Add a deprecation warning to the Configuration() method
