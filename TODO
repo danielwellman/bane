@@ -27,7 +27,6 @@ Ideas:
 
 
 Current Task:
-- Create new examples (make host have a default?)
 - Document new way to programmatically create behaviors in README (as a list of BehaviorServers)
 - Change or delete integration tests to have one CLI configuration happy path?
 - Add a deprecation warning to the Configuration() method
