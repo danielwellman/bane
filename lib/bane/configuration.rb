@@ -55,8 +55,8 @@ module Bane
         raise ConfigurationError, "Invalid port number: #{port}"
     end
 
-    def parse_behaviors(behaviors)
-      behaviors.map { |behavior| find(behavior) }
+    def parse_behaviors(behavior_names)
+      behavior_names.map { |behavior| find(behavior) }
       rescue UnknownBehaviorError => ube
         raise ConfigurationError, ube.message
     end
