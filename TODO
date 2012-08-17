@@ -1,5 +1,4 @@
 Features:
-- Make Bane launch from Windows with "bane" command -- Create a bin\bane.bat file?
 - Allow Bane to listen on all addresses (0.0.0.0) rather than default local-only (127.0.0.1)
 - Quieter exits on Ctrl-C (than plain stack trace)
 
@@ -26,7 +25,10 @@ Ideas:
 
 
 Current Task:
-- Document new way to programmatically create behaviors (as a list of BehaviorServers)
+- Create new examples
+- Document new way to programmatically create behaviors in README (as a list of BehaviorServers)
+- Change or delete integration tests to have one CLI configuration happy path?
 - Add a deprecation warning to the Configuration() method
-- Bump version
+- Delete old examples
+- Bump version (to 0.3.0)
 - Release new gem
