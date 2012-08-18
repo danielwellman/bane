@@ -30,7 +30,7 @@ Bane is designed with a few usage scenarios in mind:
 
    Example: `$ bane 3000`
 
-4. Advanced Configuration using Ruby.  If you want to modify some of the defaults used in the included behaviors, you can initialize Bane with a Hash of port numbers, behavior names, and configuration parameters.  For example, you might want to specify a response for the FixedResponse behavior:
+4. Advanced Configuration using Ruby.  If you want to modify some of the defaults used in the included behaviors, you can create a Ruby script to invoke Bane.  For example, you might want to specify a response for the FixedResponse behavior:
 
    Example:
 
@@ -46,7 +46,13 @@ launcher.join
 ```
 
    See the `examples`directory for more examples.  For a list of options supported by the
-   basic behaviors, see the source for the behaviors in `Bane::Behaviors` at `lib/bane/behaviors.rb`.
+   included behaviors, see the source for the behaviors in `Bane::Behaviors` at `lib/bane/behaviors.rb`.
+
+## Listening on all hosts
+
+By default, Bane will listen only to connections on localhost (127.0.0.1).
+
+To listen on all hosts (0.0.0.0), start Bane from the command line with the `-a` or `--listen-on-all-hosts` option.  For more command line help, run `bane -h` or `bane --help`.
 
 ## Keeping the Connection Open
 
