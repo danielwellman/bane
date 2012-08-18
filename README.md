@@ -34,14 +34,14 @@ Bane is designed with a few usage scenarios in mind:
 
    Example:
 
-     require 'bane'
+      require 'bane'
 
-     include Bane
+      include Bane
 
-     launcher = Launcher.new(
-             [BehaviorServer.new(3000, Behaviors::FixedResponse.new(:message => "Shall we play a game?"))])
-     launcher.start
-     launcher.join
+      launcher = Launcher.new(
+              [BehaviorServer.new(3000, Behaviors::FixedResponse.new(:message => "Shall we play a game?"))])
+      launcher.start
+      launcher.join
 
    See the `examples`directory for more examples.  For a list of options supported by the
    basic behaviors, see the source for the behaviors in `Bane::Behaviors` at `lib/bane/behaviors.rb`.
