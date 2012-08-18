@@ -17,7 +17,11 @@ class MyBehavior
 ```
 
 * BehaviorServer no longer accepts options; instead these are created with the Behavior objects.
-
+* Configuration() and ConfigurationParser class are deprecated and will be removed in the next release.  Instead of 
+  using these classes, please directly instantiate a BehaviorServer with the required arguments.  This class is being
+  deprecated and removed because the flexibility of the code creates a structure that is harder to read and maintain.
+  I'm also not sure anyone is using this method -- if so, please open a GitHub Issue and let me know if you're using 
+  it -- and if so, how.
 
 ### Removed
 
