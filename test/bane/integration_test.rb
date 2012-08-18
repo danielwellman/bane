@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
 require 'open-uri'
+require 'mocha'
 
 class BaneIntegrationTest < Test::Unit::TestCase
 
@@ -14,6 +15,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
   end
 
   def test_supports_deprecated_configuration
+    silence_deprecation_warning
     expected_message = "Expected test message"
     options = {TEST_PORT => {:behavior => Bane::Behaviors::FixedResponse,
                              :message => expected_message}}
@@ -82,5 +84,9 @@ class BaneIntegrationTest < Test::Unit::TestCase
     ensure
       connection.close if connection
     end
+  end
+
+  def silence_deprecation_warning
+    Bane::ConfigurationParser.any_instance.stubs(:warn_about_deprecation)
   end
 end

@@ -7,6 +7,10 @@ class ConfigurationParserTest < Test::Unit::TestCase
 
   IRRELEVANT_BEHAVIOR = Bane::Behaviors::CloseImmediately
 
+  def setup
+    ConfigurationParser.any_instance.stubs(:warn_about_deprecation)
+  end
+
   def test_should_map_single_port_and_server_name
     expect_server_created_with :port => 3000, :behavior => Behaviors::CloseAfterPause
 

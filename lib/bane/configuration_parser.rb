@@ -5,6 +5,7 @@ module Bane
     attr_reader :configurations
 
     def initialize(*args)
+      warn_about_deprecation()
       @configurations = []
 
       @configurations = case args[0]
@@ -15,6 +16,10 @@ module Bane
         else
           raise ConfigurationError, "Unknown configuration arguments #{args.inspect}"
       end
+    end
+
+    def warn_about_deprecation
+      warn "Kernel#Configuration() and ConfigurationParser are deprecated. Please directly construct an array of BehaviorServers to pass to Launcher."
     end
 
     private
