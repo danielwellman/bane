@@ -23,7 +23,6 @@ Future Behaviors:
 
 
 Current Task:
-- Add a deprecation warning to the Configuration() method
 - Merge back into master
 - Update wiki: "The Design of Behaviors"
 - Update wiki: "Configuring with a Hash"
