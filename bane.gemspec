@@ -4,14 +4,18 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = "bane"
+  s.name = %q{bane}
   s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Daniel Wellman"]
-  s.date = "2012-08-19"
-  s.description = "    Bane is a test harness used to test your application's interaction with\n    other servers. It is based upon the material from Michael Nygard's \"Release\n    It!\" book as described in the \"Test Harness\" chapter.\n"
-  s.email = "dan@danielwellman.com"
+  s.date = %q{2012-08-19}
+  s.default_executable = %q{bane}
+  s.description = %q{    Bane is a test harness used to test your application's interaction with
+    other servers. It is based upon the material from Michael Nygard's "Release
+    It!" book as described in the "Test Harness" chapter.
+}
+  s.email = %q{dan@danielwellman.com}
   s.executables = ["bane"]
   s.extra_rdoc_files = [
     "LICENSE",
@@ -43,16 +47,17 @@ Gem::Specification.new do |s|
     "test/bane/service_registry_test.rb",
     "test/test_helper.rb"
   ]
-  s.homepage = "http://github.com/danielwellman/bane"
+  s.homepage = %q{http://github.com/danielwellman/bane}
   s.licenses = ["BSD"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
-  s.summary = "A test harness for socket connections based upon ideas from Michael Nygard's 'Release It!'"
+  s.rubygems_version = %q{1.3.6}
+  s.summary = %q{A test harness for socket connections based upon ideas from Michael Nygard's 'Release It!'}
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, ["~> 1.1.5"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
