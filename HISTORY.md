@@ -1,5 +1,7 @@
 # master
 
+# 0.3.0
+
 ### Added
  * Servers can now listen on all hosts or localhost via the command-line options -a / --listen-on-all-hosts or -l / --listen-on-localhost.  The default is to listen on localhost.
 
@@ -22,8 +24,6 @@ class MyBehavior
   deprecated and removed because the flexibility of the code creates a structure that is harder to read and maintain.
   I'm also not sure anyone is using this method -- if so, please open a GitHub Issue and let me know if you're using 
   it -- and if so, how.
-
-### Removed
 
 
 
