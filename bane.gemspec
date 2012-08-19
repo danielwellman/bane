@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Daniel Wellman"]
-  s.date = "2012-08-18"
+  s.date = "2012-08-19"
   s.description = "    Bane is a test harness used to test your application's interaction with\n    other servers. It is based upon the material from Michael Nygard's \"Release\n    It!\" book as described in the \"Test Harness\" chapter.\n"
   s.email = "dan@danielwellman.com"
   s.executables = ["bane"]
