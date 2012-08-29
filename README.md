@@ -1,5 +1,7 @@
 # Bane
 
+[![Build Status](https://secure.travis-ci.org/danielwellman/bane.png)](http://travis-ci.org/danielwellman/bane) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/danielwellman/bane)
+
 Bane is a test harness used to test your application's interaction with other servers.  It is based upon the material from Michael Nygard's ["Release It!"](http://www.pragprog.com/titles/mnee/release-it) book as described in the "Test Harness" chapter.
 
 ## Why Use Bane?
