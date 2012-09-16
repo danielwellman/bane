@@ -3,9 +3,7 @@ Features:
 
 Design questions / Ideas:
 - Make BasicBehavior a module called Behavior, and include that in each behavior?
-- Is there a natural separation in Configuration between parsing arguments and instantiating/finding behaviors?
-  In particular, mocking "new" on a class seems to be a smell -- at least because I keep forgetting that 'new' must
-  return an object, and my mocks didn't do that (see CommandLineConfigurationTest, and the messier ConfigurationParserTest)
+- Is the LinearPortConfigurationFactory really an internal of CommandLineConfiguration, or is it a peer dependency?  I'm assuming it's an internal, but if it's a peer, the tests should change (a new test created, and a test double passed in for the CommandLineConfigurationTests)
 - Explore the ServiceRegistry usage -- should "find" behaviors be there? Printing?
 - Decide if the current behaviors should be tied more directly to BehaviorServer, via subclassing or some other way.
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship
