@@ -1,5 +1,4 @@
 Features:
-- Quieter exits on Ctrl-C (than plain stack trace)
 
 Design questions / Ideas:
 - Make BasicBehavior a module called Behavior, and include that in each behavior?
