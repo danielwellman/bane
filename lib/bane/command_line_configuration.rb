@@ -5,6 +5,7 @@ module Bane
     def initialize()
       @options = { :host => BehaviorServer::DEFAULT_HOST }
       @option_parser = init_option_parser
+      @configuration_factory = LinearPortConfigurationFactory.new
     end
 
     def parse(args)
@@ -16,7 +17,7 @@ module Bane
       behaviors = parse_behaviors(args.drop(1))
 
       behaviors = ServiceRegistry.all_servers if behaviors.empty?
-      LinearPortMappedBehaviorConfiguration.new(port, behaviors, @options[:host]).servers
+      @configuration_factory.create(port, behaviors, @options[:host])
     end
 
     def usage
@@ -66,21 +67,14 @@ module Bane
       Behaviors.const_get(behavior)      
     end
 
-    class LinearPortMappedBehaviorConfiguration
-      def initialize(port, behaviors, host)
-        @starting_port = port
-        @behaviors = behaviors
-        @host = host
-      end
-
-      def servers
-        configurations = []
-        @behaviors.each_with_index do |behavior, index|
-          configurations << BehaviorServer.new(@starting_port + index, behavior.new, @host)
+    class LinearPortConfigurationFactory
+      def create(starting_port, behaviors, host)
+        [].tap do |configurations|
+          behaviors.each_with_index do |behavior, index|
+            configurations << BehaviorServer.new(starting_port + index, behavior.new, host)
+          end
         end
-        configurations
       end
-
     end
 
   end
