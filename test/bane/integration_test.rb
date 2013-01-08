@@ -46,6 +46,18 @@ class BaneIntegrationTest < Test::Unit::TestCase
     end
   end
 
+  def test_launcher_stops_servers_cleanly
+    server = Bane::BehaviorServer.new(TEST_PORT, nil)
+    launcher = Bane::Launcher.new([server]);
+                      
+    assert_raises(SystemExit) do
+      Thread.new do
+        launcher.start
+        Process.kill(:INT, $$)
+      end.join
+    end
+  end
+
   private
 
   def run_server_with(port, behavior, &block)
