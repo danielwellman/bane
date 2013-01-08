@@ -5,6 +5,7 @@ require 'mocha'
 class BaneIntegrationTest < Test::Unit::TestCase
 
   TEST_PORT = 4000
+  IRRELEVANT_BEHAVIOR = nil
 
   def test_uses_specified_port_and_server
     run_server_with(TEST_PORT, Bane::Behaviors::FixedResponse) do
@@ -47,14 +48,10 @@ class BaneIntegrationTest < Test::Unit::TestCase
   end
 
   def test_launcher_stops_servers_cleanly
-    server = Bane::BehaviorServer.new(TEST_PORT, nil)
-    launcher = Bane::Launcher.new([server]);
-                      
-    assert_raises(SystemExit) do
-      Thread.new do
-        launcher.start
+    run_server_with(TEST_PORT, Bane::Behaviors::FixedResponse) do
+      assert_raises(SystemExit) do
         Process.kill(:INT, $$)
-      end.join
+      end
     end
   end
 
