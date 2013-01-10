@@ -5,7 +5,7 @@ module Bane
     def initialize(servers, logger = $stderr)
       @servers = servers
       @servers.each { |server| server.stdlog = logger }
-      begin_read_io
+      begin_self_pipe
       handle_sigint
     end
 
@@ -23,7 +23,7 @@ module Bane
 
     private
 
-    def begin_read_io
+    def begin_self_pipe
       p_read, @p_write = IO.pipe
       Thread.start(self, p_read) do |l, pr|
         pr.read # this will block until write end of pipe is closed
@@ -31,11 +31,10 @@ module Bane
         l.stop
         exit
       end
-
     end
 
     def handle_sigint
-      trap("SIGINT") { @p_write.close }
+      trap("SIGINT") {  @p_write.close }
     end
 
   end
