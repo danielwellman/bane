@@ -14,19 +14,6 @@ class BaneIntegrationTest < Test::Unit::TestCase
     end
   end
 
-  def test_supports_deprecated_configuration
-    silence_deprecation_warning
-    expected_message = "Expected test message"
-    options = {TEST_PORT => {:behavior => Bane::Behaviors::FixedResponse,
-                             :message => expected_message}}
-
-    run_server_with_deprecated(options) do
-      connect_to TEST_PORT do |response|
-        assert_equal expected_message, response, "Wrong response from server"
-      end
-    end
-  end
-
   def test_serves_http_requests
     run_server_with(TEST_PORT, Bane::Behaviors::HttpRefuseAllCredentials) do
       begin
@@ -51,11 +38,6 @@ class BaneIntegrationTest < Test::Unit::TestCase
   def run_server_with(port, behavior, &block)
     behavior = Bane::BehaviorServer.new(port, behavior.new)
     launcher = Bane::Launcher.new([behavior], quiet_logger)
-    launch_and_stop_safely(launcher, &block)
-  end
-
-  def run_server_with_deprecated(*options, &block)
-    launcher = Bane::Launcher.new(Configuration(*options), quiet_logger)
     launch_and_stop_safely(launcher, &block)
   end
 
@@ -86,7 +68,4 @@ class BaneIntegrationTest < Test::Unit::TestCase
     end
   end
 
-  def silence_deprecation_warning
-    Bane::ConfigurationParser.any_instance.stubs(:warn_about_deprecation)
-  end
 end
