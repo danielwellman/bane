@@ -1,5 +1,11 @@
 # master
 
+### Added
+ * Trap SIGINT to gracefully stop servers
+
+### Removed
+  * The fancy, flexible ConfigurationParser has been deleted. Command-line invocation now uses the CommandLineConfiguration parser.  For programmatic invocation, see the examples.
+
 # 0.3.0
 
 ### Added
