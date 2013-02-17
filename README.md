@@ -85,7 +85,7 @@ See the implementation of HttpRefuseAllCredentials for a simple example of an HT
 * The service can send a response of HTML instead of the expected XML.
 
 The following behaviors are not yet supported. These require the ability to manipulate
-TCP packets at a low level; which may require a C or C++ extension.
+TCP packets at a low level, which may require a C or C++ extension or raw sockets.
 
 * The connection can be refused.
 * The request can sit in a listen queue until the caller times out.
