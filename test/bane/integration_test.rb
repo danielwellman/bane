@@ -5,6 +5,7 @@ require 'mocha'
 class BaneIntegrationTest < Test::Unit::TestCase
 
   TEST_PORT = 4000
+  IRRELEVANT_BEHAVIOR = nil
 
   def test_uses_specified_port_and_server
     run_server_with(TEST_PORT, Bane::Behaviors::FixedResponse) do
@@ -29,6 +30,14 @@ class BaneIntegrationTest < Test::Unit::TestCase
     run_server_with_cli_arguments(["--listen-on-localhost", TEST_PORT, "FixedResponse"]) do
       connect_to TEST_PORT do |response|
         assert !response.empty?, "Should have had a non-empty response"
+      end
+    end
+  end
+
+  def test_launcher_stops_servers_cleanly
+    run_server_with(TEST_PORT, Bane::Behaviors::FixedResponse) do
+      assert_raises(SystemExit) do
+        Process.kill(:INT, $$)
       end
     end
   end

@@ -19,5 +19,4 @@ end
 
 launcher = Bane::Launcher.new(servers)
 launcher.start
-trap("SIGINT") { launcher.stop; exit }
 launcher.join
