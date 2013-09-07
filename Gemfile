@@ -10,4 +10,5 @@ group :development do
   gem "bundler", ">= 1.1.5"
   gem "jeweler", "~> 1.8.4"
   gem "mocha", ">= 0.9.8"
+  gem "wwtd"
 end
