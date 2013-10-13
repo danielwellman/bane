@@ -9,7 +9,7 @@ module Bane
     end
 
     def parse(args)
-      parse_options(@options, args)
+      parse_options(args)
 
       return [] if (args.empty?)
 
@@ -44,7 +44,7 @@ module Bane
       end
     end
 
-    def parse_options(options, args)
+    def parse_options(args)
       @option_parser.parse!(args)
       rescue OptionParser::InvalidOption => io
         raise ConfigurationError, io.message
