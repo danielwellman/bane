@@ -2,7 +2,7 @@ require 'optparse'
 
 module Bane
   class CommandLineConfiguration
-    def initialize()
+    def initialize
       @options = { :host => BehaviorServer::DEFAULT_HOST }
       @option_parser = init_option_parser
       @configuration_factory = LinearPortConfigurationFactory.new
@@ -28,17 +28,17 @@ module Bane
 
     def init_option_parser
       OptionParser.new do |opts|
-        opts.banner = "Usage: bane [options] port [behaviors]"
-        opts.separator ""
-        opts.on("-l", "--listen-on-localhost",
+        opts.banner = 'Usage: bane [options] port [behaviors]'
+        opts.separator ''
+        opts.on('-l', '--listen-on-localhost',
           "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
           @options[:host] = BehaviorServer::DEFAULT_HOST
         end
-        opts.on("-a", "--listen-on-all-hosts", "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
+        opts.on('-a', '--listen-on-all-hosts', "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
           @options[:host] = BehaviorServer::ALL_INTERFACES
         end
-        opts.separator ""
-        opts.separator "All behaviors:"        
+        opts.separator ''
+        opts.separator 'All behaviors:'
         opts.separator ServiceRegistry.all_server_names.map { |title| " - #{title}" }.join("\n")
 
       end
