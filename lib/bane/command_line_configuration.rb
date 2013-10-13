@@ -57,14 +57,9 @@ module Bane
     end
 
     def parse_behaviors(behavior_names)
-      behavior_names.map { |behavior| find(behavior) }
+      behavior_names.map { |behavior| ServiceRegistry.find(behavior) }
       rescue UnknownBehaviorError => ube
         raise ConfigurationError, ube.message
-    end
-
-    def find(behavior)
-      raise UnknownBehaviorError.new(behavior) unless Behaviors.const_defined?(behavior)
-      Behaviors.const_get(behavior)      
     end
 
     class LinearPortConfigurationFactory
@@ -80,11 +75,5 @@ module Bane
   end
 
   class ConfigurationError < RuntimeError; end
-
-  class UnknownBehaviorError < RuntimeError
-    def initialize(name)
-      super "Unknown behavior: #{name}"
-    end
-  end
 
 end

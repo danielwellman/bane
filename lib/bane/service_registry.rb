@@ -16,6 +16,18 @@ module Bane
     def self.unregister(server)
       all_servers.delete server
     end
+
+    def self.find(behavior)
+      raise UnknownBehaviorError.new(behavior) unless Behaviors.const_defined?(behavior)
+      Behaviors.const_get(behavior)
+    end
+
+  end
+
+  class UnknownBehaviorError < RuntimeError
+    def initialize(name)
+      super "Unknown behavior: #{name}"
+    end
   end
 
 end
