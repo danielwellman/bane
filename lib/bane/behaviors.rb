@@ -119,7 +119,7 @@ module Bane
     # left open indefinitely.
     class NeverRespond < BasicBehavior
       def serve(io)
-        loop { sleep 1 }
+        sleep
       end
     end
 
