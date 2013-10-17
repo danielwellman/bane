@@ -6,7 +6,7 @@ class BehaviorServerTest < Test::Unit::TestCase
   
   IRRELEVANT_IO_STREAM = nil
   IRRELEVANT_OPTIONS = {}
-  IRRELEVANT_HOST = "1.1.1.1"
+  IRRELEVANT_HOST = '1.1.1.1'
   IRRELEVANT_BEHAVIOR = nil
 
   def test_initializes_server_on_specified_port
@@ -15,8 +15,8 @@ class BehaviorServerTest < Test::Unit::TestCase
   end
 
   def test_initializes_server_on_specified_hostname
-    server = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR, "hostname")
-    assert_equal "hostname", server.host
+    server = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR, 'hostname')
+    assert_equal 'hostname', server.host
   end
 
   def test_delegates_serve_call_to_behavior
