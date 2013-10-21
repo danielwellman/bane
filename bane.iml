@@ -12,6 +12,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v1.3.5, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="git (v1.2.5, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="hoe (v3.7.1, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jeweler (v1.8.4, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.7.5, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="metaclass (v0.0.1, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
@@ -19,6 +20,7 @@
     <orderEntry type="library" scope="PROVIDED" name="parallel (v0.9.0, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v0.9.2.2, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rdoc (v3.12, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="test-unit (v1.2.3, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="wwtd (v0.1.6, RVM: ruby-1.9.3-p448 [bane]) [gem]" level="application" />
   </component>
 </module>
