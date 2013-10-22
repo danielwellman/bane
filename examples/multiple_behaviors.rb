@@ -9,7 +9,7 @@ include Bane
 
 close_immediately = Behaviors::CloseImmediately.new
 never_respond = Behaviors::NeverRespond.new
-fixed_response = Behaviors::FixedResponse.new(:message => "OK")
+fixed_response = Behaviors::FixedResponse.new(message: "OK")
 
 launcher = Launcher.new([BehaviorServer.new(3000, close_immediately),
                         BehaviorServer.new(8000, never_respond),

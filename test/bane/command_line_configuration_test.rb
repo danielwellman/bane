@@ -7,14 +7,14 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   IRRELEVANT_BEHAVIOR = 'CloseImmediately'
 
   def test_creates_specified_behavior_on_given_port
-    expect_server_created_with(:port => 3000, :behavior => Behaviors::CloseImmediately)
+    expect_server_created_with(port: 3000, behavior: Behaviors::CloseImmediately)
 
     create_configuration_for([3000, 'CloseImmediately'])
   end
 
   def test_creates_all_known_behavior_if_only_port_specified
-    expect_server_created_with :port => 4000, :behavior => Behaviors::CloseImmediately
-    expect_server_created_with :port => 4001, :behavior => Behaviors::NeverRespond
+    expect_server_created_with port: 4000, behavior: Behaviors::CloseImmediately
+    expect_server_created_with port: 4001, behavior: Behaviors::NeverRespond
 
     ServiceRegistry.stubs(:all_servers).returns([Behaviors::CloseImmediately, Behaviors::NeverRespond])
 
@@ -22,32 +22,32 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def test_creates_multiple_behaviors_starting_on_given_port
-    expect_server_created_with :port => 3000, :behavior => Behaviors::CloseImmediately
-    expect_server_created_with :port => 3001, :behavior => Behaviors::CloseAfterPause
+    expect_server_created_with port: 3000, behavior: Behaviors::CloseImmediately
+    expect_server_created_with port: 3001, behavior: Behaviors::CloseAfterPause
 
     create_configuration_for([3000, 'CloseImmediately', 'CloseAfterPause'])
   end
 
   def test_dash_l_option_sets_listen_host_to_localhost
-    expect_server_created_with :host => BehaviorServer::DEFAULT_HOST
+    expect_server_created_with host: BehaviorServer::DEFAULT_HOST
 
     create_configuration_for(['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_localhost_sets_listen_host_to_localhost
-    expect_server_created_with :host => BehaviorServer::DEFAULT_HOST
+    expect_server_created_with host: BehaviorServer::DEFAULT_HOST
 
     create_configuration_for(['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_dash_a_option_sets_listen_host_to_all_interfaces
-    expect_server_created_with :host => BehaviorServer::ALL_INTERFACES
+    expect_server_created_with host: BehaviorServer::ALL_INTERFACES
 
     create_configuration_for(['-a', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_all_hosts_option_sets_listen_host_to_all_interfaces
-    expect_server_created_with :host => BehaviorServer::ALL_INTERFACES
+    expect_server_created_with host: BehaviorServer::ALL_INTERFACES
 
     create_configuration_for(['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
@@ -84,7 +84,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def expect_server_created_with(arguments)
-    arguments = { :port => anything(), :host => anything() }.merge(arguments)
+    arguments = {port: anything(), host: anything()}.merge(arguments)
     behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
     BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host])
   end

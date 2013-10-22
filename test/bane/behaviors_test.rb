@@ -11,7 +11,7 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_fixed_response_sends_the_specified_message
-    query_server(FixedResponse.new(:message => "Test Message"))
+    query_server(FixedResponse.new(message: "Test Message"))
 
     assert_equal "Test Message", response
   end
@@ -29,7 +29,7 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_deluge_response_accepts_length_parameter
-    query_server(DelugeResponse.new(:length => 1))
+    query_server(DelugeResponse.new(length: 1))
 
     assert_response_length 1
   end
@@ -58,7 +58,7 @@ class BehaviorsTest < Test::Unit::TestCase
 
 
   def test_close_after_pause_accepts_duration_parameter
-    server = CloseAfterPause.new(:duration => 1)
+    server = CloseAfterPause.new(duration: 1)
     server.expects(:sleep).with(1)
 
     query_server(server)
@@ -75,7 +75,7 @@ class BehaviorsTest < Test::Unit::TestCase
     message = "Hi!"
     delay = 0.5
 
-    server = SlowResponse.new(:pause_duration => delay, :message => message)
+    server = SlowResponse.new(pause_duration: delay, message: message)
     server.expects(:sleep).with(delay).at_least(message.length)
 
     query_server(server)
@@ -104,7 +104,7 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_for_each_line_reads_a_line_before_responding
-    server = Bane::Behaviors::FixedResponseForEachLine.new({:message => "Dynamic"})
+    server = Bane::Behaviors::FixedResponseForEachLine.new({message: "Dynamic"})
 
     @fake_connection.will_send "irrelevant\n"
 

@@ -36,7 +36,7 @@ class BehaviorServerTest < Test::Unit::TestCase
   def test_connection_log_messages_use_short_behavior_name_to_shorten_log_messages
     [:connecting, :disconnecting].each do |method|
       assert_log_message_uses_short_behavior_name_for(method) do |server|
-        server.send(method, stub_everything(:peeraddr => [127, 0, 0, 1]))
+        server.send(method, stub_everything(peeraddr: [127, 0, 0, 1]))
       end
     end
   end

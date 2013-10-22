@@ -36,7 +36,7 @@ module Bane
     #   - duration: The number of seconds to wait before disconnect.  Default: 30
     class CloseAfterPause < BasicBehavior
       def initialize(options = {})
-        @options = {:duration => 30}.merge(options)
+        @options = {duration: 30}.merge(options)
       end
 
       def serve(io)
@@ -50,7 +50,7 @@ module Bane
     #   - message: The response message to send. Default: "Hello, world!"
     class FixedResponse < BasicBehavior
       def initialize(options = {})
-        @options = {:message => "Hello, world!"}.merge(options)
+        @options = {message: "Hello, world!"}.merge(options)
       end
 
       def serve(io)
@@ -97,7 +97,7 @@ module Bane
     #  - pause_duration: The number of seconds to pause between each character. Default: 10 seconds
     class SlowResponse < BasicBehavior
       def initialize(options = {})
-        @options = {:message => "Hello, world!", :pause_duration => 10}.merge(options)
+        @options = {message: "Hello, world!", pause_duration: 10}.merge(options)
       end
 
       def serve(io)
@@ -129,7 +129,7 @@ module Bane
     #  - length: The size in bytes of the response to send. Default: 1,000,000 bytes
     class DelugeResponse < BasicBehavior
       def initialize(options = {})
-        @options = {:length => 1_000_000}.merge(options)
+        @options = {length: 1_000_000}.merge(options)
       end
       def serve(io)
         length = @options[:length]
