@@ -8,7 +8,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
   def test_uses_specified_port_and_server
     run_server_with(TEST_PORT, Bane::Behaviors::FixedResponse) do
-      connect_to TEST_PORT do |response|
+      with_response_from TEST_PORT do |response|
         assert !response.empty?, "Should have had a non-empty response"
       end
     end
@@ -16,18 +16,13 @@ class BaneIntegrationTest < Test::Unit::TestCase
 
   def test_serves_http_requests
     run_server_with(TEST_PORT, Bane::Behaviors::HttpRefuseAllCredentials) do
-      begin
-        open("http://localhost:#{TEST_PORT}/some/url").read
-        flunk "Should have refused access"
-      rescue OpenURI::HTTPError => e
-        assert_match /401/, e.message
-      end
+      assert_match /401/, status_returned_from("http://localhost:#{TEST_PORT}/some/url")
     end
   end
 
   def test_supports_command_line_interface
     run_server_with_cli_arguments(["--listen-on-localhost", TEST_PORT, "FixedResponse"]) do
-      connect_to TEST_PORT do |response|
+      with_response_from TEST_PORT do |response|
         assert !response.empty?, "Should have had a non-empty response"
       end
     end
@@ -58,8 +53,17 @@ class BaneIntegrationTest < Test::Unit::TestCase
   def quiet_logger
     StringIO.new
   end
-  
-  def connect_to(port)
+
+  def status_returned_from(uri)
+    begin
+      open(uri).read
+    rescue OpenURI::HTTPError => e
+      return e.message
+    end
+    flunk "Should have refused access"
+  end
+
+  def with_response_from(port)
     begin
       connection = TCPSocket.new "localhost", port
       yield connection.read
