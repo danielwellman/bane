@@ -22,7 +22,7 @@ Jeweler::Tasks.new do |gem|
     other servers. It is based upon the material from Michael Nygard's "Release
     It!" book as described in the "Test Harness" chapter.
   END
-  gem.authors = ["Daniel Wellman"]
+  gem.authors = ["Daniel Wellman", "Joe Leo"]
   gem.email = "dan@danielwellman.com"
   gem.files = FileList[ 'lib/**/*', 'bin/*', 'test/**/*', 'examples/*',
     'Rakefile' ]
