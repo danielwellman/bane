@@ -3,7 +3,7 @@ require 'gserver'
 module Bane
   class BehaviorServer < GServer
 
-    ALL_INTERFACES = "0.0.0.0"
+    ALL_INTERFACES = '0.0.0.0'
 
     def initialize(port, behavior, host = BehaviorServer::DEFAULT_HOST)
       super(port, host)
@@ -36,12 +36,12 @@ module Bane
       log("client:#{client_port} disconnect")
     end
 
-    def starting()
-      log("start")
+    def starting
+      log('start')
     end
 
-    def stopping()
-      log("stop")
+    def stopping
+      log('stop')
     end
   end
 end
