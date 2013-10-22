@@ -1,10 +1,6 @@
 Features:
 
 Design questions / Ideas:
-- Make BasicBehavior a module called Behavior, and include that in each behavior?
-- Is the LinearPortConfigurationFactory really an internal of CommandLineConfiguration, or is it a peer dependency?  I'm assuming it's an internal, but if it's a peer, the tests should change (a new test created, and a test double passed in for the CommandLineConfigurationTests)
-- Explore the ServiceRegistry usage -- should "find" behaviors be there? Printing?
-- Decide if the current behaviors should be tied more directly to BehaviorServer, via subclassing or some other way.
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship
 - Should the default logger go to STDERR or STDOUT?
 - Break the Behaviors out into several files and test files?
