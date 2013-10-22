@@ -17,11 +17,22 @@ module Bane
       all_servers.delete server
     end
 
-    def self.find(behavior)
-      raise UnknownBehaviorError.new(behavior) unless Behaviors.const_defined?(behavior)
-      Behaviors.const_get(behavior)
+    def self.create(behavior_names, starting_port, host)
+      behaviors = behavior_names.map { |behavior| find(behavior) }
+
+      behaviors.map.with_index do |behavior, index|
+        BehaviorServer.new(starting_port + index, behavior.new, host)
+      end
     end
 
+    def self.create_all(starting_port, host)
+      create(all_server_names, starting_port, host)
+    end
+
+    def self.find(behavior_name)
+      raise UnknownBehaviorError.new(behavior_name) unless Behaviors.const_defined?(behavior_name)
+      Behaviors.const_get(behavior_name)
+    end
   end
 
   class UnknownBehaviorError < RuntimeError
