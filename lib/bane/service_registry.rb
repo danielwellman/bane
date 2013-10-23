@@ -2,19 +2,11 @@ module Bane
 
   module ServiceRegistry
     def self.all_servers
-      @servers ||= []
+      Behaviors.constants.reject { |name| name === :BasicBehavior }.map { |name| Behaviors.const_get(name) }.grep(Class)
     end
 
     def self.all_server_names
       all_servers.map(&:simple_name).sort
-    end
-
-    def self.register(server)
-      all_servers << server unless all_servers.include?(server)
-    end
-
-    def self.unregister(server)
-      all_servers.delete server
     end
 
     def self.create(behavior_names, starting_port, host)
@@ -30,8 +22,9 @@ module Bane
     end
 
     def self.find(behavior_name)
-      raise UnknownBehaviorError.new(behavior_name) unless Behaviors.const_defined?(behavior_name)
-      Behaviors.const_get(behavior_name)
+      all_servers.find { |behavior| behavior.simple_name == behavior_name }.tap do |server|
+        raise UnknownBehaviorError.new(behavior_name) unless server
+      end
     end
   end
 
