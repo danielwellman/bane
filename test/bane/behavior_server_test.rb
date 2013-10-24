@@ -1,5 +1,5 @@
 require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
-require 'mocha'
+require 'mocha/setup'
 
 class BehaviorServerTest < Test::Unit::TestCase
   include Bane

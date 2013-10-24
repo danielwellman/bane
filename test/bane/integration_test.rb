@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
 require 'open-uri'
-require 'mocha'
+require 'mocha/setup'
 
 class BaneIntegrationTest < Test::Unit::TestCase
 
