@@ -13,12 +13,10 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def test_creates_all_known_behavior_if_only_port_specified
-    expect_server_created_with port: 4000, behavior: Behaviors::CloseImmediately
-    expect_server_created_with port: 4001, behavior: Behaviors::NeverRespond
-
-    ServiceRegistry.stubs(:all_servers).returns([Behaviors::CloseImmediately, Behaviors::NeverRespond])
-
-    create_configuration_for([4000])
+    # TODO This test style is much different from all others.. we previously
+    # mocked the call to ServiceRegistry#all_servers - which felt funny.
+    servers = create_configuration_for([4000])
+    assert servers.size > 1, "Expected to create many servers, but instead got #{servers}"
   end
 
   def test_creates_multiple_behaviors_starting_on_given_port
@@ -77,10 +75,6 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
   def create_configuration_for(array)
     CommandLineConfiguration.new().parse(array)
-  end
-
-  def unique_behavior
-    Class.new
   end
 
   def expect_server_created_with(arguments)

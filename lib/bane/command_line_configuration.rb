@@ -3,6 +3,7 @@ require 'optparse'
 module Bane
   class CommandLineConfiguration
     def initialize
+      @service_registry = ServiceRegistry.new
       @options = {host: BehaviorServer::DEFAULT_HOST}
       @option_parser = init_option_parser
     end
@@ -37,8 +38,7 @@ module Bane
         end
         opts.separator ''
         opts.separator 'All behaviors:'
-        opts.separator ServiceRegistry.all_server_names.map { |title| " - #{title}" }.join("\n")
-
+        opts.separator @service_registry.all_server_names.map { |title| " - #{title}" }.join("\n")
       end
     end
 
@@ -56,9 +56,9 @@ module Bane
 
     def create(behaviors, port, host)
       if behaviors.any?
-        ServiceRegistry.create(behaviors, port, host)
+        @service_registry.create(behaviors, port, host)
       else
-        ServiceRegistry.create_all(port, host)
+        @service_registry.create_all(port, host)
       end
       rescue UnknownBehaviorError => ube
         raise ConfigurationError, ube.message
