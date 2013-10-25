@@ -2,6 +2,7 @@ module Bane
 
   module Behaviors
 
+    #TODO Delete this class and move behavior onto something else; perhaps Object?
     class BasicBehavior
       def self.simple_name
         self.name.split("::").last
