@@ -92,7 +92,7 @@ end
 
 module Bane
   module Behaviors
-    class SampleForTesting < Bane::Behaviors::BasicBehavior
+    class SampleForTesting
       def serve(io)
         io.puts('Hello')
       end

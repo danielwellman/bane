@@ -1,3 +1,4 @@
+require 'bane/extensions'
 require 'bane/service_registry'
 require 'bane/behaviors'
 require 'bane/launcher'

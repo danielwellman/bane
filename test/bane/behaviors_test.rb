@@ -99,10 +99,6 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_match /HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code'
   end
 
-  def test_simple_name_strips_away_the_namespace
-    assert_equal "SlowResponse", Bane::Behaviors::SlowResponse.simple_name
-  end
-
   def test_for_each_line_reads_a_line_before_responding
     server = Bane::Behaviors::FixedResponseForEachLine.new({message: "Dynamic"})
 

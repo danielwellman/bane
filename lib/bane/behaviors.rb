@@ -2,13 +2,6 @@ module Bane
 
   module Behaviors
 
-    #TODO Delete this class and move behavior onto something else; perhaps Object?
-    class BasicBehavior
-      def self.simple_name
-        self.name.split("::").last
-      end
-    end
-
     # This module can be used to wrap another behavior with
     # a "while(io.gets)" loop, which reads a line from the input and
     # then performs the given behavior.
@@ -21,7 +14,7 @@ module Bane
     end
 
     # Closes the connection immediately after a connection is made.
-    class CloseImmediately < BasicBehavior
+    class CloseImmediately
       def serve(io)
         # do nothing
       end
@@ -31,7 +24,7 @@ module Bane
     #
     # Options:
     #   - duration: The number of seconds to wait before disconnect.  Default: 30
-    class CloseAfterPause < BasicBehavior
+    class CloseAfterPause
       def initialize(options = {})
         @options = {duration: 30}.merge(options)
       end
@@ -45,7 +38,7 @@ module Bane
     #
     # Options:
     #   - message: The response message to send. Default: "Hello, world!"
-    class FixedResponse < BasicBehavior
+    class FixedResponse
       def initialize(options = {})
         @options = {message: "Hello, world!"}.merge(options)
       end
@@ -60,7 +53,7 @@ module Bane
     end
 
     # Sends a newline character as the only response 
-    class NewlineResponse < BasicBehavior
+    class NewlineResponse
       def serve(io)
         io.write "\n"
       end
@@ -71,7 +64,7 @@ module Bane
     end
 
     # Sends a random response.
-    class RandomResponse < BasicBehavior
+    class RandomResponse
       def serve(io)
         io.write random_string
       end
@@ -92,7 +85,7 @@ module Bane
     # Options:
     #  - message: The response to send. Default: "Hello, world!"
     #  - pause_duration: The number of seconds to pause between each character. Default: 10 seconds
-    class SlowResponse < BasicBehavior
+    class SlowResponse
       def initialize(options = {})
         @options = {message: "Hello, world!", pause_duration: 10}.merge(options)
       end
@@ -114,7 +107,7 @@ module Bane
 
     # Accepts a connection and never sends a byte of data.  The connection is
     # left open indefinitely.
-    class NeverRespond < BasicBehavior
+    class NeverRespond
       def serve(io)
         sleep
       end
@@ -124,7 +117,7 @@ module Bane
     #
     # Options
     #  - length: The size in bytes of the response to send. Default: 1,000,000 bytes
-    class DelugeResponse < BasicBehavior
+    class DelugeResponse
       def initialize(options = {})
         @options = {length: 1_000_000}.merge(options)
       end
@@ -143,7 +136,7 @@ module Bane
     # attempts to mimic an HTTP server by reading a line (the request)
     # and then sending the response.  This behavior responds to all
     # incoming request URLs on the running port. 
-    class HttpRefuseAllCredentials < BasicBehavior
+    class HttpRefuseAllCredentials
       UNAUTHORIZED_RESPONSE_BODY = <<EOF
 <!DOCTYPE html>
 <html>
