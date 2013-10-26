@@ -1,6 +1,6 @@
 module Bane
 
-  class ServiceRegistry
+  class BehaviorRepository
     def all_servers
       Behaviors.constants.map { |name| Behaviors.const_get(name) }.grep(Class)
     end

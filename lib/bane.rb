@@ -1,5 +1,5 @@
 require 'bane/extensions'
-require 'bane/service_registry'
+require 'bane/behavior_repository'
 require 'bane/behaviors'
 require 'bane/launcher'
 require 'bane/behavior_server'
