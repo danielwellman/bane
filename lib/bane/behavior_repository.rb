@@ -1,10 +1,6 @@
 module Bane
 
   class BehaviorRepository
-    def all_servers
-      Behaviors.constants.map { |name| Behaviors.const_get(name) }.grep(Class)
-    end
-
     def all_server_names
       all_servers.map(&:unqualified_name).sort
     end
@@ -22,6 +18,10 @@ module Bane
     end
 
     private
+
+    def all_servers
+      Behaviors.constants.map { |name| Behaviors.const_get(name) }.grep(Class)
+    end
 
     def find(behavior_name)
       all_servers.find { |behavior| behavior.unqualified_name == behavior_name }.tap do |server|
