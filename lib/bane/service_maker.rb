@@ -1,8 +1,13 @@
 module Bane
 
   class ServiceMaker
+    def initialize
+      @behaviors = ClassesInNamespace.new(Bane::Behaviors)
+      @services = ClassesInNamespace.new(Bane::Services)
+    end
+
     def all_service_names
-      (all_behaviors + all_services).map(&:unqualified_name).sort
+      (@behaviors.names + @services.names).sort
     end
 
     def create(service_names, starting_port, host)
@@ -19,21 +24,17 @@ module Bane
 
     private
 
-    def all_behaviors
-      Behaviors.constants.map { |name| Behaviors.const_get(name) }.grep(Class)
-    end
-
-    def all_services
-      Services.constants.map { |name| Services.const_get(name) }.grep(Class)
-    end
-
     def find(target_name)
-      behavior = all_behaviors.find { |behavior| behavior.unqualified_name == target_name }
-      return BehaviorMaker.new(behavior) if behavior
-      service = all_services.find { |service| service.unqualified_name == target_name }
-      return service if service
+      behavior = @behaviors.find(target_name)
+      service = @services.find(target_name)
 
-      raise UnknownServiceError.new(target_name) unless behavior
+      if behavior
+        BehaviorMaker.new(behavior)
+      elsif service
+        service
+      else
+        raise UnknownServiceError.new(target_name) unless behavior
+      end
     end
   end
 
@@ -53,5 +54,24 @@ module Bane
     end
   end
 
+  class ClassesInNamespace
+    attr_reader :namespace
+
+    def initialize(namespace)
+      @namespace = namespace
+    end
+
+    def all
+      namespace.constants.map { |name| namespace.const_get(name) }.grep(Class)
+    end
+
+    def names
+      all.map(&:unqualified_name)
+    end
+
+    def find(desired_name)
+      all.find { |clazz| clazz.unqualified_name == desired_name }
+    end
+  end
 
 end
