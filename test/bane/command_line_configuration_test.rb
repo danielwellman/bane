@@ -12,16 +12,16 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     create_configuration_for([3000, 'CloseImmediately'])
   end
 
-  def test_creates_all_known_behavior_if_only_port_specified
-    servers = create_configuration_for([4000])
-    assert servers.size > 1, "Expected to create many servers, but instead got #{servers}"
-  end
-
   def test_creates_multiple_behaviors_starting_on_given_port
     expect_behavior_created_with port: 3000, behavior: Behaviors::CloseImmediately
     expect_behavior_created_with port: 3001, behavior: Behaviors::CloseAfterPause
 
     create_configuration_for([3000, 'CloseImmediately', 'CloseAfterPause'])
+  end
+
+  def test_creates_all_known_behavior_if_only_port_specified
+    servers = create_configuration_for([4000])
+    assert servers.size > 1, "Expected to create many servers, but instead got #{servers}"
   end
 
   def test_creates_specified_service_on_given_port
