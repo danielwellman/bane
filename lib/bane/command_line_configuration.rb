@@ -3,7 +3,7 @@ require 'optparse'
 module Bane
   class CommandLineConfiguration
     def initialize
-      @behaviors = BehaviorRepository.new
+      @behaviors = ServiceMaker.new
       @options = {host: BehaviorServer::DEFAULT_HOST}
       @option_parser = init_option_parser
     end
@@ -38,7 +38,7 @@ module Bane
         end
         opts.separator ''
         opts.separator 'All behaviors:'
-        opts.separator @behaviors.all_server_names.map { |title| " - #{title}" }.join("\n")
+        opts.separator @behaviors.all_service_names.map { |title| " - #{title}" }.join("\n")
       end
     end
 
@@ -60,7 +60,7 @@ module Bane
       else
         @behaviors.create_all(port, host)
       end
-      rescue UnknownBehaviorError => ube
+      rescue UnknownServiceError => ube
         raise ConfigurationError, ube.message
     end
 

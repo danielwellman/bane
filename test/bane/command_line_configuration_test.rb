@@ -7,45 +7,51 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   IRRELEVANT_BEHAVIOR = 'CloseImmediately'
 
   def test_creates_specified_behavior_on_given_port
-    expect_server_created_with(port: 3000, behavior: Behaviors::CloseImmediately)
+    expect_behavior_created_with(port: 3000, behavior: Behaviors::CloseImmediately)
 
     create_configuration_for([3000, 'CloseImmediately'])
   end
 
   def test_creates_all_known_behavior_if_only_port_specified
-    # TODO This test style is much different from all others.. we previously
-    # mocked the call to ServiceRegistry#all_servers - which felt funny.
     servers = create_configuration_for([4000])
     assert servers.size > 1, "Expected to create many servers, but instead got #{servers}"
   end
 
   def test_creates_multiple_behaviors_starting_on_given_port
-    expect_server_created_with port: 3000, behavior: Behaviors::CloseImmediately
-    expect_server_created_with port: 3001, behavior: Behaviors::CloseAfterPause
+    expect_behavior_created_with port: 3000, behavior: Behaviors::CloseImmediately
+    expect_behavior_created_with port: 3001, behavior: Behaviors::CloseAfterPause
 
     create_configuration_for([3000, 'CloseImmediately', 'CloseAfterPause'])
   end
 
+  def test_creates_specified_service_on_given_port
+    expect_service_created_with(port: 3000, service: Services::NeverListen)
+
+    create_configuration_for([3000, 'NeverListen'])
+  end
+
+
+
   def test_dash_l_option_sets_listen_host_to_localhost
-    expect_server_created_with host: BehaviorServer::DEFAULT_HOST
+    expect_behavior_created_with host: BehaviorServer::DEFAULT_HOST
 
     create_configuration_for(['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_localhost_sets_listen_host_to_localhost
-    expect_server_created_with host: BehaviorServer::DEFAULT_HOST
+    expect_behavior_created_with host: BehaviorServer::DEFAULT_HOST
 
     create_configuration_for(['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_dash_a_option_sets_listen_host_to_all_interfaces
-    expect_server_created_with host: BehaviorServer::ALL_INTERFACES
+    expect_behavior_created_with host: BehaviorServer::ALL_INTERFACES
 
     create_configuration_for(['-a', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_all_hosts_option_sets_listen_host_to_all_interfaces
-    expect_server_created_with host: BehaviorServer::ALL_INTERFACES
+    expect_behavior_created_with host: BehaviorServer::ALL_INTERFACES
 
     create_configuration_for(['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
@@ -60,9 +66,9 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
                                                    'Should have indicated the port was invalid.')
   end
 
-  def test_unknown_behavior_fails_with_unknown_behavior_message
-    assert_invalid_arguments_fail_matching_message([IRRELEVANT_PORT, 'AnUnknownBehavior'], /Unknown Behavior/i,
-                                                   'Should have indicated the given behavior is unknown.')
+  def test_unknown_service_fails_with_message
+    assert_invalid_arguments_fail_matching_message([IRRELEVANT_PORT, 'AnUnknownService'], /Unknown Service/i,
+                                                   'Should have indicated the given service is unknown.')
   end
 
   def test_invalid_option_fails_with_error_message
@@ -77,10 +83,17 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     CommandLineConfiguration.new().parse(array)
   end
 
-  def expect_server_created_with(arguments)
+  def expect_behavior_created_with(arguments)
     arguments = {port: anything(), host: anything()}.merge(arguments)
     behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
-    BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host])
+    BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host]).returns(Object.new)
+  end
+
+  def expect_service_created_with(arguments)
+    service_class = arguments[:service]
+    port = arguments[:port]
+    host = arguments[:host] || anything()
+    service_class.expects(:new).with(arguments[:port], anything()).returns(Object.new)
   end
 
   def assert_invalid_arguments_fail_matching_message(arguments, message_matcher, failure_message)
