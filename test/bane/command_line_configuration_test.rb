@@ -90,10 +90,9 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def expect_service_created_with(arguments)
-    service_class = arguments[:service]
-    port = arguments[:port]
-    host = arguments[:host] || anything()
-    service_class.expects(:new).with(arguments[:port], anything()).returns(Object.new)
+    service_class = arguments.fetch(:service)
+    port = arguments.fetch(:port)
+    service_class.expects(:new).with(port, anything()).returns(Object.new)
   end
 
   def assert_invalid_arguments_fail_matching_message(arguments, message_matcher, failure_message)
