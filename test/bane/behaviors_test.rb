@@ -99,6 +99,14 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_match /HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code'
   end
 
+  def test_echo_response_returns_received_characters
+    @fake_connection.will_send("Hello, echo!")
+
+    query_server(EchoResponse.new)
+
+    assert_equal "Hello, echo!", response
+  end
+
   def test_for_each_line_reads_a_line_before_responding
     server = Bane::Behaviors::FixedResponseForEachLine.new({message: "Dynamic"})
 

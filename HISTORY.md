@@ -3,6 +3,8 @@
 ### Added
  * Trap SIGINT to gracefully stop servers
  * Remove Ruby 1.8.7 support
+ * The EchoResponse behavior which replies with each line sent
+ * The NeverListen service which binds to a port but never calls listen(2)
 
 ### Removed
   * The fancy, flexible ConfigurationParser has been deleted. Command-line invocation now uses the CommandLineConfiguration parser.  For programmatic invocation, see the examples.
