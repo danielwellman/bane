@@ -1,8 +1,8 @@
 module Bane
 
   class ServiceMaker
-    def all_server_names
-      all_behaviors.map(&:unqualified_name).sort
+    def all_service_names
+      (all_behaviors + all_services).map(&:unqualified_name).sort
     end
 
     def create(service_names, starting_port, host)
@@ -14,7 +14,7 @@ module Bane
     end
 
     def create_all(starting_port, host)
-      create(all_server_names, starting_port, host)
+      create(all_service_names, starting_port, host)
     end
 
     private
@@ -23,13 +23,17 @@ module Bane
       Behaviors.constants.map { |name| Behaviors.const_get(name) }.grep(Class)
     end
 
-    def find(behavior_name)
-      behavior = all_behaviors.find { |behavior| behavior.unqualified_name == behavior_name }
-      # if we did get a behavior, then return a BehaviorMaker
-      # ... if we didnt' get one, then look it up in services and try to return a servicemaker
-      # .. and if we didn't find anywhere, raise an error
-      raise UnknownServiceError.new(behavior_name) unless behavior
-      BehaviorMaker.new(behavior)
+    def all_services
+      Services.constants.map { |name| Services.const_get(name) }.grep(Class)
+    end
+
+    def find(target_name)
+      behavior = all_behaviors.find { |behavior| behavior.unqualified_name == target_name }
+      return BehaviorMaker.new(behavior) if behavior
+      service = all_services.find { |service| service.unqualified_name == target_name }
+      return service if service
+
+      raise UnknownServiceError.new(target_name) unless behavior
     end
   end
 

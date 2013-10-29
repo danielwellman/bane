@@ -39,7 +39,7 @@ module Bane
       attr_reader :host, :port, :logger
 
       def log(message)
-        logger.puts "[#{Time.new.ctime}] #{self.class.simple_name} #{host}:#{port} #{message}"
+        logger.puts "[#{Time.new.ctime}] #{self.class.unqualified_name} #{host}:#{port} #{message}"
       end
     end
   end
