@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
-require 'timeout'
 require 'mocha/setup'
 
 class BehaviorsTest < Test::Unit::TestCase
@@ -43,9 +42,7 @@ class BehaviorsTest < Test::Unit::TestCase
   def test_never_respond_never_sends_a_response
     server = NeverRespond.new
 
-    assert_raise Timeout::Error do
-      Timeout::timeout(1) { query_server(server) }
-    end
+    assert_times_out { query_server(server) }
     assert_empty_response
   end
 

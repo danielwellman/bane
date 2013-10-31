@@ -1,9 +1,17 @@
 require 'rubygems'
 require 'test/unit'
 require 'stringio'
+require 'timeout'
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require 'bane'
+
+
+def assert_times_out
+  assert_raise Timeout::Error do
+    Timeout::timeout(1) { yield }
+  end
+end
 
 
 IRRELEVANT_PORT = 4001
