@@ -4,9 +4,10 @@ module Bane
   module Services
     class NeverListen
 
-      def initialize(port, host = BehaviorServer::DEFAULT_HOST, options = {})
+      def initialize(port, host = BehaviorServer::DEFAULT_HOST)
         @port = port
         @host = host
+        self.stdlog= $stderr
       end
 
       def start
