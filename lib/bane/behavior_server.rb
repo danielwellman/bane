@@ -3,9 +3,7 @@ require 'gserver'
 module Bane
   class BehaviorServer < GServer
 
-    ALL_INTERFACES = '0.0.0.0'
-
-    def initialize(port, behavior, host = BehaviorServer::DEFAULT_HOST)
+    def initialize(port, behavior, host = Services::DEFAULT_HOST)
       super(port, host)
       @behavior = behavior
       self.audit = true

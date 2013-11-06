@@ -33,25 +33,25 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
 
   def test_dash_l_option_sets_listen_host_to_localhost
-    expect_behavior_created_with host: BehaviorServer::DEFAULT_HOST
+    expect_behavior_created_with host: Services::DEFAULT_HOST
 
     create_configuration_for(['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_localhost_sets_listen_host_to_localhost
-    expect_behavior_created_with host: BehaviorServer::DEFAULT_HOST
+    expect_behavior_created_with host: Services::DEFAULT_HOST
 
     create_configuration_for(['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_dash_a_option_sets_listen_host_to_all_interfaces
-    expect_behavior_created_with host: BehaviorServer::ALL_INTERFACES
+    expect_behavior_created_with host: Services::ALL_INTERFACES
 
     create_configuration_for(['-a', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_all_hosts_option_sets_listen_host_to_all_interfaces
-    expect_behavior_created_with host: BehaviorServer::ALL_INTERFACES
+    expect_behavior_created_with host: Services::ALL_INTERFACES
 
     create_configuration_for(['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end

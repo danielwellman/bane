@@ -4,7 +4,7 @@ module Bane
   class CommandLineConfiguration
     def initialize
       @services = ServiceMaker.new
-      @options = {host: BehaviorServer::DEFAULT_HOST}
+      @options = {host: default_host()}
       @option_parser = init_option_parser
     end
 
@@ -30,11 +30,11 @@ module Bane
         opts.banner = 'Usage: bane [options] port [behaviors]'
         opts.separator ''
         opts.on('-l', '--listen-on-localhost',
-          "Listen on localhost, (#{BehaviorServer::DEFAULT_HOST}). [default]") do
-          @options[:host] = BehaviorServer::DEFAULT_HOST
+          "Listen on localhost, (#{default_host}). [default]") do
+          @options[:host] = default_host
         end
-        opts.on('-a', '--listen-on-all-hosts', "Listen on all interfaces, (#{BehaviorServer::ALL_INTERFACES})") do
-          @options[:host] = BehaviorServer::ALL_INTERFACES
+        opts.on('-a', '--listen-on-all-hosts', "Listen on all interfaces, (#{all_interfaces})") do
+          @options[:host] = all_interfaces
         end
         opts.separator ''
         opts.separator 'All behaviors:'
@@ -62,6 +62,14 @@ module Bane
       end
       rescue UnknownServiceError => ube
         raise ConfigurationError, ube.message
+    end
+
+    def all_interfaces
+      Services::ALL_INTERFACES
+    end
+
+    def default_host
+      Services::DEFAULT_HOST
     end
 
   end

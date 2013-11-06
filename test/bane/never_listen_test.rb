@@ -4,7 +4,7 @@ require 'socket'
 class NeverListenTest < Test::Unit::TestCase
 
   def test_never_connects
-    service = Bane::Services::NeverListen.make(port, Bane::BehaviorServer::DEFAULT_HOST)
+    service = Bane::Services::NeverListen.make(port, Bane::Services::DEFAULT_HOST)
     service.stdlog = StringIO.new
     service.start
 

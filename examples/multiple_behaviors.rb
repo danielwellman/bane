@@ -13,7 +13,7 @@ fixed_response = Behaviors::FixedResponse.new(message: "OK")
 
 launcher = Launcher.new([BehaviorServer.new(3000, close_immediately),
                         BehaviorServer.new(8000, never_respond),
-                        BehaviorServer.new(8080, fixed_response, BehaviorServer::ALL_INTERFACES)])
+                        BehaviorServer.new(8080, fixed_response, Services::ALL_INTERFACES)])
 launcher.start
 # To run until interrupt, use the following line:
 #launcher.join

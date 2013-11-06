@@ -79,15 +79,6 @@ class BehaviorServerTest < Test::Unit::TestCase
     assert_respond_to(@object, :stdlog=)
   end
 
-  # Verify the contract required for the class / constants
-
-  def test_class_defines_default_host_constant
-    assert BehaviorServer.const_defined? :DEFAULT_HOST
-  end
-
-  def test_class_defines_all_interfaces_constant
-    assert BehaviorServer.const_defined? :ALL_INTERFACES
-  end
 end
 
 module Bane

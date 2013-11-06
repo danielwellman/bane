@@ -2,9 +2,13 @@ require 'socket'
 
 module Bane
   module Services
+
+    DEFAULT_HOST = '127.0.0.1'
+    ALL_INTERFACES = '0.0.0.0'
+
     class NeverListen
 
-      def initialize(port, host = BehaviorServer::DEFAULT_HOST)
+      def initialize(port, host = Services::DEFAULT_HOST)
         @port = port
         @host = host
         self.stdlog= $stderr
