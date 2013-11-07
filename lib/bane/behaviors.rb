@@ -165,6 +165,8 @@ EOF
       end
     end
 
+    EXPORTED = self.constants.map { |name| self.const_get(name) }.grep(Class)
+
   end
 end
 

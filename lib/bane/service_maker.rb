@@ -2,8 +2,8 @@ module Bane
 
   class ServiceMaker
     def initialize
-      @behaviors = ClassesInNamespace.new(Bane::Behaviors)
-      @services = ClassesInNamespace.new(Bane::Services)
+      @behaviors = ClassesInNamespace.new(Bane::Behaviors::EXPORTED)
+      @services = ClassesInNamespace.new(Bane::Services::EXPORTED)
     end
 
     def all_service_names
@@ -50,19 +50,15 @@ module Bane
     end
 
     def make(port, host)
-      BehaviorServer.new(port, @behavior.new, host)
+      Services::BehaviorServer.new(port, @behavior.new, host)
     end
   end
 
   class ClassesInNamespace
-    attr_reader :namespace
+    attr_reader :all
 
-    def initialize(namespace)
-      @namespace = namespace
-    end
-
-    def all
-      namespace.constants.map { |name| namespace.const_get(name) }.grep(Class)
+    def initialize(all)
+      @all = all
     end
 
     def names

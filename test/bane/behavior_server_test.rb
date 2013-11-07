@@ -3,6 +3,7 @@ require 'mocha/setup'
 
 class BehaviorServerTest < Test::Unit::TestCase
   include Bane
+  include Bane::Services
   
   IRRELEVANT_IO_STREAM = nil
   IRRELEVANT_OPTIONS = {}
@@ -10,7 +11,7 @@ class BehaviorServerTest < Test::Unit::TestCase
   IRRELEVANT_BEHAVIOR = nil
 
   def setup
-    @object = Bane::BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR)
+    @object = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR)
   end
 
   def test_initializes_server_on_specified_port

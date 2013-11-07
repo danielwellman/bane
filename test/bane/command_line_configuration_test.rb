@@ -86,7 +86,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   def expect_behavior_created_with(arguments)
     arguments = {port: anything(), host: anything()}.merge(arguments)
     behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
-    BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host]).returns(Object.new)
+    Services::BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host]).returns(Object.new)
   end
 
   def expect_service_created_with(arguments)

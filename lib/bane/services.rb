@@ -47,5 +47,8 @@ module Bane
         logger.puts "[#{Time.new.ctime}] #{self.class.unqualified_name} #{host}:#{port} #{message}"
       end
     end
+
+    EXPORTED = [NeverListen]
+
   end
 end

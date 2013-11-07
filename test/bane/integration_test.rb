@@ -31,7 +31,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
   private
 
   def run_server_with(port, behavior, &block)
-    behavior = Bane::BehaviorServer.new(port, behavior.new)
+    behavior = Bane::Services::BehaviorServer.new(port, behavior.new)
     launcher = Bane::Launcher.new([behavior], quiet_logger)
     launch_and_stop_safely(launcher, &block)
   end

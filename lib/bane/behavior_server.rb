@@ -1,45 +1,48 @@
 require 'gserver'
 
 module Bane
-  class BehaviorServer < GServer
+  module Services
 
-    def initialize(port, behavior, host = Services::DEFAULT_HOST)
-      super(port, host)
-      @behavior = behavior
-      self.audit = true
-    end
+    class BehaviorServer < GServer
 
-    def serve(io)
-      @behavior.serve(io)
-    end
+      def initialize(port, behavior, host = Services::DEFAULT_HOST)
+        super(port, host)
+        @behavior = behavior
+        self.audit = true
+      end
 
-    def to_s
-      "<Bane::BehaviorServer: port=#{@port}, behavior=#{@behavior.class}>"
-    end
-    
-    protected
+      def serve(io)
+        @behavior.serve(io)
+      end
 
-    alias_method :original_log, :log
+      def to_s
+        "<Bane::BehaviorServer: port=#{@port}, behavior=#{@behavior.class}>"
+      end
 
-    def log(message)
-      original_log("#{@behavior.class.unqualified_name} #{@host}:#{@port} #{message}")
-    end
+      protected
 
-    def connecting(client)
-      addr = client.peeraddr
-      log("client:#{addr[1]} #{addr[2]}<#{addr[3]}> connect")
-    end
+      alias_method :original_log, :log
 
-    def disconnecting(client_port)
-      log("client:#{client_port} disconnect")
-    end
+      def log(message)
+        original_log("#{@behavior.class.unqualified_name} #{@host}:#{@port} #{message}")
+      end
 
-    def starting
-      log('start')
-    end
+      def connecting(client)
+        addr = client.peeraddr
+        log("client:#{addr[1]} #{addr[2]}<#{addr[3]}> connect")
+      end
 
-    def stopping
-      log('stop')
+      def disconnecting(client_port)
+        log("client:#{client_port} disconnect")
+      end
+
+      def starting
+        log('start')
+      end
+
+      def stopping
+        log('stop')
+      end
     end
   end
 end
