@@ -5,7 +5,7 @@ require 'timeout'
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require 'bane'
-
+require_relative 'bane/launchable_role_tests'
 
 def assert_times_out
   assert_raise Timeout::Error do

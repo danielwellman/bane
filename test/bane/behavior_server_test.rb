@@ -2,6 +2,8 @@ require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
 require 'mocha/setup'
 
 class BehaviorServerTest < Test::Unit::TestCase
+  include LaunchableRoleTests
+
   include Bane
   include Bane::Services
   
@@ -59,25 +61,6 @@ class BehaviorServerTest < Test::Unit::TestCase
 
     assert_match /SampleForTesting/, logger.string, "Log for #{method} should contain class short name"
     assert_no_match /Behaviors::SampleForTesting/, logger.string, "Log for #{method} should not contain expanded module name"
-  end
-
-
-  # Verify the contract required for Launcher
-
-  def test_responds_to_start
-    assert_respond_to(@object, :start)
-  end
-
-  def test_responds_to_stop
-    assert_respond_to(@object, :stop)
-  end
-
-  def test_responds_to_join
-    assert_respond_to(@object, :join)
-  end
-
-  def test_responds_to_stdlog
-    assert_respond_to(@object, :stdlog=)
   end
 
 end
