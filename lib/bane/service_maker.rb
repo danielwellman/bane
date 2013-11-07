@@ -2,40 +2,25 @@ module Bane
 
   class ServiceMaker
     def initialize
-      @behaviors = ClassesInNamespace.new(Bane::Behaviors::EXPORTED)
-      @services = ClassesInNamespace.new(Bane::Services::EXPORTED)
+      @everything = {}
+      Bane::Behaviors::EXPORTED.each {|behavior| @everything[behavior.unqualified_name] = BehaviorMaker.new(behavior) }
+      Bane::Services::EXPORTED.each {|service| @everything[service.unqualified_name] = service }
     end
 
     def all_service_names
-      (@behaviors.names + @services.names).sort
+      @everything.keys.sort
     end
 
     def create(service_names, starting_port, host)
-      makers = service_names.map { |service_name| find(service_name) }
-
-      makers.map.with_index do |maker, index|
-        maker.make(starting_port + index, host)
-      end
+      service_names
+        .map { |service_name| @everything.fetch(service_name) { raise UnknownServiceError.new(service_name)}}
+        .map.with_index { |maker, index| maker.make(starting_port + index, host) }
     end
 
     def create_all(starting_port, host)
       create(all_service_names, starting_port, host)
     end
 
-    private
-
-    def find(target_name)
-      behavior = @behaviors.find(target_name)
-      service = @services.find(target_name)
-
-      if behavior
-        BehaviorMaker.new(behavior)
-      elsif service
-        service
-      else
-        raise UnknownServiceError.new(target_name) unless behavior
-      end
-    end
   end
 
   class UnknownServiceError < RuntimeError
@@ -51,22 +36,6 @@ module Bane
 
     def make(port, host)
       Services::BehaviorServer.new(port, @behavior.new, host)
-    end
-  end
-
-  class ClassesInNamespace
-    attr_reader :all
-
-    def initialize(all)
-      @all = all
-    end
-
-    def names
-      all.map(&:unqualified_name)
-    end
-
-    def find(desired_name)
-      all.find { |clazz| clazz.unqualified_name == desired_name }
     end
   end
 
