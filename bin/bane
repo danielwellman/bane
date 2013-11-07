@@ -3,17 +3,17 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
-config = Bane::CommandLineConfiguration.new()
+parser = Bane::ArgumentsParser.new()
 begin
-  servers = config.parse(ARGV)
+  servers = parser.parse(ARGV)
 rescue Bane::ConfigurationError => ce
   puts ce.message
-  puts config.usage
+  puts parser.usage
   exit 1
 end
 
 if servers.empty?
-  puts config.usage
+  puts parser.usage
   exit 0
 end
 

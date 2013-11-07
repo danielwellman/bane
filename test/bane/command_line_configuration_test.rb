@@ -80,7 +80,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   private
 
   def create_configuration_for(array)
-    CommandLineConfiguration.new().parse(array)
+    ArgumentsParser.new().parse(array)
   end
 
   def expect_behavior_created_with(arguments)

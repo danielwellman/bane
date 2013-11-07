@@ -1,7 +1,7 @@
 require 'optparse'
 
 module Bane
-  class CommandLineConfiguration
+  class ArgumentsParser
     def initialize
       @service_maker = ServiceMaker.new
       @options = {host: default_host()}
@@ -14,9 +14,10 @@ module Bane
       return [] if (args.empty?)
 
       port = parse_port(args[0])
-      behaviors = args.drop(1)
+      services = args.drop(1)
       host = @options[:host]
-      create(behaviors, port, host)
+      configuration = Configuration.new(port, host, services)
+      create(configuration.services, configuration.port, configuration.host)
     end
 
     def usage
@@ -76,4 +77,5 @@ module Bane
 
   class ConfigurationError < RuntimeError; end
 
+  Configuration = Struct.new(:port, :host, :services)
 end
