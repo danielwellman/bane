@@ -3,7 +3,7 @@ require 'optparse'
 module Bane
   class CommandLineConfiguration
     def initialize
-      @services = ServiceMaker.new
+      @service_maker = ServiceMaker.new
       @options = {host: default_host()}
       @option_parser = init_option_parser
     end
@@ -38,7 +38,7 @@ module Bane
         end
         opts.separator ''
         opts.separator 'All behaviors:'
-        opts.separator @services.all_service_names.map { |title| " - #{title}" }.join("\n")
+        opts.separator @service_maker.all_service_names.map { |title| " - #{title}" }.join("\n")
       end
     end
 
@@ -56,9 +56,9 @@ module Bane
 
     def create(behaviors, port, host)
       if behaviors.any?
-        @services.create(behaviors, port, host)
+        @service_maker.create(behaviors, port, host)
       else
-        @services.create_all(port, host)
+        @service_maker.create_all(port, host)
       end
       rescue UnknownServiceError => ube
         raise ConfigurationError, ube.message
