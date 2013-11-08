@@ -14,7 +14,7 @@ class NeverListenTest < Test::Unit::TestCase
     service.stdlog = StringIO.new
     service.start
 
-    assert_times_out {
+    assert_raise(Errno::ECONNREFUSED) {
       TCPSocket.new('localhost', port)
     }
   ensure
