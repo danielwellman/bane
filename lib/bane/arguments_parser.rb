@@ -4,7 +4,7 @@ module Bane
   class ArgumentsParser
     def initialize
       @service_maker = ServiceMaker.new
-      @options = {host: default_host()}
+      @options = {host: default_host}
       @option_parser = init_option_parser
     end
 
