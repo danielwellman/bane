@@ -1,14 +1,14 @@
 require 'optparse'
 
 module Bane
-  class ArgumentsParser
+  class CommandLineConfiguration
     def initialize
       @service_maker = ServiceMaker.new
-      @options_parser = BaneOptionsParser.new
+      @arguments_parser = ArgumentsParser.new
     end
 
     def parse(args)
-      arguments = @options_parser.parse(args)
+      arguments = @arguments_parser.parse(args)
 
       return [] if arguments.empty? #TODO don't depend on mutated args
 
@@ -16,7 +16,7 @@ module Bane
     end
 
     def usage
-      @options_parser.usage
+      @arguments_parser.usage
     end
 
     private
@@ -36,7 +36,7 @@ module Bane
   class ConfigurationError < RuntimeError;
   end
 
-  class BaneOptionsParser
+  class ArgumentsParser
     def initialize
       @service_maker = ServiceMaker.new
       @options = {host: default_host}
