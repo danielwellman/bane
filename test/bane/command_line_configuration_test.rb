@@ -56,31 +56,32 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     create_configuration_for(['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
-  def test_no_arguments_returns_empty_configuration
-    assert(create_configuration_for([]).empty?,
-           'Should have returned no configurations for empty arguments')
+
+  def test_no_arguments_exits_with_success_and_usage
+    failure_handler = mock()
+    failure_handler.expects(:exit_success).with(regexp_matches(/usage/i))
+    CommandLineConfiguration.new(failure_handler).parse([])
   end
 
+
+
   def test_non_integer_port_fails_with_error_message
-    assert_invalid_arguments_fail_matching_message(['text_instead_of_an_integer'], /Invalid Port Number/i,
-                                                   'Should have indicated the port was invalid.')
+    assert_invalid_arguments_fail_matching_message(['text_instead_of_an_integer'], /Invalid Port Number/i)
   end
 
   def test_unknown_service_fails_with_message
-    assert_invalid_arguments_fail_matching_message([IRRELEVANT_PORT, 'AnUnknownService'], /Unknown Service/i,
-                                                   'Should have indicated the given service is unknown.')
+    assert_invalid_arguments_fail_matching_message([IRRELEVANT_PORT, 'AnUnknownService'], /Unknown Service/i)
   end
 
   def test_invalid_option_fails_with_error_message
-    assert_invalid_arguments_fail_matching_message(['--unknown-option', IRRELEVANT_PORT], /Invalid Option/i,
-                                                   'Should have indicated the --unknown-option switch was unknown.')
+    assert_invalid_arguments_fail_matching_message(['--unknown-option', IRRELEVANT_PORT], /Invalid Option/i)
   end
 
 
   private
 
   def create_configuration_for(array)
-    CommandLineConfiguration.new().parse(array)
+    CommandLineConfiguration.new(mock('system adapter')).parse(array)
   end
 
   def expect_behavior_created_with(arguments)
@@ -95,11 +96,10 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     service_class.expects(:new).with(port, anything()).returns(Object.new)
   end
 
-  def assert_invalid_arguments_fail_matching_message(arguments, message_matcher, failure_message)
-    create_configuration_for(arguments)
-    fail 'Should have failed'
-    rescue ConfigurationError => ce
-      assert_match(message_matcher, ce.message, failure_message)
+  def assert_invalid_arguments_fail_matching_message(arguments, message_matcher)
+    system = mock('system adapter')
+    system.expects(:incorrect_usage).with(regexp_matches(message_matcher))
+    CommandLineConfiguration.new(system).parse(arguments)
   end
 
 

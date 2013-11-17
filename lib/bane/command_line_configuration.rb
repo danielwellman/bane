@@ -2,21 +2,22 @@ require 'optparse'
 
 module Bane
   class CommandLineConfiguration
-    def initialize
+    def initialize(system)
       @service_maker = ServiceMaker.new
       @arguments_parser = ArgumentsParser.new
+      @system = system
     end
 
     def parse(args)
       arguments = @arguments_parser.parse(args)
 
-      return [] if arguments.empty?
-
-      create(arguments.services, arguments.port, arguments.host)
-    end
-
-    def usage
-      @arguments_parser.usage
+      if arguments.valid?
+        create(arguments.services, arguments.port, arguments.host)
+      else
+        @system.exit_success(@arguments_parser.usage)
+      end
+    rescue ConfigurationError => ce
+      @system.incorrect_usage([ce.message, @arguments_parser.usage].join("\n"))
     end
 
     private
@@ -103,8 +104,8 @@ module Bane
       @services = services
     end
 
-    def empty?
-      false
+    def valid?
+      true
     end
 
     def self.empty
@@ -113,8 +114,21 @@ module Bane
   end
 
   class EmptyArguments
-    def empty?
-      true
+    def valid?
+      false
+    end
+  end
+
+
+  class SystemAdapter
+    def exit_success(message)
+      puts message
+      exit(0)
+    end
+
+    def incorrect_usage(message)
+      puts message
+      exit(1)
     end
   end
 

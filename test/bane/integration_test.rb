@@ -37,7 +37,7 @@ class BaneIntegrationTest < Test::Unit::TestCase
   end
 
   def run_server_with_cli_arguments(arguments, &block)
-    config = Bane::CommandLineConfiguration.new
+    config = Bane::CommandLineConfiguration.new(mock('system adapter'))
     launcher = Bane::Launcher.new(config.parse(arguments), quiet_logger)
     launch_and_stop_safely(launcher, &block)
   end
