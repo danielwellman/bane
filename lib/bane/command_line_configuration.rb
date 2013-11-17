@@ -9,18 +9,20 @@ module Bane
     end
 
     def parse(args)
-      arguments = @arguments_parser.parse(args)
-
-      if arguments.valid?
-        create(arguments.services, arguments.port, arguments.host)
-      else
-        @system.exit_success(@arguments_parser.usage)
-      end
+      create_servers_with(@arguments_parser.parse(args))
     rescue ConfigurationError => ce
       @system.incorrect_usage([ce.message, @arguments_parser.usage].join("\n"))
     end
 
     private
+
+    def create_servers_with(arguments)
+      if arguments.valid?
+        create(arguments.services, arguments.port, arguments.host)
+      else
+        @system.exit_success(@arguments_parser.usage)
+      end
+    end
 
     def create(services, port, host)
       if services.any?
