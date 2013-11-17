@@ -8,7 +8,7 @@ module Bane
       @system = system
     end
 
-    def parse(args)
+    def process(args)
       create_servers_with(@arguments_parser.parse(args))
     rescue ConfigurationError => ce
       @system.incorrect_usage([ce.message, @arguments_parser.usage].join("\n"))

@@ -60,7 +60,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   def test_no_arguments_exits_with_success_and_usage
     failure_handler = mock()
     failure_handler.expects(:exit_success).with(regexp_matches(/usage/i))
-    CommandLineConfiguration.new(failure_handler).parse([])
+    CommandLineConfiguration.new(failure_handler).process([])
   end
 
 
@@ -81,7 +81,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   private
 
   def create_configuration_for(array)
-    CommandLineConfiguration.new(mock('system adapter')).parse(array)
+    CommandLineConfiguration.new(mock('system adapter')).process(array)
   end
 
   def expect_behavior_created_with(arguments)
@@ -99,7 +99,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   def assert_invalid_arguments_fail_matching_message(arguments, message_matcher)
     system = mock('system adapter')
     system.expects(:incorrect_usage).with(regexp_matches(message_matcher))
-    CommandLineConfiguration.new(system).parse(arguments)
+    CommandLineConfiguration.new(system).process(arguments)
   end
 
 

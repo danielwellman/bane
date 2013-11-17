@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
 parser = Bane::CommandLineConfiguration.new(Bane::SystemAdapter.new)
-servers = parser.parse(ARGV)
+servers = parser.process(ARGV)
 
 launcher = Bane::Launcher.new(servers)
 launcher.start
