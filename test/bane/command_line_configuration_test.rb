@@ -34,27 +34,26 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
 
   def test_dash_l_option_sets_listen_host_to_localhost
-    expect_behavior_created_with host: Services::DEFAULT_HOST
-
-    create_configuration_for(['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Services::DEFAULT_HOST, ['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
-  def test_listen_on_localhost_sets_listen_host_to_localhost
-    expect_behavior_created_with host: Services::DEFAULT_HOST
 
-    create_configuration_for(['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+  def test_listen_on_localhost_sets_listen_host_to_localhost
+    assert_parses_host(Services::DEFAULT_HOST, ['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_dash_a_option_sets_listen_host_to_all_interfaces
-    expect_behavior_created_with host: Services::ALL_INTERFACES
-
-    create_configuration_for(['-a', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Services::ALL_INTERFACES, ['-a', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_all_hosts_option_sets_listen_host_to_all_interfaces
-    expect_behavior_created_with host: Services::ALL_INTERFACES
+    assert_parses_host(Services::ALL_INTERFACES, ['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+  end
 
-    create_configuration_for(['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+
+  def assert_parses_host(expected_host, arguments)
+    config = ArgumentsParser.new.parse(arguments)
+    assert_equal expected_host, config.host
   end
 
 
