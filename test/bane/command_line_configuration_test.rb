@@ -19,9 +19,10 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     create_configuration_for([3000, 'CloseImmediately', 'CloseAfterPause'])
   end
 
-  def test_creates_all_known_behavior_if_only_port_specified
+  def test_creates_all_known_behaviors_if_only_port_specified
     servers = create_configuration_for([4000])
-    assert servers.size > 1, "Expected to create many servers, but instead got #{servers}"
+    assert_equal (Behaviors::EXPORTED + Services::EXPORTED).size, servers.size,
+                 "Expected to create many servers, but instead got #{servers}"
   end
 
   def test_creates_specified_service_on_given_port
