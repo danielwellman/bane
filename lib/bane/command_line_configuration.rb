@@ -10,7 +10,7 @@ module Bane
     def parse(args)
       arguments = @arguments_parser.parse(args)
 
-      return [] if arguments.empty? #TODO don't depend on mutated args
+      return [] if arguments.empty?
 
       create(arguments.services, arguments.port, arguments.host)
     end
