@@ -33,6 +33,25 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
 
 
+  def create_configuration_for(array)
+    CommandLineConfiguration.new(mock('system adapter')).process(array)
+  end
+
+  def expect_behavior_created_with(arguments)
+    arguments = {port: anything(), host: anything()}.merge(arguments)
+    behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
+    Services::BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host]).returns(Object.new)
+  end
+
+  def expect_service_created_with(arguments)
+    service_class = arguments.fetch(:service)
+    port = arguments.fetch(:port)
+    service_class.expects(:new).with(port, anything()).returns(Object.new)
+  end
+
+
+  # Parsing the host option
+
   def test_dash_l_option_sets_listen_host_to_localhost
     assert_parses_host(Services::DEFAULT_HOST, ['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
@@ -57,13 +76,13 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
 
+  # Failure tests
+
   def test_no_arguments_exits_with_success_and_usage
     failure_handler = mock()
     failure_handler.expects(:exit_success).with(regexp_matches(/usage/i))
     CommandLineConfiguration.new(failure_handler).process([])
   end
-
-
 
   def test_non_integer_port_fails_with_error_message
     assert_invalid_arguments_fail_matching_message(['text_instead_of_an_integer'], /Invalid Port Number/i)
@@ -77,24 +96,6 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     assert_invalid_arguments_fail_matching_message(['--unknown-option', IRRELEVANT_PORT], /Invalid Option/i)
   end
 
-
-  private
-
-  def create_configuration_for(array)
-    CommandLineConfiguration.new(mock('system adapter')).process(array)
-  end
-
-  def expect_behavior_created_with(arguments)
-    arguments = {port: anything(), host: anything()}.merge(arguments)
-    behavior_matcher = arguments[:behavior] ? instance_of(arguments[:behavior]) : anything()
-    Services::BehaviorServer.expects(:new).with(arguments[:port], behavior_matcher, arguments[:host]).returns(Object.new)
-  end
-
-  def expect_service_created_with(arguments)
-    service_class = arguments.fetch(:service)
-    port = arguments.fetch(:port)
-    service_class.expects(:new).with(port, anything()).returns(Object.new)
-  end
 
   def assert_invalid_arguments_fail_matching_message(arguments, message_matcher)
     system = mock('system adapter')
