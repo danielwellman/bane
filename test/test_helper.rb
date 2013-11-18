@@ -13,8 +13,8 @@ def assert_times_out
   end
 end
 
-
 IRRELEVANT_PORT = 4001
+IRRELEVANT_BEHAVIOR = 'CloseImmediately'
 
 class FakeConnection < StringIO
 

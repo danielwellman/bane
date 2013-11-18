@@ -10,7 +10,6 @@ class BehaviorServerTest < Test::Unit::TestCase
   IRRELEVANT_IO_STREAM = nil
   IRRELEVANT_OPTIONS = {}
   IRRELEVANT_HOST = '1.1.1.1'
-  IRRELEVANT_BEHAVIOR = nil
 
   def setup
     @object = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR)
