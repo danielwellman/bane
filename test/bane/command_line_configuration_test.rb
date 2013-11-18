@@ -6,6 +6,8 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
   IRRELEVANT_BEHAVIOR = 'CloseImmediately'
 
+  # Creation tests (uses a cluster of objects starting at the top-level CommandLineConfiguration)
+
   def test_creates_specified_behavior_on_given_port
     expect_behavior_created_with(port: 3000, behavior: Behaviors::CloseImmediately)
 
@@ -50,7 +52,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
 
-  # Parsing arguments
+  # Parsing arguments (uses the isolated ArgumentsParser object)
 
   def test_parses_the_port
     config = parse(["3000", IRRELEVANT_BEHAVIOR])
@@ -94,7 +96,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
 
-  # Failure tests
+  # Failure tests (uses a cluster of objects starting at the top-level CommandLineConfiguration)
 
   def test_no_arguments_exits_with_success_and_usage
     failure_handler = mock()
