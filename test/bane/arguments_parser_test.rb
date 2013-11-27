@@ -36,14 +36,39 @@ class ArgumentsParserTest < Test::Unit::TestCase
     assert_parses_host(Services::ALL_INTERFACES, ['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
+  def test_usage_message_includes_known_makeables
+    usage = ArgumentsParser.new(['makeable1', 'makeable2']).usage
+    assert_match /makeable1\W+makeable2/i, usage
+  end
+
+  def test_no_arguments_fail_with
+    assert_invalid_arguments_fail_matching_message([], /missing arguments/i)
+  end
+
+  def test_non_integer_port_fails_with_error_message
+    assert_invalid_arguments_fail_matching_message(['text_instead_of_an_integer'], /Invalid Port Number/i)
+  end
+
+  def test_invalid_option_fails_with_error_message
+    assert_invalid_arguments_fail_matching_message(['--unknown-option', IRRELEVANT_PORT], /Invalid Option/i)
+  end
 
   def parse(arguments)
-    ArgumentsParser.new.parse(arguments)
+    ArgumentsParser.new(["makeable1", "makeable2"]).parse(arguments)
   end
 
   def assert_parses_host(expected_host, arguments)
     config = parse(arguments)
     assert_equal expected_host, config.host
+  end
+
+  def assert_invalid_arguments_fail_matching_message(arguments, message_matcher)
+    begin
+      parse(arguments)
+      flunk "Should have thrown an error"
+    rescue ConfigurationError => ce
+      assert_match message_matcher, ce.message
+    end
   end
 
 end

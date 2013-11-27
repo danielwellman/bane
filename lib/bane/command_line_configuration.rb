@@ -1,26 +1,27 @@
 module Bane
+
+  def self.find_makeables
+    Hash[Bane::Behaviors::EXPORTED.map { |behavior| [behavior.unqualified_name, BehaviorMaker.new(behavior)] }]
+    .merge(Hash[Bane::Services::EXPORTED.map { |service| [service.unqualified_name, service] }])
+  end
+
   class CommandLineConfiguration
+
     def initialize(system)
-      @service_maker = ServiceMaker.new
-      @arguments_parser = ArgumentsParser.new
+      makeables = Bane.find_makeables
+      @service_maker = ServiceMaker.new(makeables)
+      @arguments_parser = ArgumentsParser.new(makeables.keys)
       @system = system
     end
 
     def process(args)
-      create_servers_with(@arguments_parser.parse(args))
+      arguments = @arguments_parser.parse(args)
+      create(arguments.services, arguments.port, arguments.host)
     rescue ConfigurationError => ce
       @system.incorrect_usage([ce.message, @arguments_parser.usage].join("\n"))
     end
 
     private
-
-    def create_servers_with(arguments)
-      if arguments.valid?
-        create(arguments.services, arguments.port, arguments.host)
-      else
-        @system.exit_success(@arguments_parser.usage)
-      end
-    end
 
     def create(services, port, host)
       if services.any?

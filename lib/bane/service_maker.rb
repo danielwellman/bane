@@ -1,8 +1,8 @@
 module Bane
 
   class ServiceMaker
-    def initialize
-      initialize_makeables
+    def initialize(makeables)
+      @makeables = makeables
     end
 
     def all_service_names
@@ -22,12 +22,6 @@ module Bane
     private
 
     attr_reader :makeables
-
-    def initialize_makeables
-      @makeables = {}
-      Bane::Behaviors::EXPORTED.each { |behavior| @makeables[behavior.unqualified_name] = BehaviorMaker.new(behavior) }
-      Bane::Services::EXPORTED.each { |service| @makeables[service.unqualified_name] = service }
-    end
   end
 
   class UnknownServiceError < RuntimeError

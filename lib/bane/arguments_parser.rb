@@ -2,8 +2,8 @@ require 'optparse'
 
 module Bane
   class ArgumentsParser
-    def initialize
-      @service_maker = ServiceMaker.new
+    def initialize(makeable_names)
+      @makeable_names = makeable_names
       @options = {host: default_host}
       @option_parser = init_option_parser
     end
@@ -11,7 +11,7 @@ module Bane
     def parse(args)
       @option_parser.parse!(args)
 
-      return ParsedArguments.empty if args.empty?
+      raise ConfigurationError, "Missing arguments" if args.empty?
 
       port = parse_port(args[0])
       services = args.drop(1)
@@ -39,7 +39,7 @@ module Bane
         end
         opts.separator ''
         opts.separator 'All behaviors:'
-        opts.separator @service_maker.all_service_names.map { |title| " - #{title}" }.join("\n")
+        opts.separator @makeable_names.map { |title| " - #{title}" }.join("\n")
       end
     end
 
@@ -68,18 +68,6 @@ module Bane
       @services = services
     end
 
-    def valid?
-      true
-    end
-
-    def self.empty
-      EmptyArguments.new
-    end
   end
 
-  class EmptyArguments
-    def valid?
-      false
-    end
-  end
 end
