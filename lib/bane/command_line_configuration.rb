@@ -39,11 +39,6 @@ module Bane
   end
 
   class SystemAdapter
-    def exit_success(message)
-      puts message
-      exit(0)
-    end
-
     def incorrect_usage(message)
       puts message
       exit(1)
