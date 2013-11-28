@@ -7,7 +7,7 @@ module Bane
 
   class CommandLineConfiguration
 
-    def initialize(system, makeables = Bane.find_makeables)
+    def initialize(system, makeables)
       @service_maker = ServiceMaker.new(makeables)
       @arguments_parser = ArgumentsParser.new(makeables.keys)
       @system = system

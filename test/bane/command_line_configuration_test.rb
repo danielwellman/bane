@@ -6,46 +6,55 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
   # Creation tests (uses a cluster of objects starting at the top-level CommandLineConfiguration)
 
-  def test_creates_specified_behavior_on_given_port
-    expect_behavior_created_with(port: 3000, behavior: Behaviors::CloseImmediately)
+  def test_creates_specified_makeable_on_given_port
+    services = configuration_with_makeables({'ThingA' => SimpleMaker.new('ThingA'),
+                                             'ThingB' => SimpleMaker.new('ThingB')
+                                            }).process([3000, 'ThingA'])
 
-    create_configuration_for([3000, 'CloseImmediately'])
+    assert_equal 1, services.size, "Wrong number of services, got #{services}"
+    assert_makeable_created(services.first, port: 3000, name: 'ThingA')
   end
 
-  def test_creates_multiple_behaviors_starting_on_given_port
-    expect_behavior_created_with port: 3000, behavior: Behaviors::CloseImmediately
-    expect_behavior_created_with port: 3001, behavior: Behaviors::CloseAfterPause
+  def test_creates_multiple_makeables_on_increasing_ports
+    services = configuration_with_makeables({'ThingA' => SimpleMaker.new('ThingA'),
+                                             'ThingB' => SimpleMaker.new('ThingB')
+                                            }).process([4000, 'ThingA', 'ThingB'])
 
-    create_configuration_for([3000, 'CloseImmediately', 'CloseAfterPause'])
+    assert_equal 2, services.size, "Wrong number of services, got #{services}"
+    assert_makeable_created(services.first, port: 4000, name: 'ThingA')
+    assert_makeable_created(services.last, port: 4000 + 1, name: 'ThingB')
   end
 
-  def test_creates_all_known_behaviors_if_only_port_specified
-    servers = create_configuration_for([IRRELEVANT_PORT])
-    assert_equal (Behaviors::EXPORTED + Services::EXPORTED).size, servers.size,
-                 "Expected to create many servers, but instead got #{servers}"
+  def test_creates_all_known_makeables_if_only_port_specified
+    services = configuration_with_makeables({
+            'ThingA' => SimpleMaker.new('ThingA'),
+            'ThingB' => SimpleMaker.new('ThingB'),
+            'ThingC' => SimpleMaker.new('ThingC')
+    }).process([4000])
+
+    assert_equal 3, services.size, "Wrong number of services created, got #{services}"
   end
 
-  def test_creates_specified_service_on_given_port
-    expect_service_created_with(port: 3000, service: Services::NeverListen)
-
-    create_configuration_for([3000, 'NeverListen'])
+  def configuration_with_makeables(makeables_map)
+    CommandLineConfiguration.new(mock('system adapter'), makeables_map)
   end
 
-  def create_configuration_for(array)
-    CommandLineConfiguration.new(mock('system adapter')).process(array)
+  def assert_makeable_created(services, parameters)
+    assert_equal parameters.fetch(:port), services.port
+    assert_equal parameters.fetch(:name), services.name
   end
 
-  def expect_behavior_created_with(arguments)
-    behavior_matcher = instance_of(arguments.fetch(:behavior))
-    port = arguments.fetch(:port)
-    host = anything
-    Services::BehaviorServer.expects(:new).with(port, behavior_matcher, host).returns(Object.new)
-  end
+  class SimpleMaker
+    attr_reader :name, :port, :host
+    def initialize(name)
+      @name = name
+    end
 
-  def expect_service_created_with(arguments)
-    service_class = arguments.fetch(:service)
-    port = arguments.fetch(:port)
-    service_class.expects(:new).with(port, anything).returns(Object.new)
+    def make(port, host)
+      @port = port
+      @host = host
+      self
+    end
   end
 
   # Failure tests (uses a cluster of objects starting at the top-level CommandLineConfiguration)
@@ -69,7 +78,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   def assert_invalid_arguments_fail_matching_message(arguments, message_matcher)
     system = mock('system adapter')
     system.expects(:incorrect_usage).with(regexp_matches(message_matcher))
-    CommandLineConfiguration.new(system).process(arguments)
+    CommandLineConfiguration.new(system, {}).process(arguments)
   end
 
 
