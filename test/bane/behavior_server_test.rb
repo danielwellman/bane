@@ -16,19 +16,19 @@ class BehaviorServerTest < Test::Unit::TestCase
   end
 
   def test_initializes_server_on_specified_port
-    server = BehaviorServer.new(6000, IRRELEVANT_BEHAVIOR)
+    server = BehaviorServerDelegate.new(6000, IRRELEVANT_BEHAVIOR, 'hostname')
     assert_equal 6000, server.port
   end
 
   def test_initializes_server_on_specified_hostname
-    server = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR, 'hostname')
+    server = BehaviorServerDelegate.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR, 'hostname')
     assert_equal 'hostname', server.host
   end
 
   def test_delegates_serve_call_to_behavior
-    io = mock()
-    behavior = mock()
-    server = BehaviorServer.new(IRRELEVANT_PORT, behavior)
+    io = mock
+    behavior = mock
+    server = BehaviorServerDelegate.new(IRRELEVANT_PORT, behavior, 'hostname')
 
     behavior.expects(:serve).with(io)
 
@@ -53,7 +53,7 @@ class BehaviorServerTest < Test::Unit::TestCase
 
   def assert_log_message_uses_short_behavior_name_for(method)
     logger = StringIO.new
-    server = BehaviorServer.new(IRRELEVANT_PORT, Bane::Behaviors::SampleForTesting.new)
+    server = BehaviorServerDelegate.new(IRRELEVANT_PORT, Bane::Behaviors::SampleForTesting.new, 'host')
     server.stdlog = logger
     
     yield server

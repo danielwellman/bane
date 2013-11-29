@@ -3,9 +3,34 @@ require 'gserver'
 module Bane
   module Services
 
-    class BehaviorServer < GServer
+    class BehaviorServer
 
       def initialize(port, behavior, host = Services::DEFAULT_HOST)
+        @port = port
+        @host = host
+        @server = BehaviorServerDelegate.new(@port, behavior, @host)
+      end
+
+      def start
+        @server.start
+      end
+
+      def join
+        @server.join
+      end
+
+      def stop
+        @server.stop
+      end
+
+      def stdlog=(logger)
+        @server.stdlog=logger
+      end
+    end
+
+    class BehaviorServerDelegate < GServer
+
+      def initialize(port, behavior, host)
         super(port, host)
         @behavior = behavior
         self.audit = true
