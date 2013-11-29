@@ -6,9 +6,7 @@ module Bane
     class BehaviorServer
 
       def initialize(port, behavior, host = Services::DEFAULT_HOST)
-        @port = port
-        @host = host
-        @server = BehaviorServerDelegate.new(@port, behavior, @host)
+        @server = BehaviorServerDelegate.new(port, behavior, host)
       end
 
       def start
