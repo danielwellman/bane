@@ -7,18 +7,17 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   # Creation tests (uses a cluster of objects starting at the top-level CommandLineConfiguration)
 
   def test_creates_specified_makeable_on_given_port
-    services = configuration_with_makeables({'ThingA' => SimpleMaker.new('ThingA'),
-                                             'ThingB' => SimpleMaker.new('ThingB')
-                                            }).process([3000, 'ThingA'])
-
+    services = process arguments: [3000, 'ThingA'],
+                       configuration: { 'ThingA' => SimpleMaker.new('ThingA'),
+                                        'ThingB' => SimpleMaker.new('ThingB') }
     assert_equal 1, services.size, "Wrong number of services, got #{services}"
     assert_makeable_created(services.first, port: 3000, name: 'ThingA')
   end
 
   def test_creates_multiple_makeables_on_increasing_ports
-    services = configuration_with_makeables({'ThingA' => SimpleMaker.new('ThingA'),
-                                             'ThingB' => SimpleMaker.new('ThingB')
-                                            }).process([4000, 'ThingA', 'ThingB'])
+    services = process arguments: [4000, 'ThingA', 'ThingB'],
+                       configuration: {'ThingA' => SimpleMaker.new('ThingA'),
+                                       'ThingB' => SimpleMaker.new('ThingB') }
 
     assert_equal 2, services.size, "Wrong number of services, got #{services}"
     assert_makeable_created(services.first, port: 4000, name: 'ThingA')
@@ -26,17 +25,18 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def test_creates_all_known_makeables_if_only_port_specified
-    services = configuration_with_makeables({
-            'ThingA' => SimpleMaker.new('ThingA'),
-            'ThingB' => SimpleMaker.new('ThingB'),
-            'ThingC' => SimpleMaker.new('ThingC')
-    }).process([4000])
+    services = process arguments: [4000],
+                       configuration: { 'ThingA' => SimpleMaker.new('ThingA'),
+                                        'ThingB' => SimpleMaker.new('ThingB'),
+                                        'ThingC' => SimpleMaker.new('ThingC') }
 
     assert_equal 3, services.size, "Wrong number of services created, got #{services}"
   end
 
-  def configuration_with_makeables(makeables_map)
-    CommandLineConfiguration.new(makeables_map)
+  def process(options)
+    arguments = options.fetch(:arguments)
+    makeables = options.fetch(:configuration)
+    CommandLineConfiguration.new(makeables).process(arguments) { |errors| raise errors }
   end
 
   def assert_makeable_created(services, parameters)
