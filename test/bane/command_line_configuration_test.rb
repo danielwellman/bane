@@ -36,7 +36,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   end
 
   def configuration_with_makeables(makeables_map)
-    CommandLineConfiguration.new(mock('system adapter'), makeables_map)
+    CommandLineConfiguration.new(makeables_map)
   end
 
   def assert_makeable_created(services, parameters)
@@ -67,6 +67,16 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     assert_invalid_arguments_fail_matching_message(['--unknown-option', IRRELEVANT_PORT], /Invalid Option/i)
   end
 
+  def assert_invalid_arguments_fail_matching_message(arguments, message_matcher)
+    block_called = false
+    CommandLineConfiguration.new({}).process(arguments) do |error_message|
+      block_called = true
+      assert_match message_matcher, error_message
+    end
+    assert block_called, "Expected invalid arguments to invoke the failure block"
+  end
+
+
   # TODO I probably want to live somewhere else
   def test_includes_behaviors_and_services_in_all_makeables
     all_names = Bane.find_makeables.keys
@@ -74,12 +84,5 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     assert all_names.include?('NeverRespond'), "Expected 'NeverRespond' behavior to be in #{all_names}"
     assert all_names.include?('NeverListen'), "Expected 'NeverRespond' service to be in #{all_names}"
   end
-
-  def assert_invalid_arguments_fail_matching_message(arguments, message_matcher)
-    system = mock('system adapter')
-    system.expects(:incorrect_usage).with(regexp_matches(message_matcher))
-    CommandLineConfiguration.new(system, {}).process(arguments)
-  end
-
 
 end

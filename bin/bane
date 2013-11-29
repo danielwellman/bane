@@ -3,8 +3,11 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
-parser = Bane::CommandLineConfiguration.new(Bane::SystemAdapter.new, Bane.find_makeables)
-servers = parser.process(ARGV)
+parser = Bane::CommandLineConfiguration.new(Bane.find_makeables)
+servers = parser.process(ARGV) do |error_message|
+  puts error_message
+  exit 1
+end
 
 launcher = Bane::Launcher.new(servers)
 launcher.start

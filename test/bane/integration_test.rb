@@ -37,8 +37,8 @@ class BaneIntegrationTest < Test::Unit::TestCase
   end
 
   def run_server_with_cli_arguments(arguments, &block)
-    config = Bane::CommandLineConfiguration.new(mock('system adapter'), Bane.find_makeables)
-    launcher = Bane::Launcher.new(config.process(arguments), quiet_logger)
+    config = Bane::CommandLineConfiguration.new(Bane.find_makeables)
+    launcher = Bane::Launcher.new(config.process(arguments), quiet_logger) { |error| raise error }
     launch_and_stop_safely(launcher, &block)
   end
 
