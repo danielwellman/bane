@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'bane'
 
 parser = Bane::CommandLineConfiguration.new(Bane.find_makeables)
