@@ -6,7 +6,7 @@ module Bane
     class BehaviorServer
 
       def initialize(port, behavior, host = Services::DEFAULT_HOST)
-        @server = BehaviorServerDelegate.new(port, behavior, host)
+        @server = DelegatingGServer.new(port, behavior, host)
       end
 
       def start
@@ -26,7 +26,7 @@ module Bane
       end
     end
 
-    class BehaviorServerDelegate < GServer
+    class DelegatingGServer < GServer
 
       def initialize(port, behavior, host)
         super(port, host)
