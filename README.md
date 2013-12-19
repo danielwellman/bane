@@ -97,3 +97,8 @@ TCP packets at a low level, which may require a C or C++ extension or raw socket
 * The connection can be established, but packets could be lost causing retransmit delays
 * The connection can be established, but the remote end never acknowledges receiving a packet, causing endless retransmits
 
+## Support
+
+![Cyrus](http://www.cyrusinnovation.com/marketing/logo.png)
+
+Thank you to [Cyrus](http://www.cyrusinnovation.com/) for supporting the development of this project.
