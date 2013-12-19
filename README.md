@@ -99,6 +99,6 @@ TCP packets at a low level, which may require a C or C++ extension or raw socket
 
 ## Support
 
-![Cyrus](http://www.cyrusinnovation.com/marketing/logo.png)
+<a href="http://www.cyrusinnovation.com/"><img src="http://www.cyrusinnovation.com/marketing/logo.png" alt="Cyrus"></a>
 
 Thank you to [Cyrus](http://www.cyrusinnovation.com/) for supporting the development of this project.
