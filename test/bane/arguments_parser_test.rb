@@ -36,9 +36,11 @@ class ArgumentsParserTest < Test::Unit::TestCase
     assert_parses_host(Services::ALL_INTERFACES, ['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
-  def test_usage_message_includes_known_makeables
-    usage = ArgumentsParser.new(['makeable1', 'makeable2']).usage
-    assert_match /makeable1\W+makeable2/i, usage
+  def test_usage_message_includes_known_makeables_in_alphabetical_order
+    usage = ArgumentsParser.new(['makeable2', 'makeable1']).usage
+    assert_match /makeable1/i, usage, 'Should have included all known makeables'
+    assert_match /makeable2/i, usage, 'Should have included all known makeables'
+    assert_match /makeable1\W+makeable2/i, usage, 'Should have been in alphabetical order'
   end
 
   def test_no_arguments_fail_with

@@ -39,7 +39,7 @@ module Bane
         end
         opts.separator ''
         opts.separator 'All behaviors:'
-        opts.separator @makeable_names.map { |title| " - #{title}" }.join("\n")
+        opts.separator @makeable_names.sort.map { |title| " - #{title}" }.join("\n")
       end
     end
 
