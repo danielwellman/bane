@@ -4,3 +4,4 @@ pkg
 .idea/projectCodeStyle.xml
 .DS_Store
 Gemfile.lock
+.bundle
