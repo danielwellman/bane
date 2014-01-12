@@ -24,13 +24,16 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     assert_makeable_created(services.last, port: 4000 + 1, name: 'ThingB')
   end
 
-  def test_creates_all_known_makeables_if_only_port_specified
+  def test_creates_all_known_makeables_in_alphabetical_order_if_only_port_specified
     services = process arguments: [4000],
-                       configuration: { 'ThingA' => SimpleMaker.new('ThingA'),
-                                        'ThingB' => SimpleMaker.new('ThingB'),
-                                        'ThingC' => SimpleMaker.new('ThingC') }
+                       configuration: { 'ThingB' => SimpleMaker.new('ThingB'),
+                                        'ThingC' => SimpleMaker.new('ThingC'),
+                                        'ThingA' => SimpleMaker.new('ThingA') }
 
     assert_equal 3, services.size, "Wrong number of services created, got #{services}"
+    assert_equal 'ThingA', services[0].name
+    assert_equal 'ThingB', services[1].name
+    assert_equal 'ThingC', services[2].name
   end
 
   def process(options)

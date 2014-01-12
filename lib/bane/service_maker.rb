@@ -5,10 +5,6 @@ module Bane
       @makeables = makeables
     end
 
-    def all_service_names
-      makeables.keys.sort
-    end
-
     def create(service_names, starting_port, host)
       service_names
         .map { |service_name| makeables.fetch(service_name) { raise UnknownServiceError.new(service_name) } }
@@ -16,7 +12,7 @@ module Bane
     end
 
     def create_all(starting_port, host)
-      create(all_service_names, starting_port, host)
+      makeables.sort.map.with_index { |name_maker_pair, index| name_maker_pair.last.make(starting_port + index, host) }
     end
 
     private
