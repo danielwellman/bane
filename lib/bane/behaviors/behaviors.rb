@@ -52,7 +52,7 @@ module Bane
       include ForEachLine
     end
 
-    # Sends a newline character as the only response 
+    # Sends a newline character as the only response
     class NewlineResponse
       def serve(io)
         io.write "\n"
@@ -135,7 +135,7 @@ module Bane
     # Sends an HTTP 401 response (Unauthorized) for every request.  This
     # attempts to mimic an HTTP server by reading a line (the request)
     # and then sending the response.  This behavior responds to all
-    # incoming request URLs on the running port. 
+    # incoming request URLs on the running port.
     class HttpRefuseAllCredentials
       UNAUTHORIZED_RESPONSE_BODY = <<EOF
 <!DOCTYPE html>
@@ -164,8 +164,6 @@ EOF
         io.close
       end
     end
-
-    EXPORTED = self.constants.map { |name| self.const_get(name) }.grep(Class)
 
   end
 end

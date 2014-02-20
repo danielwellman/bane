@@ -1,6 +1,7 @@
 require 'bane/extensions'
 require 'bane/service_maker'
 require 'bane/behaviors/behaviors'
+require 'bane/behaviors/exported'
 require 'bane/services/behavior_server'
 require 'bane/services/never_listen'
 require 'bane/services/exported'
