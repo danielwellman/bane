@@ -3,9 +3,6 @@ require 'socket'
 module Bane
   module Services
 
-    DEFAULT_HOST = '127.0.0.1'
-    ALL_INTERFACES = '0.0.0.0'
-
     class NeverListen
 
       def initialize(port, host = Services::DEFAULT_HOST)
@@ -47,8 +44,6 @@ module Bane
         logger.puts "[#{Time.new.ctime}] #{self.class.unqualified_name} #{host}:#{port} #{message}"
       end
     end
-
-    EXPORTED = [NeverListen]
 
   end
 end
