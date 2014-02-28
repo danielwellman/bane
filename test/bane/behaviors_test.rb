@@ -6,18 +6,6 @@ class BehaviorsTest < Test::Unit::TestCase
   include Bane::Behaviors
   include BehaviorTestHelpers
 
-  def test_deluge_response_sends_one_million_bytes_by_default
-    query_server(DelugeResponse.new)
-
-    assert_response_length 1_000_000
-  end
-
-  def test_deluge_response_accepts_length_parameter
-    query_server(DelugeResponse.new(length: 1))
-
-    assert_response_length 1
-  end
-
   def test_refuse_all_http_credentials_sends_401_response_code
     fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
 

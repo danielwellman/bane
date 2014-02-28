@@ -2,25 +2,6 @@ module Bane
 
   module Behaviors
 
-    # Sends a large response.  Response consists of a repeated 'x' character.
-    #
-    # Options
-    #  - length: The size in bytes of the response to send. Default: 1,000,000 bytes
-    class DelugeResponse
-      def initialize(options = {})
-        @options = {length: 1_000_000}.merge(options)
-      end
-      def serve(io)
-        length = @options[:length]
-
-        length.times { io.write('x') }
-      end
-    end
-
-    class DelugeResponseForEachLine < DelugeResponse
-      include ForEachLine
-    end
-
     # Sends an HTTP 401 response (Unauthorized) for every request.  This
     # attempts to mimic an HTTP server by reading a line (the request)
     # and then sending the response.  This behavior responds to all
