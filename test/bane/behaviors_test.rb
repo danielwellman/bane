@@ -5,10 +5,6 @@ class BehaviorsTest < Test::Unit::TestCase
 
   include Bane::Behaviors
 
-  def setup
-    @fake_connection = FakeConnection.new
-  end
-
   def test_fixed_response_sends_the_specified_message
     query_server(FixedResponse.new(message: "Test Message"))
 
@@ -87,17 +83,17 @@ class BehaviorsTest < Test::Unit::TestCase
   end
 
   def test_refuse_all_http_credentials_sends_401_response_code
-    @fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
+    fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
 
     server = HttpRefuseAllCredentials.new
     query_server(server)
 
-    assert @fake_connection.read_all_queries?, "Should have read the HTTP query before sending response"
+    assert fake_connection.read_all_queries?, "Should have read the HTTP query before sending response"
     assert_match /HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code'
   end
 
   def test_echo_response_returns_received_characters
-    @fake_connection.will_send("Hello, echo!")
+    fake_connection.will_send("Hello, echo!")
 
     query_server(EchoResponse.new)
 
@@ -107,22 +103,26 @@ class BehaviorsTest < Test::Unit::TestCase
   def test_for_each_line_reads_a_line_before_responding
     server = Bane::Behaviors::FixedResponseForEachLine.new({message: "Dynamic"})
 
-    @fake_connection.will_send "irrelevant\n"
+    fake_connection.will_send "irrelevant\n"
 
     query_server(server)
     assert_equal "Dynamic", response
 
-    assert @fake_connection.read_all_queries?
+    assert fake_connection.read_all_queries?
   end
 
   private
 
+  def fake_connection
+    @fake_connection ||= FakeConnection.new
+  end
+
   def query_server(server)
-    server.serve(@fake_connection)
+    server.serve(fake_connection)
   end
 
   def response
-    @fake_connection.string
+    fake_connection.string
   end
 
   def assert_empty_response
