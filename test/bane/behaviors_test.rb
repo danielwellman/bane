@@ -6,16 +6,6 @@ class BehaviorsTest < Test::Unit::TestCase
   include Bane::Behaviors
   include BehaviorTestHelpers
 
-  def test_refuse_all_http_credentials_sends_401_response_code
-    fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
-
-    server = HttpRefuseAllCredentials.new
-    query_server(server)
-
-    assert fake_connection.read_all_queries?, "Should have read the HTTP query before sending response"
-    assert_match /HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code'
-  end
-
   def test_echo_response_returns_received_characters
     fake_connection.will_send("Hello, echo!")
 
