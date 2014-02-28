@@ -18,13 +18,6 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_response_length 1
   end
 
-  def test_never_respond_never_sends_a_response
-    server = NeverRespond.new
-
-    assert_times_out { query_server(server) }
-    assert_empty_response
-  end
-
   def test_refuse_all_http_credentials_sends_401_response_code
     fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
 
