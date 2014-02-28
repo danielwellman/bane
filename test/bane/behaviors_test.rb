@@ -37,12 +37,6 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_equal message, response
   end
 
-  def test_random_response_sends_a_nonempty_response
-    query_server(RandomResponse.new)
-
-    assert (!response.empty?), "Should have served a nonempty response"
-  end
-
   def test_refuse_all_http_credentials_sends_401_response_code
     fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
 
