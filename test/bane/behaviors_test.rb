@@ -30,12 +30,6 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_response_length 1
   end
 
-  def test_close_immediately_sends_no_response
-    query_server(CloseImmediately.new)
-
-    assert_empty_response()
-  end
-
   def test_never_respond_never_sends_a_response
     server = NeverRespond.new
 
