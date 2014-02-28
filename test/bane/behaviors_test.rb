@@ -4,6 +4,7 @@ require 'mocha/setup'
 class BehaviorsTest < Test::Unit::TestCase
 
   include Bane::Behaviors
+  include BehaviorTestHelpers
 
   def test_fixed_response_sends_the_specified_message
     query_server(FixedResponse.new(message: "Test Message"))
@@ -109,28 +110,6 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_equal "Dynamic", response
 
     assert fake_connection.read_all_queries?
-  end
-
-  private
-
-  def fake_connection
-    @fake_connection ||= FakeConnection.new
-  end
-
-  def query_server(server)
-    server.serve(fake_connection)
-  end
-
-  def response
-    fake_connection.string
-  end
-
-  def assert_empty_response
-    assert_equal 0, response.length, "Should have sent nothing"
-  end
-
-  def assert_response_length(expected_length)
-    assert_equal expected_length, response.length, "Response was the wrong length"
   end
 
 end

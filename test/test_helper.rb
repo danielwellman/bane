@@ -36,3 +36,27 @@ class FakeConnection < StringIO
     @commands ||= []
   end
 end
+
+module BehaviorTestHelpers
+
+  def fake_connection
+    @fake_connection ||= FakeConnection.new
+  end
+
+  def query_server(server)
+    server.serve(fake_connection)
+  end
+
+  def response
+    fake_connection.string
+  end
+
+  def assert_empty_response
+    assert_equal 0, response.length, "Should have sent nothing"
+  end
+
+  def assert_response_length(expected_length)
+    assert_equal expected_length, response.length, "Response was the wrong length"
+  end
+
+end
