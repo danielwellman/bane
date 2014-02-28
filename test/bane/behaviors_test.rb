@@ -6,12 +6,6 @@ class BehaviorsTest < Test::Unit::TestCase
   include Bane::Behaviors
   include BehaviorTestHelpers
 
-  def test_fixed_response_sends_the_specified_message
-    query_server(FixedResponse.new(message: "Test Message"))
-
-    assert_equal "Test Message", response
-  end
-
   def test_newline_response_sends_only_a_newline_character
     query_server(NewlineResponse.new)
 
