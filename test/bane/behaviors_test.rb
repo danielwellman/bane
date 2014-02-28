@@ -25,18 +25,6 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_empty_response
   end
 
-  def test_slow_response_sends_a_message_slowly
-    message = "Hi!"
-    delay = 0.5
-
-    server = SlowResponse.new(pause_duration: delay, message: message)
-    server.expects(:sleep).with(delay).at_least(message.length)
-
-    query_server(server)
-
-    assert_equal message, response
-  end
-
   def test_refuse_all_http_credentials_sends_401_response_code
     fake_connection.will_send("GET /some/irrelevant/path HTTP/1.1")
 
