@@ -1,5 +1,4 @@
 module Bane
-
   module Behaviors
 
     class EchoResponse
@@ -13,4 +12,3 @@ module Bane
 
   end
 end
-
