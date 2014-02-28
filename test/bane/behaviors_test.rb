@@ -6,12 +6,6 @@ class BehaviorsTest < Test::Unit::TestCase
   include Bane::Behaviors
   include BehaviorTestHelpers
 
-  def test_newline_response_sends_only_a_newline_character
-    query_server(NewlineResponse.new)
-
-    assert_equal "\n", response
-  end
-
   def test_deluge_response_sends_one_million_bytes_by_default
     query_server(DelugeResponse.new)
 
