@@ -37,28 +37,6 @@ class BehaviorsTest < Test::Unit::TestCase
     assert_empty_response
   end
 
-  def test_close_after_pause_sleeps_30_seconds_by_default
-    server = CloseAfterPause.new
-    server.expects(:sleep).with(30)
-
-    query_server(server)
-  end
-
-
-  def test_close_after_pause_accepts_duration_parameter
-    server = CloseAfterPause.new(duration: 1)
-    server.expects(:sleep).with(1)
-
-    query_server(server)
-  end
-
-  def test_close_after_pause_sends_nothing
-    server = CloseAfterPause.new
-    server.stubs(:sleep)
-
-    query_server(server)
-  end
-
   def test_slow_response_sends_a_message_slowly
     message = "Hi!"
     delay = 0.5
