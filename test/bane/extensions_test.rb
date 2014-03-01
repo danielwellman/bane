@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__)) + '/../test_helper'
+require_relative '../test_helper'
 
 class ExtensionsTest < Test::Unit::TestCase
   def test_unqualified_name_removes_module_path
