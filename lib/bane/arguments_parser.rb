@@ -54,7 +54,7 @@ module Bane
     end
 
     def default_host
-      Services::DEFAULT_HOST
+      Services::LOCALHOST
     end
   end
 

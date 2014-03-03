@@ -5,7 +5,7 @@ module Bane
 
     class NeverListen
 
-      def initialize(port, host = Services::DEFAULT_HOST)
+      def initialize(port, host = Services::LOCALHOST)
         @port = port
         @host = host
         self.stdlog= $stderr

@@ -5,7 +5,7 @@ module Bane
 
     class BehaviorServer < GServer
 
-      def initialize(port, behavior, host = Services::DEFAULT_HOST)
+      def initialize(port, behavior, host = Services::LOCALHOST)
         super(port, host)
         @behavior = behavior
         self.audit = true

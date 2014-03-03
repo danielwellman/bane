@@ -21,11 +21,11 @@ class ArgumentsParserTest < Test::Unit::TestCase
   end
 
   def test_dash_l_option_sets_listen_host_to_localhost
-    assert_parses_host(Services::DEFAULT_HOST, ['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Services::LOCALHOST, ['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_localhost_sets_listen_host_to_localhost
-    assert_parses_host(Services::DEFAULT_HOST, ['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Services::LOCALHOST, ['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_dash_a_option_sets_listen_host_to_all_interfaces

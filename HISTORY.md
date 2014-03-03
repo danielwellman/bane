@@ -7,7 +7,10 @@
  * The NeverListen service which binds to a port but never calls listen(2)
 
 ### Removed
-  * The fancy, flexible ConfigurationParser has been deleted. Command-line invocation now uses the CommandLineConfiguration parser.  For programmatic invocation, see the examples.
+ * The fancy, flexible ConfigurationParser has been deleted. Command-line invocation now uses the CommandLineConfiguration parser.  For programmatic invocation, see the examples.
+
+### Changed
+  * Added Bane::Services::LOCALHOST (127.0.0.1) and deprecated Bane::Services::DEFAULT_HOST; please use LOCALHOST when specifying a host to listen on.
 
 # 0.3.0
 

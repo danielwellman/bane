@@ -6,11 +6,11 @@ class NeverListenTest < Test::Unit::TestCase
   include LaunchableRoleTests
 
   def setup
-    @object = Bane::Services::NeverListen.make(IRRELEVANT_PORT, Bane::Services::DEFAULT_HOST)
+    @object = Bane::Services::NeverListen.make(IRRELEVANT_PORT, Bane::Services::LOCALHOST)
   end
 
   def test_never_connects
-    service = Bane::Services::NeverListen.make(port, Bane::Services::DEFAULT_HOST)
+    service = Bane::Services::NeverListen.make(port, Bane::Services::LOCALHOST)
     service.stdlog = StringIO.new
     service.start
 
