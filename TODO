@@ -3,7 +3,6 @@ Features:
 Design questions / Ideas:
 - Figure out where the logger configuration logic belongs in the Launcher/BehaviorServer relationship
 - Should the default logger go to STDERR or STDOUT?
-- Break the Behaviors out into several files and test files?
 - Log every request to the server/behavior, in addition to open, close.  For this to work, it would have to be the
   behavior's responsibility, since GServer#serve gets called only once for the lifetime of the connection.
 
