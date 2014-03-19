@@ -2,7 +2,7 @@ require_relative '../test_helper'
 require 'open-uri'
 require 'mocha/setup'
 
-class BaneIntegrationTest < Test::Unit::TestCase
+class BaneAcceptanceTest < Test::Unit::TestCase
 
   TEST_PORT = 4000
 
