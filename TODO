@@ -5,6 +5,7 @@ Design questions / Ideas:
 - Should the default logger go to STDERR or STDOUT?
 - Log every request to the server/behavior, in addition to open, close.  For this to work, it would have to be the
   behavior's responsibility, since GServer#serve gets called only once for the lifetime of the connection.
+- If we extract a commong logger, we might use that to test for proper disconnection in NeverRespondTest#test_disconnects_after_client_closes_connection
 
 Future Behaviors:
 - Create a more configurable version of the DelugeResponse which allows for a header, footer, content and times to repeat.

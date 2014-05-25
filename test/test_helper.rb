@@ -7,12 +7,6 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 require 'bane'
 require_relative 'bane/launchable_role_tests'
 
-def assert_times_out
-  assert_raise Timeout::Error do
-    Timeout::timeout(1) { yield }
-  end
-end
-
 IRRELEVANT_PORT = 4001
 IRRELEVANT_BEHAVIOR = 'CloseImmediately'
 
