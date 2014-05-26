@@ -16,4 +16,3 @@ Future Behaviors:
 - Have a giant listen queue (queue size max?) and only one thread processing -- times out in the listen queue
 - Close the write part of the connection, but not the read
 - Close the read part of the connection, but not the write
-- "Bind to a socket but then never service a single connection attempt" (p. 128 RI!)
