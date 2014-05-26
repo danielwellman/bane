@@ -1,5 +1,4 @@
 require_relative '../test_helper'
-require 'open-uri'
 require 'mocha/setup'
 
 class BaneAcceptanceTest < Test::Unit::TestCase
@@ -55,12 +54,7 @@ class BaneAcceptanceTest < Test::Unit::TestCase
   end
 
   def status_returned_from(uri)
-    begin
-      open(uri).read
-    rescue OpenURI::HTTPError => e
-      return e.message
-    end
-    flunk "Should have refused access"
+    Net::HTTP.get_response(URI(uri)).code
   end
 
   def with_response_from(port)
