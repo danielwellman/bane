@@ -1,7 +1,7 @@
 module Bane
   module Services
 
-    EXPORTED = [NeverListen]
+    EXPORTED = [TimeoutInListenQueue]
 
     # Listen only on localhost
     LOCALHOST = '127.0.0.1'

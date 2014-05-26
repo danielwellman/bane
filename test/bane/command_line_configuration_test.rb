@@ -85,7 +85,7 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     all_names = Bane.find_makeables.keys
 
     assert all_names.include?('NeverRespond'), "Expected 'NeverRespond' behavior to be in #{all_names}"
-    assert all_names.include?('NeverListen'), "Expected 'NeverRespond' service to be in #{all_names}"
+    assert all_names.include?('TimeoutInListenQueue'), "Expected 'TimeoutInListenQueue' service to be in #{all_names}"
   end
 
 end

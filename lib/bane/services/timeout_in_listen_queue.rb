@@ -3,7 +3,7 @@ require 'socket'
 module Bane
   module Services
 
-    class NeverListen
+    class TimeoutInListenQueue
 
       def initialize(port, host = Services::LOCALHOST)
         @port = port
