@@ -54,3 +54,18 @@ module BehaviorTestHelpers
   end
 
 end
+
+module ServerTestHelpers
+
+  def run_server(server, &block)
+    server.stdlog = StringIO.new
+    launch_and_stop_safely(server, &block)
+  end
+
+  def launch_and_stop_safely(launcher, &block)
+    launcher.start
+    block.call(launcher)
+  ensure
+    launcher.stop if launcher
+  end
+end

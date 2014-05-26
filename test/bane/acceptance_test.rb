@@ -3,6 +3,8 @@ require 'mocha/setup'
 
 class BaneAcceptanceTest < Test::Unit::TestCase
 
+  include ServerTestHelpers
+
   TEST_PORT = 4000
 
   def test_uses_specified_port_and_server
@@ -33,20 +35,14 @@ class BaneAcceptanceTest < Test::Unit::TestCase
     behavior = Bane::Services::BehaviorServer.new(port, behavior.new)
     launcher = Bane::Launcher.new([behavior], quiet_logger)
     launch_and_stop_safely(launcher, &block)
+    sleep 0.1 # Until we can fix the GServer stopping race condition (Issue #7)
   end
 
   def run_server_with_cli_arguments(arguments, &block)
     config = Bane::CommandLineConfiguration.new(Bane.find_makeables)
     launcher = Bane::Launcher.new(config.process(arguments), quiet_logger) { |error| raise error }
     launch_and_stop_safely(launcher, &block)
-  end
-
-  def launch_and_stop_safely(launcher, &block)
-    launcher.start
-    block.call
-    ensure
-      launcher.stop if launcher
-      sleep 0.1 # Until we can fix the GServer stopping race condition (Issue #7)
+    sleep 0.1 # Until we can fix the GServer stopping race condition (Issue #7)
   end
 
   def quiet_logger

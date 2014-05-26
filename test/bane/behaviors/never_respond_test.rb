@@ -4,6 +4,7 @@ class NeverRespondTest < Test::Unit::TestCase
 
   include Bane::Behaviors
   include BehaviorTestHelpers
+  include ServerTestHelpers
 
   LONG_MESSAGE = 'x'*(1024*5)
 
@@ -15,21 +16,16 @@ class NeverRespondTest < Test::Unit::TestCase
   end
 
   def test_disconnects_after_client_closes_connection
-    server = Bane::Services::BehaviorServer.new(0, NeverRespond.new)
-    server.stdlog = StringIO.new
+    run_server(Bane::Services::BehaviorServer.new(0, NeverRespond.new)) do |server|
+      client = TCPSocket.new('localhost', server.port)
+      sleep 3
+      client.write LONG_MESSAGE
+      client.close
 
-    server.start
+      sleep 0.1
 
-    client = TCPSocket.new('localhost', server.port)
-    sleep 3
-    client.write LONG_MESSAGE
-    client.close
-
-    sleep 0.1
-
-    assert_equal 0, server.connections
-  ensure
-    server.stop
+      assert_equal 0, server.connections
+    end
   end
 
 end
