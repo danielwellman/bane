@@ -1,11 +1,11 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 require 'mocha/setup'
 
 class ResponderServerTest < Test::Unit::TestCase
   include LaunchableRoleTests
 
   include Bane
-  include Bane::Services
+  include Bane::Behaviors::Services
   
   IRRELEVANT_IO_STREAM = nil
   IRRELEVANT_OPTIONS = {}

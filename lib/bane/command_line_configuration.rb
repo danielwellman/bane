@@ -2,7 +2,7 @@ module Bane
 
   def self.find_makeables
     Hash[Bane::Behaviors::Responders::EXPORTED.map { |behavior| [behavior.unqualified_name, ResponderMaker.new(behavior)] }]
-    .merge(Hash[Bane::Services::EXPORTED.map { |service| [service.unqualified_name, service] }])
+    .merge(Hash[Bane::Behaviors::Services::EXPORTED.map { |service| [service.unqualified_name, service] }])
   end
 
   class CommandLineConfiguration

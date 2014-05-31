@@ -50,11 +50,11 @@ module Bane
     end
 
     def all_interfaces
-      Services::ALL_INTERFACES
+      Behaviors::Services::ALL_INTERFACES
     end
 
     def default_host
-      Services::LOCALHOST
+      Behaviors::Services::LOCALHOST
     end
   end
 

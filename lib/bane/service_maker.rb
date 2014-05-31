@@ -32,7 +32,7 @@ module Bane
     end
 
     def make(port, host)
-      Services::ResponderServer.new(port, @responer.new, host)
+      Behaviors::Services::ResponderServer.new(port, @responer.new, host)
     end
   end
 

@@ -16,7 +16,7 @@ class NeverRespondTest < Test::Unit::TestCase
   end
 
   def test_disconnects_after_client_closes_connection
-    run_server(Bane::Services::ResponderServer.new(0, NeverRespond.new)) do |server|
+    run_server(Bane::Behaviors::Services::ResponderServer.new(0, NeverRespond.new)) do |server|
       client = TCPSocket.new('localhost', server.port)
       sleep 3
       client.write LONG_MESSAGE
