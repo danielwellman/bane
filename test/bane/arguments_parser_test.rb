@@ -21,19 +21,19 @@ class ArgumentsParserTest < Test::Unit::TestCase
   end
 
   def test_dash_l_option_sets_listen_host_to_localhost
-    assert_parses_host(Services::LOCALHOST, ['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Behaviors::Services::LOCALHOST, ['-l', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_localhost_sets_listen_host_to_localhost
-    assert_parses_host(Services::LOCALHOST, ['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Behaviors::Services::LOCALHOST, ['--listen-on-localhost', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_dash_a_option_sets_listen_host_to_all_interfaces
-    assert_parses_host(Services::ALL_INTERFACES, ['-a', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Behaviors::Services::ALL_INTERFACES, ['-a', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_listen_on_all_hosts_option_sets_listen_host_to_all_interfaces
-    assert_parses_host(Services::ALL_INTERFACES, ['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
+    assert_parses_host(Behaviors::Services::ALL_INTERFACES, ['--listen-on-all-hosts', IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR])
   end
 
   def test_usage_message_includes_known_makeables_in_alphabetical_order

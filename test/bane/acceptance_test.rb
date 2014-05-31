@@ -8,7 +8,7 @@ class BaneAcceptanceTest < Test::Unit::TestCase
   TEST_PORT = 4000
 
   def test_uses_specified_port_and_server
-    run_server_with(TEST_PORT, Bane::Behaviors::FixedResponse) do
+    run_server_with(TEST_PORT, Bane::Behaviors::Responders::FixedResponse) do
       with_response_from TEST_PORT do |response|
         assert !response.empty?, "Should have had a non-empty response"
       end
@@ -16,7 +16,7 @@ class BaneAcceptanceTest < Test::Unit::TestCase
   end
 
   def test_serves_http_requests
-    run_server_with(TEST_PORT, Bane::Behaviors::HttpRefuseAllCredentials) do
+    run_server_with(TEST_PORT, Bane::Behaviors::Responders::HttpRefuseAllCredentials) do
       assert_match /401/, status_returned_from("http://localhost:#{TEST_PORT}/some/url")
     end
   end
@@ -32,7 +32,7 @@ class BaneAcceptanceTest < Test::Unit::TestCase
   private
 
   def run_server_with(port, behavior, &block)
-    behavior = Bane::Services::BehaviorServer.new(port, behavior.new)
+    behavior = Bane::Behaviors::Services::ResponderServer.new(port, behavior.new)
     launcher = Bane::Launcher.new([behavior], quiet_logger)
     launch_and_stop_safely(launcher, &block)
     sleep 0.1 # Until we can fix the GServer stopping race condition (Issue #7)

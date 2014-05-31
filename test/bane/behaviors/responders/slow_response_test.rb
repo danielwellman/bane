@@ -1,9 +1,9 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 require 'mocha/setup'
 
 class SlowResponseTest < Test::Unit::TestCase
 
-  include Bane::Behaviors
+  include Bane::Behaviors::Responders
   include BehaviorTestHelpers
 
   def test_pauses_between_sending_each_character

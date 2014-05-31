@@ -1,8 +1,8 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 
 class FixedResponseTest < Test::Unit::TestCase
 
-  include Bane::Behaviors
+  include Bane::Behaviors::Responders
   include BehaviorTestHelpers
 
   def test_sends_the_specified_message

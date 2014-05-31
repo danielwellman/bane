@@ -1,9 +1,9 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 require 'mocha/setup'
 
 class ForEachLineTest < Test::Unit::TestCase
 
-  include Bane::Behaviors
+  include Bane::Behaviors::Responders
   include BehaviorTestHelpers
 
   def test_reads_a_line_before_responding_with_parent_behavior
@@ -24,6 +24,6 @@ class ForEachLineTest < Test::Unit::TestCase
   end
 
   class SayHelloForEachLineBehavior < SayHelloBehavior
-    include Bane::Behaviors::ForEachLine
+    include Bane::Behaviors::Responders::ForEachLine
   end
 end

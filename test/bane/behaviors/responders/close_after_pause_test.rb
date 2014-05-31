@@ -1,9 +1,9 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 require 'mocha/setup'
 
 class CloseAfterPauseTest < Test::Unit::TestCase
 
-  include Bane::Behaviors
+  include Bane::Behaviors::Responders
   include BehaviorTestHelpers
 
   def test_sleeps_30_seconds_by_default

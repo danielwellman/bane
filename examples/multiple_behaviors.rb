@@ -7,13 +7,13 @@ include Bane
 # Note the FixedResponse port specifies to listen to all hosts (0.0.0.0), all
 # other servers listen to localhost only by default (127.0.0.1).
 
-close_immediately = Behaviors::CloseImmediately.new
-never_respond = Behaviors::NeverRespond.new
-fixed_response = Behaviors::FixedResponse.new(message: "OK")
+close_immediately = Behaviors::Responders::CloseImmediately.new
+never_respond = Behaviors::Responders::NeverRespond.new
+fixed_response = Behaviors::Responders::FixedResponse.new(message: "OK")
 
-launcher = Launcher.new([BehaviorServer.new(3000, close_immediately),
-                        BehaviorServer.new(8000, never_respond),
-                        BehaviorServer.new(8080, fixed_response, Services::ALL_INTERFACES)])
+launcher = Launcher.new([ResponderServer.new(3000, close_immediately),
+                        ResponderServer.new(8000, never_respond),
+                        ResponderServer.new(8080, fixed_response, Behaviors::Services::ALL_INTERFACES)])
 launcher.start
 # To run until interrupt, use the following line:
 #launcher.join

@@ -1,8 +1,8 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 
 class DelugeResponseTest < Test::Unit::TestCase
 
-  include Bane::Behaviors
+  include Bane::Behaviors::Responders
   include BehaviorTestHelpers
 
   def test_sends_one_million_bytes_by_default
