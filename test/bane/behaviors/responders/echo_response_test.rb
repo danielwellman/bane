@@ -1,8 +1,8 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 
 class EchoResponseTest < Test::Unit::TestCase
 
-  include Bane::Behaviors
+  include Bane::Behaviors::Responders
   include BehaviorTestHelpers
 
   def test_returns_received_characters

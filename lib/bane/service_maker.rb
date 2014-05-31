@@ -26,13 +26,13 @@ module Bane
     end
   end
 
-  class BehaviorMaker
-    def initialize(behavior)
-      @behavior = behavior
+  class ResponderMaker
+    def initialize(responder)
+      @responer = responder
     end
 
     def make(port, host)
-      Services::BehaviorServer.new(port, @behavior.new, host)
+      Services::ResponderServer.new(port, @responer.new, host)
     end
   end
 

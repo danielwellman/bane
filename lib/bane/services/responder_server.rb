@@ -3,7 +3,7 @@ require 'gserver'
 module Bane
   module Services
 
-    class BehaviorServer < GServer
+    class ResponderServer < GServer
 
       def initialize(port, behavior, host = Services::LOCALHOST)
         super(port, host)

@@ -1,8 +1,8 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 
 class NeverRespondTest < Test::Unit::TestCase
 
-  include Bane::Behaviors
+  include Bane::Behaviors::Responders
   include BehaviorTestHelpers
   include ServerTestHelpers
 
@@ -16,7 +16,7 @@ class NeverRespondTest < Test::Unit::TestCase
   end
 
   def test_disconnects_after_client_closes_connection
-    run_server(Bane::Services::BehaviorServer.new(0, NeverRespond.new)) do |server|
+    run_server(Bane::Services::ResponderServer.new(0, NeverRespond.new)) do |server|
       client = TCPSocket.new('localhost', server.port)
       sleep 3
       client.write LONG_MESSAGE

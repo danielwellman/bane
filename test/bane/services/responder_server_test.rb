@@ -1,7 +1,7 @@
 require_relative '../../test_helper'
 require 'mocha/setup'
 
-class BehaviorServerTest < Test::Unit::TestCase
+class ResponderServerTest < Test::Unit::TestCase
   include LaunchableRoleTests
 
   include Bane
@@ -12,25 +12,25 @@ class BehaviorServerTest < Test::Unit::TestCase
   IRRELEVANT_HOST = '1.1.1.1'
 
   def setup
-    @object = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR)
+    @object = ResponderServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR)
   end
 
   def test_initializes_server_on_specified_port
-    server = BehaviorServer.new(6000, IRRELEVANT_BEHAVIOR)
+    server = ResponderServer.new(6000, IRRELEVANT_BEHAVIOR)
     assert_equal 6000, server.port
   end
 
   def test_initializes_server_on_specified_hostname
-    server = BehaviorServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR, 'hostname')
+    server = ResponderServer.new(IRRELEVANT_PORT, IRRELEVANT_BEHAVIOR, 'hostname')
     assert_equal 'hostname', server.host
   end
 
-  def test_delegates_serve_call_to_behavior
+  def test_delegates_serve_call_to_responder
     io = mock()
-    behavior = mock()
-    server = BehaviorServer.new(IRRELEVANT_PORT, behavior)
+    responder = mock()
+    server = ResponderServer.new(IRRELEVANT_PORT, responder)
 
-    behavior.expects(:serve).with(io)
+    responder.expects(:serve).with(io)
 
     server.serve(io)
   end
@@ -53,22 +53,24 @@ class BehaviorServerTest < Test::Unit::TestCase
 
   def assert_log_message_uses_short_behavior_name_for(method)
     logger = StringIO.new
-    server = BehaviorServer.new(IRRELEVANT_PORT, Bane::Behaviors::SampleForTesting.new)
+    server = ResponderServer.new(IRRELEVANT_PORT, Bane::Behaviors::Responders::SampleForTesting.new)
     server.stdlog = logger
     
     yield server
 
     assert_match /SampleForTesting/, logger.string, "Log for #{method} should contain class short name"
-    assert_no_match /Behaviors::SampleForTesting/, logger.string, "Log for #{method} should not contain expanded module name"
+    assert_no_match /Behaviors::Responders::SampleForTesting/, logger.string, "Log for #{method} should not contain expanded module name"
   end
 
 end
 
 module Bane
   module Behaviors
-    class SampleForTesting
-      def serve(io)
-        io.puts('Hello')
+    module Responders
+      class SampleForTesting
+        def serve(io)
+          io.puts('Hello')
+        end
       end
     end
   end

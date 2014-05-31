@@ -4,6 +4,6 @@ require 'bane'
 include Bane
 
 launcher = Launcher.new(
-        [BehaviorServer.new(3000, Behaviors::FixedResponse.new(message: "Shall we play a game?"))])
+        [ResponderServer.new(3000, Behaviors::Responders::FixedResponse.new(message: "Shall we play a game?"))])
 launcher.start
 launcher.join

@@ -1,7 +1,7 @@
 module Bane
 
   def self.find_makeables
-    Hash[Bane::Behaviors::EXPORTED.map { |behavior| [behavior.unqualified_name, BehaviorMaker.new(behavior)] }]
+    Hash[Bane::Behaviors::Responders::EXPORTED.map { |behavior| [behavior.unqualified_name, ResponderMaker.new(behavior)] }]
     .merge(Hash[Bane::Services::EXPORTED.map { |service| [service.unqualified_name, service] }])
   end
 
