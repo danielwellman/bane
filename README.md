@@ -44,13 +44,14 @@ require 'bane'
 include Bane
 
 launcher = Launcher.new(
-  [BehaviorServer.new(3000, Behaviors::FixedResponse.new(message: "Shall we play a game?"))])
+  [BehaviorServer.new(3000, Behaviors::Responders::FixedResponse.new(message: "Shall we play a game?"))])
 launcher.start
 launcher.join
 ```
 
    See the `examples`directory for more examples.  For a list of options supported by the
-   included behaviors, see the source for the behaviors in `Bane::Behaviors` at `lib/bane/behaviors`.
+   included behaviors, see the source for the behaviors in `lib/bane/behaviors`; note that you will find both
+   services (that bind to sockets directly) and responders (that assume a running TCP server and communicate with a connection).
 
 ## Listening on all hosts
 

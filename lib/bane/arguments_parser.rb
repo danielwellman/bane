@@ -14,8 +14,8 @@ module Bane
       raise ConfigurationError, "Missing arguments" if args.empty?
 
       port = parse_port(args[0])
-      services = args.drop(1)
-      ParsedArguments.new(port, @options[:host], services)
+      behaviors = args.drop(1)
+      ParsedArguments.new(port, @options[:host], behaviors)
     rescue OptionParser::InvalidOption => io
       raise ConfigurationError, io.message
     end
@@ -50,22 +50,22 @@ module Bane
     end
 
     def all_interfaces
-      Services::ALL_INTERFACES
+      Behaviors::Servers::ALL_INTERFACES
     end
 
     def default_host
-      Services::LOCALHOST
+      Behaviors::Servers::LOCALHOST
     end
   end
 
   class ParsedArguments
 
-    attr_reader :port, :host, :services
+    attr_reader :port, :host, :behaviors
 
-    def initialize(port, host, services)
+    def initialize(port, host, behaviors)
       @host = host
       @port = port
-      @services = services
+      @behaviors = behaviors
     end
 
   end
