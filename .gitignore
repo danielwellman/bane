@@ -3,5 +3,4 @@ pkg
 .idea/.rakeTasks
 .idea/projectCodeStyle.xml
 .DS_Store
-Gemfile.lock
 .bundle
