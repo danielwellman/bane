@@ -49,9 +49,9 @@ launcher.start
 launcher.join
 ```
 
-   See the `examples`directory for more examples.  For a list of options supported by the
+   See the `examples` directory for more examples.  For a list of options supported by the
    included behaviors, see the source for the behaviors in `lib/bane/behaviors`; note that you will find both
-   services (that bind to sockets directly) and responders (that assume a running TCP server and communicate with a connection).
+   servers (that bind to sockets directly) and responders (that assume a running TCP server and communicate with a socket connection).
 
 ## Listening on all hosts
 
@@ -65,7 +65,7 @@ By default, the socket behaviors that send any data will close the connection im
 
 For example, if you want to send a static response and then close the connection immediately, use `FixedResponse`.  If you want to keep the connection open and respond to every line of input with the same data, use `FixedResponseForEachLine`.  Note that these behaviors will never close the connection; they will happily respond to every line of input until you stop Bane.
 
-If you are implementing a new behavior, you should consider whether or not you would like to provide another variation which keeps a connection open and responds after every line of input.  If so, create the basic behavior which responds and closes the connection immediately, then create another behavior which includes the `ForEachLine` module.  See the source in `lib/bane/behaviors/fixed_response.rb` for some examples.
+If you are implementing a new behavior, you should consider whether or not you would like to provide another variation which keeps a connection open and responds after every line of input.  If so, create the basic behavior which responds and closes the connection immediately, then create another behavior which includes the `ForEachLine` module.  See the source in `lib/bane/behaviors/responders/fixed_response.rb` for some examples.
 
 ## Background
 
