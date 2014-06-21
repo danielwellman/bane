@@ -1,13 +1,13 @@
 module Bane
 
-  class ServiceMaker
+  class BehaviorMaker
     def initialize(makeables)
       @makeables = makeables
     end
 
-    def create(service_names, starting_port, host)
-      service_names
-        .map { |service_name| makeables.fetch(service_name) { raise UnknownServiceError.new(service_name) } }
+    def create(behavior_names, starting_port, host)
+      behavior_names
+        .map { |behavior| makeables.fetch(behavior) { raise UnknownBehaviorError.new(behavior) } }
         .map.with_index { |maker, index| maker.make(starting_port + index, host) }
     end
 
@@ -20,9 +20,9 @@ module Bane
     attr_reader :makeables
   end
 
-  class UnknownServiceError < RuntimeError
+  class UnknownBehaviorError < RuntimeError
     def initialize(name)
-      super "Unknown service: #{name}"
+      super "Unknown behavior: #{name}"
     end
   end
 
@@ -32,7 +32,7 @@ module Bane
     end
 
     def make(port, host)
-      Services::ResponderServer.new(port, @responer.new, host)
+      Behaviors::Servers::ResponderServer.new(port, @responer.new, host)
     end
   end
 

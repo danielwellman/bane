@@ -4,13 +4,14 @@
  * Trap SIGINT to gracefully stop servers
  * Remove Ruby 1.8.7 support
  * The EchoResponse behavior which replies with each line sent
- * The NeverListen service which binds to a port but never calls listen(2)
+ * The NeverListen server which binds to a port but never calls listen(2)
 
 ### Removed
  * The fancy, flexible ConfigurationParser has been deleted. Command-line invocation now uses the CommandLineConfiguration parser.  For programmatic invocation, see the examples.
 
 ### Changed
-  * Added Bane::Services::LOCALHOST (127.0.0.1) and deprecated Bane::Services::DEFAULT_HOST; please use LOCALHOST when specifying a host to listen on.
+  * Rearranged packages to create Bane::Behaviors::Servers and Bane::Beaviors::Responders.  Servers may be started and stopped; Responders simply interact with an already connected socket.
+  * Added Bane::Behaviors::Servers::LOCALHOST (127.0.0.1) and deprecated Bane::Behaviors::Servers::DEFAULT_HOST; please use LOCALHOST when specifying a host to listen on.
 
 # 0.3.0
 

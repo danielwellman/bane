@@ -1,11 +1,11 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 require 'mocha/setup'
 
 class ResponderServerTest < Test::Unit::TestCase
   include LaunchableRoleTests
 
   include Bane
-  include Bane::Services
+  include Bane::Behaviors::Servers
   
   IRRELEVANT_IO_STREAM = nil
   IRRELEVANT_OPTIONS = {}
@@ -26,8 +26,8 @@ class ResponderServerTest < Test::Unit::TestCase
   end
 
   def test_delegates_serve_call_to_responder
-    io = mock()
-    responder = mock()
+    io = mock
+    responder = mock
     server = ResponderServer.new(IRRELEVANT_PORT, responder)
 
     responder.expects(:serve).with(io)

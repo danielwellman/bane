@@ -1,4 +1,4 @@
-require_relative '../../test_helper'
+require_relative '../../../test_helper'
 require 'socket'
 
 class TimeoutInListenQueueTest < Test::Unit::TestCase
@@ -7,11 +7,11 @@ class TimeoutInListenQueueTest < Test::Unit::TestCase
   include ServerTestHelpers
 
   def setup
-    @object = Bane::Services::TimeoutInListenQueue.make(IRRELEVANT_PORT, Bane::Services::LOCALHOST)
+    @object = Bane::Behaviors::Servers::TimeoutInListenQueue.make(IRRELEVANT_PORT, Bane::Behaviors::Servers::LOCALHOST)
   end
 
   def test_never_connects
-    run_server(Bane::Services::TimeoutInListenQueue.make(port, Bane::Services::LOCALHOST)) do
+    run_server(Bane::Behaviors::Servers::TimeoutInListenQueue.make(port, Bane::Behaviors::Servers::LOCALHOST)) do
       assert_raise(Errno::ECONNREFUSED) { TCPSocket.new('localhost', port) }
     end
   end

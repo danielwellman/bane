@@ -32,7 +32,7 @@ class BaneAcceptanceTest < Test::Unit::TestCase
   private
 
   def run_server_with(port, behavior, &block)
-    behavior = Bane::Services::ResponderServer.new(port, behavior.new)
+    behavior = Bane::Behaviors::Servers::ResponderServer.new(port, behavior.new)
     launcher = Bane::Launcher.new([behavior], quiet_logger)
     launch_and_stop_safely(launcher, &block)
     sleep 0.1 # Until we can fix the GServer stopping race condition (Issue #7)

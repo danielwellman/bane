@@ -7,33 +7,33 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
   # Creation tests (uses a cluster of objects starting at the top-level CommandLineConfiguration)
 
   def test_creates_specified_makeable_on_given_port
-    services = process arguments: [3000, 'ThingA'],
+    behaviors = process arguments: [3000, 'ThingA'],
                        configuration: { 'ThingA' => SimpleMaker.new('ThingA'),
                                         'ThingB' => SimpleMaker.new('ThingB') }
-    assert_equal 1, services.size, "Wrong number of services, got #{services}"
-    assert_makeable_created(services.first, port: 3000, name: 'ThingA')
+    assert_equal 1, behaviors.size, "Wrong number of behaviors, got #{behaviors}"
+    assert_makeable_created(behaviors.first, port: 3000, name: 'ThingA')
   end
 
   def test_creates_multiple_makeables_on_increasing_ports
-    services = process arguments: [4000, 'ThingA', 'ThingB'],
+    behaviors = process arguments: [4000, 'ThingA', 'ThingB'],
                        configuration: {'ThingA' => SimpleMaker.new('ThingA'),
                                        'ThingB' => SimpleMaker.new('ThingB') }
 
-    assert_equal 2, services.size, "Wrong number of services, got #{services}"
-    assert_makeable_created(services.first, port: 4000, name: 'ThingA')
-    assert_makeable_created(services.last, port: 4000 + 1, name: 'ThingB')
+    assert_equal 2, behaviors.size, "Wrong number of behaviors, got #{behaviors}"
+    assert_makeable_created(behaviors.first, port: 4000, name: 'ThingA')
+    assert_makeable_created(behaviors.last, port: 4000 + 1, name: 'ThingB')
   end
 
   def test_creates_all_known_makeables_in_alphabetical_order_if_only_port_specified
-    services = process arguments: [4000],
+    behaviors = process arguments: [4000],
                        configuration: { 'ThingB' => SimpleMaker.new('ThingB'),
                                         'ThingC' => SimpleMaker.new('ThingC'),
                                         'ThingA' => SimpleMaker.new('ThingA') }
 
-    assert_equal 3, services.size, "Wrong number of services created, got #{services}"
-    assert_equal 'ThingA', services[0].name
-    assert_equal 'ThingB', services[1].name
-    assert_equal 'ThingC', services[2].name
+    assert_equal 3, behaviors.size, "Wrong number of behaviors created, got #{behaviors}"
+    assert_equal 'ThingA', behaviors[0].name
+    assert_equal 'ThingB', behaviors[1].name
+    assert_equal 'ThingC', behaviors[2].name
   end
 
   def process(options)
@@ -42,9 +42,9 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
     CommandLineConfiguration.new(makeables).process(arguments) { |errors| raise errors }
   end
 
-  def assert_makeable_created(services, parameters)
-    assert_equal parameters.fetch(:port), services.port
-    assert_equal parameters.fetch(:name), services.name
+  def assert_makeable_created(behaviors, parameters)
+    assert_equal parameters.fetch(:port), behaviors.port
+    assert_equal parameters.fetch(:name), behaviors.name
   end
 
   class SimpleMaker
@@ -62,8 +62,8 @@ class CommandLineConfigurationTest < Test::Unit::TestCase
 
   # Failure tests (uses a cluster of objects starting at the top-level CommandLineConfiguration)
 
-  def test_unknown_service_fails_with_message
-    assert_invalid_arguments_fail_matching_message([IRRELEVANT_PORT, 'AnUnknownService'], /Unknown Service/i)
+  def test_unknown_behavior_fails_with_message
+    assert_invalid_arguments_fail_matching_message([IRRELEVANT_PORT, 'AnUnknownBehavior'], /Unknown Behavior/i)
   end
 
   def test_invalid_option_fails_with_error_message

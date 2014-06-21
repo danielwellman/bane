@@ -1,33 +1,33 @@
 module Bane
 
   def self.find_makeables
-    Hash[Bane::Behaviors::Responders::EXPORTED.map { |behavior| [behavior.unqualified_name, ResponderMaker.new(behavior)] }]
-    .merge(Hash[Bane::Services::EXPORTED.map { |service| [service.unqualified_name, service] }])
+    Hash[Bane::Behaviors::Responders::EXPORTED.map { |responder| [responder.unqualified_name, ResponderMaker.new(responder)] }]
+    .merge(Hash[Bane::Behaviors::Servers::EXPORTED.map { |server| [server.unqualified_name, server] }])
   end
 
   class CommandLineConfiguration
 
     def initialize(makeables)
-      @service_maker = ServiceMaker.new(makeables)
+      @behavior_maker = BehaviorMaker.new(makeables)
       @arguments_parser = ArgumentsParser.new(makeables.keys)
     end
 
     def process(args, &error_policy)
       arguments = @arguments_parser.parse(args)
-      create(arguments.services, arguments.port, arguments.host)
+      create(arguments.behaviors, arguments.port, arguments.host)
     rescue ConfigurationError => ce
       error_policy.call([ce.message, @arguments_parser.usage].join("\n"))
     end
 
     private
 
-    def create(services, port, host)
-      if services.any?
-        @service_maker.create(services, port, host)
+    def create(behaviors, port, host)
+      if behaviors.any?
+        @behavior_maker.create(behaviors, port, host)
       else
-        @service_maker.create_all(port, host)
+        @behavior_maker.create_all(port, host)
       end
-    rescue UnknownServiceError => ube
+    rescue UnknownBehaviorError => ube
       raise ConfigurationError, ube.message
     end
 
