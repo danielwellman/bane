@@ -1,19 +1,21 @@
 # master
 
+## 0.4.0
+
 ### Added
- * Trap SIGINT to gracefully stop servers
- * Remove Ruby 1.8.7 support
  * The EchoResponse behavior which replies with each line sent
- * The NeverListen server which binds to a port but never calls listen(2)
+ * The TimeoutInListenQueue server which binds to a port but never calls listen(2)
+ * Trap SIGINT to gracefully stop servers without a messy exception stacktrace
 
 ### Removed
  * The fancy, flexible ConfigurationParser has been deleted. Command-line invocation now uses the CommandLineConfiguration parser.  For programmatic invocation, see the examples.
+ * Ruby 1.8.7 support
 
 ### Changed
   * Rearranged packages to create Bane::Behaviors::Servers and Bane::Beaviors::Responders.  Servers may be started and stopped; Responders simply interact with an already connected socket.
   * Added Bane::Behaviors::Servers::LOCALHOST (127.0.0.1) and deprecated Bane::Behaviors::Servers::DEFAULT_HOST; please use LOCALHOST when specifying a host to listen on.
 
-# 0.3.0
+## 0.3.0
 
 ### Added
  * Servers can now listen on all hosts or localhost via the command-line options -a / --listen-on-all-hosts or -l / --listen-on-localhost.  The default is to listen on localhost.
