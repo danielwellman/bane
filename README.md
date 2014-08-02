@@ -80,6 +80,7 @@ Note that these are simple protocol-independent socket behaviors:
 * The server accepts a connection and then drops it immediately (CloseImmediately)
 * The service can send megabytes when kilobytes are expected. (rough approximation with the DelugeReponse)
 * The service can refuse all authentication credentials. (HttpRefuseAllCredentials)
+* The request can sit in a listen queue until the caller times out. (TimeoutInListenQueue)
 
 The following behaviors are not yet supported; they require the configuration of an HTTP server.
 See the implementation of HttpRefuseAllCredentials for a simple example of an HTTP behavior.
@@ -91,7 +92,6 @@ The following behaviors are not yet supported. These require the ability to mani
 TCP packets at a low level, which may require a C or C++ extension or raw sockets.
 
 * The connection can be refused.
-* The request can sit in a listen queue until the caller times out.
 * The remote end can reply with a SYN/ACK and then never send any data.
 * The remote end can send nothing but RESET packets.
 * The remote end can report a full receive window and never drain the data.
