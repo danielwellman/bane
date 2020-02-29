@@ -18,8 +18,8 @@ GEM
       oauth2
     hashie (3.0.0)
     highline (1.6.21)
-    hoe (3.7.1)
-      rake (>= 0.8, < 11.0)
+    hoe (3.22.1)
+      rake (>= 0.8, < 15.0)
     jeweler (2.0.1)
       builder
       bundler (>= 1.0)
@@ -47,7 +47,7 @@ GEM
       multi_xml (~> 0.5)
       rack (~> 1.2)
     rack (1.5.2)
-    rake (10.1.0)
+    rake (13.0.1)
     rdoc (3.12.2)
       json (~> 1.4)
     test-unit (1.2.3)
