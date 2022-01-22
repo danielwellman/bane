@@ -60,7 +60,6 @@ GEM
     test-unit (3.3.4)
       power_assert
     thread_safe (0.3.6)
-    wwtd (1.4.1)
 
 PLATFORMS
   ruby
@@ -71,7 +70,6 @@ DEPENDENCIES
   mocha (>= 0.14.0)
   rdoc (~> 6.0)
   test-unit (= 3.3.4)
-  wwtd
 
 BUNDLED WITH
    2.1.4

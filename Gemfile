@@ -9,5 +9,4 @@ group :development do
   gem 'jeweler' # TODO: Replace
   gem 'test-unit', '3.3.4'
   gem 'mocha', '>= 0.14.0'
-  gem 'wwtd'
 end

@@ -52,6 +52,7 @@
     <orderEntry type="library" scope="PROVIDED" name="faraday (v0.9.2, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="git (v1.10.2, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="github_api (v0.16.0, rbenv: 2.7.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="gserver (v0.0.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashie (v5.0.0, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="highline (v2.0.3, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jeweler (v2.3.9, rbenv: 2.7.5) [gem]" level="application" />
@@ -75,6 +76,5 @@
     <orderEntry type="library" scope="PROVIDED" name="stringio (v3.0.1, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="test-unit (v3.3.4, rbenv: 2.7.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thread_safe (v0.3.6, rbenv: 2.7.5) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="wwtd (v1.4.1, rbenv: 2.7.5) [gem]" level="application" />
   </component>
 </module>
