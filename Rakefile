@@ -11,23 +11,23 @@ rescue Bundler::BundlerError => e
 end
 require 'rake'
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  gem.name = "bane"
-  gem.homepage = "http://github.com/danielwellman/bane"
-  gem.license = "BSD"
-  gem.summary = "A test harness for socket connections based upon ideas from Michael Nygard's 'Release It!'"
-  gem.description = <<-END
-    Bane is a test harness used to test your application's interaction with
-    other servers. It is based upon the material from Michael Nygard's "Release
-    It!" book as described in the "Test Harness" chapter.
-  END
-  gem.authors = ["Daniel Wellman", "Joe Leo"]
-  gem.email = "dan@danielwellman.com"
-  gem.files = FileList[ 'lib/**/*', 'bin/*', 'test/**/*', 'examples/*',
-    'Rakefile' ]
-end
-Jeweler::RubygemsDotOrgTasks.new
+# require 'jeweler'
+# Jeweler::Tasks.new do |gem|
+#   gem.name = "bane"
+#   gem.homepage = "http://github.com/danielwellman/bane"
+#   gem.license = "BSD"
+#   gem.summary = "A test harness for socket connections based upon ideas from Michael Nygard's 'Release It!'"
+#   gem.description = <<-END
+#     Bane is a test harness used to test your application's interaction with
+#     other servers. It is based upon the material from Michael Nygard's "Release
+#     It!" book as described in the "Test Harness" chapter.
+#   END
+#   gem.authors = ["Daniel Wellman", "Joe Leo"]
+#   gem.email = "dan@danielwellman.com"
+#   gem.files = FileList[ 'lib/**/*', 'bin/*', 'test/**/*', 'examples/*',
+#     'Rakefile' ]
+# end
+# Jeweler::RubygemsDotOrgTasks.new
 
 
 
