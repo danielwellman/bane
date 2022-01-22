@@ -1,5 +1,10 @@
 # master
 
+## 1.0.0
+
+### Changed
+ * Support Ruby 2.7+. This meant adding a dependency on 'gserver', which was moved out of the standard library.
+
 ## 0.4.0
 
 ### Added
