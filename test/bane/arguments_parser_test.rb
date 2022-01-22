@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 
 class ArgumentsParserTest < Test::Unit::TestCase
@@ -38,9 +40,9 @@ class ArgumentsParserTest < Test::Unit::TestCase
 
   def test_usage_message_includes_known_makeables_in_alphabetical_order
     usage = ArgumentsParser.new(['makeable2', 'makeable1']).usage
-    assert_match /makeable1/i, usage, 'Should have included all known makeables'
-    assert_match /makeable2/i, usage, 'Should have included all known makeables'
-    assert_match /makeable1\W+makeable2/i, usage, 'Should have been in alphabetical order'
+    assert_match(/makeable1/i, usage, 'Should have included all known makeables')
+    assert_match(/makeable2/i, usage, 'Should have included all known makeables')
+    assert_match(/makeable1\W+makeable2/i, usage, 'Should have been in alphabetical order')
   end
 
   def test_no_arguments_fail_with

@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require_relative '../../../test_helper'
-require 'mocha/setup'
+require 'mocha/test_unit'
 
 class ResponderServerTest < Test::Unit::TestCase
   include LaunchableRoleTests
 
   include Bane
   include Bane::Behaviors::Servers
-  
+
   IRRELEVANT_IO_STREAM = nil
   IRRELEVANT_OPTIONS = {}
   IRRELEVANT_HOST = '1.1.1.1'
@@ -55,11 +57,11 @@ class ResponderServerTest < Test::Unit::TestCase
     logger = StringIO.new
     server = ResponderServer.new(IRRELEVANT_PORT, Bane::Behaviors::Responders::SampleForTesting.new)
     server.stdlog = logger
-    
+
     yield server
 
-    assert_match /SampleForTesting/, logger.string, "Log for #{method} should contain class short name"
-    assert_no_match /Behaviors::Responders::SampleForTesting/, logger.string, "Log for #{method} should not contain expanded module name"
+    assert_match(/SampleForTesting/, logger.string, "Log for #{method} should contain class short name")
+    assert_no_match(/Behaviors::Responders::SampleForTesting/, logger.string, "Log for #{method} should not contain expanded module name")
   end
 
 end

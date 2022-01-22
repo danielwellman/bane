@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require_relative '../../../test_helper'
-require 'mocha/setup'
+require 'mocha/test_unit'
 
 class SlowResponseTest < Test::Unit::TestCase
 

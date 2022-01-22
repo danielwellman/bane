@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bane
 
   def self.find_makeables

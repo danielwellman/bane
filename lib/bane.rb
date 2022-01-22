@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bane/extensions'
 require 'bane/behavior_maker'
 require 'bane/behaviors/responders/for_each_line'

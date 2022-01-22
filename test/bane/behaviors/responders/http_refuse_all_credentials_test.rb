@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../../test_helper'
 
 class HttpRefuseAllCredentialsTest < Test::Unit::TestCase
@@ -12,7 +14,7 @@ class HttpRefuseAllCredentialsTest < Test::Unit::TestCase
     query_server(server)
 
     assert fake_connection.read_all_queries?, "Should have read the HTTP query before sending response"
-    assert_match /HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code'
+    assert_match(/HTTP\/1.1 401 Unauthorized/, response, 'Should have responded with the 401 response code')
   end
 
 end

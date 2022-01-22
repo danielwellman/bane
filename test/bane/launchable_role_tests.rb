@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LaunchableRoleTests
 
   # Verify the contract required for Launcher

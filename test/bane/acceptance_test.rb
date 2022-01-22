@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
-require 'mocha/setup'
+require 'mocha/test_unit'
+require 'net/http'
 
 class BaneAcceptanceTest < Test::Unit::TestCase
 
@@ -17,7 +20,7 @@ class BaneAcceptanceTest < Test::Unit::TestCase
 
   def test_serves_http_requests
     run_server_with(TEST_PORT, Bane::Behaviors::Responders::HttpRefuseAllCredentials) do
-      assert_match /401/, status_returned_from("http://localhost:#{TEST_PORT}/some/url")
+      assert_match(/401/, status_returned_from("http://localhost:#{TEST_PORT}/some/url"))
     end
   end
 

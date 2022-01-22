@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 
 class NaiveHttpResponseTest < Test::Unit::TestCase
@@ -13,7 +15,7 @@ class NaiveHttpResponseTest < Test::Unit::TestCase
   end
 
   def test_should_include_date
-    assert_match /Date: .*/, any_response, 'Should have included a Date header'
+    assert_match(/Date: .*/, any_response, 'Should have included a Date header')
   end
 
   def test_should_set_content_type
@@ -21,7 +23,7 @@ class NaiveHttpResponseTest < Test::Unit::TestCase
                             IRRELEVANT_RESPONSE_DESCRIPTION,
                             "text/xml",
                             IRRELEVANT_BODY)
-    assert_match /Content-Type: text\/xml/, response, 'Should have included content type'
+    assert_match(/Content-Type: text\/xml/, response, 'Should have included content type')
   end
 
   def test_should_set_content_length_as_length_of_body_in_bytes
@@ -31,7 +33,7 @@ class NaiveHttpResponseTest < Test::Unit::TestCase
                             IRRELEVANT_CONTENT_TYPE,
                             message)
 
-    assert_match /Content-Length: #{message.length}/, response, 'Should have included content length'
+    assert_match(/Content-Length: #{message.length}/, response, 'Should have included content length')
   end
 
   def test_should_include_newline_between_headers_and_body
@@ -53,7 +55,7 @@ class NaiveHttpResponseTest < Test::Unit::TestCase
                             IRRELEVANT_RESPONSE_DESCRIPTION,
                             IRRELEVANT_CONTENT_TYPE,
                             message)
-    assert_match /#{message}$/, response, "Should have ended the response with the body content"
+    assert_match(/#{message}$/, response, "Should have ended the response with the body content")
   end
 
   private
