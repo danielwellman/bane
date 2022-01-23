@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/danielwellman/bane'
   spec.licenses = ['BSD']
   spec.required_rubygems_version = Gem::Requirement.new('>= 0') if spec.respond_to? :required_rubygems_version=
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.5.0')
 
   spec.metadata['source_code_uri'] = spec.homepage
   spec.metadata['changelog_uri'] = 'https://github.com/danielwellman/bane/blob/main/HISTORY.md'

@@ -16,7 +16,7 @@ Bane is available as a Ruby gem.  Install it with
 
 Note that Bane installs an executable, `bane`.  Simply invoke `bane` with no arguments to get a usage description.
 
-Bane requires Ruby 2.3 or later.
+Bane requires Ruby 2.5 or later.
 
 ## Usage
 
