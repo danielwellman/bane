@@ -13,9 +13,8 @@ class TimeoutInListenQueueTest < Test::Unit::TestCase
   end
 
   def test_never_connects
-    pend "Need to review after Ruby 2+ update; now returns Errno:ECONNREFUSED"
     run_server(Bane::Behaviors::Servers::TimeoutInListenQueue.make(port, Bane::Behaviors::Servers::LOCALHOST)) do
-      assert_raise(Errno::ETIMEDOUT) { TCPSocket.new('localhost', port) }
+      assert_raise(Errno::ECONNREFUSED) { TCPSocket.new('localhost', port) }
     end
   end
 
