@@ -30,11 +30,11 @@ module Bane
 
   class ResponderMaker
     def initialize(responder)
-      @responer = responder
+      @responder = responder
     end
 
     def make(port, host)
-      Behaviors::Servers::ResponderServer.new(port, @responer.new, host)
+      Behaviors::Servers::ResponderServer.new(port, @responder.new, host)
     end
   end
 
