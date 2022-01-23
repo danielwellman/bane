@@ -1,7 +1,5 @@
 # Bane
 
-[![Build Status](https://secure.travis-ci.org/danielwellman/bane.png)](http://travis-ci.org/danielwellman/bane) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/danielwellman/bane)
-
 Bane is a test harness used to test your application's interaction with other servers.  It is based upon the material from Michael Nygard's ["Release It!"](http://www.pragprog.com/titles/mnee/release-it) book as described in the "Test Harness" chapter.
 
 ## Why Use Bane?
@@ -97,9 +95,3 @@ TCP packets at a low level, which may require a C or C++ extension or raw socket
 * The remote end can report a full receive window and never drain the data.
 * The connection can be established, but packets could be lost causing retransmit delays
 * The connection can be established, but the remote end never acknowledges receiving a packet, causing endless retransmits
-
-## Support
-
-<a href="http://www.cyrusinnovation.com/"><img src="http://www.cyrusinnovation.com/marketing/logo.png" alt="Cyrus"></a>
-
-Thank you to [Cyrus](http://www.cyrusinnovation.com/) for supporting the development of this project.
