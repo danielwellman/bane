@@ -1,6 +1,5 @@
 coverage
 pkg
-.idea/.rakeTasks
-.idea/projectCodeStyle.xml
+.idea
 .DS_Store
 .bundle
