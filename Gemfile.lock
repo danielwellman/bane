@@ -10,12 +10,12 @@ GEM
     gserver (0.0.1)
     mocha (1.13.0)
     power_assert (2.0.1)
-    psych (4.0.3)
+    psych (5.1.2)
       stringio
     rake (13.0.6)
-    rdoc (6.4.0)
+    rdoc (6.4.1.1)
       psych (>= 4.0.0)
-    stringio (3.0.1)
+    stringio (3.0.6)
     test-unit (3.3.4)
       power_assert
 
