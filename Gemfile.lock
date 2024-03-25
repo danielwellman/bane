@@ -15,7 +15,7 @@ GEM
     rake (13.0.6)
     rdoc (6.4.0)
       psych (>= 4.0.0)
-    stringio (3.0.1)
+    stringio (3.0.6)
     test-unit (3.3.4)
       power_assert
 
